@@ -1,8 +1,7 @@
-import {Layout, Menu} from 'antd';
+import {Layout} from 'antd';
+const {Header, Content, Footer} = Layout;
 import {Outlet} from 'react-router-dom';
-import {adminPaths} from '../../routes/admin.routes';
-import {sidebarItemsGenerator} from '../../utils/sidebarItemsGenerator';
-const {Header, Content, Footer, Sider} = Layout;
+import Sidebar from '../shared/Sidebar';
 
 const userRole = {
   ADMIN: 'admin',
@@ -13,15 +12,7 @@ const userRole = {
 const MainLayout = () => {
   return (
     <Layout className="h-screen">
-      <Sider breakpoint="lg" collapsedWidth="0">
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['4']}
-          items={sidebarItemsGenerator(adminPaths, userRole.ADMIN)}
-        />
-      </Sider>
+      <Sidebar />
       <Layout>
         <Header style={{padding: 0}} />
         <Content style={{margin: '24px 16px 0'}}>
@@ -30,7 +21,7 @@ const MainLayout = () => {
               padding: 24,
               minHeight: 360,
             }}>
-            <Outlet />
+            <Outlet /> {/* Main content */}
           </div>
         </Content>
         <Footer style={{textAlign: 'center'}}>
