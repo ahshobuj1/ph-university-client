@@ -1,45 +1,28 @@
 import {createBrowserRouter} from 'react-router-dom';
 import App from '../App';
 import Login from '../pages/Login';
-import FacultyDashboard from '../pages/faculty/FacultyDashboard';
-import StudentDashboard from '../pages/student/StudentDashboard';
-import {adminRoutes} from './admin.routes';
+import routesGenerator from '../utils/routesGenerator';
+import {adminPaths} from './admin.routes';
+import {facultyPaths} from './faculty.routes';
+import {studentPaths} from './student.routes';
 
 const router = createBrowserRouter([
   {
     path: '/admin',
     element: <App />,
-    children: adminRoutes,
+    children: routesGenerator(adminPaths),
   },
 
   {
     path: '/faculty',
     element: <App />,
-    children: [
-      {
-        index: true,
-        element: <FacultyDashboard />,
-      },
-      {
-        path: 'dashboard',
-        element: <FacultyDashboard />,
-      },
-    ],
+    children: routesGenerator(facultyPaths),
   },
 
   {
     path: '/student',
     element: <App />,
-    children: [
-      {
-        index: true,
-        element: <StudentDashboard />,
-      },
-      {
-        path: 'dashboard',
-        element: <StudentDashboard />,
-      },
-    ],
+    children: routesGenerator(studentPaths),
   },
 
   {

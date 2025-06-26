@@ -1,21 +1,13 @@
-import type {ReactNode} from 'react';
-import {NavLink} from 'react-router-dom';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import CreateStudent from '../pages/admin/CreateStudent';
 import CreateFaculty from '../pages/admin/CreateFaculty';
+import type {TUserPath} from '../types';
 
-type TSidebarItem = {
-  key: string;
-  label?: string | ReactNode;
-  children?: TSidebarItem[];
-};
-
-type TRoutes = {
-  path: string;
-  element: ReactNode;
-};
-
-const adminPaths = [
+export const adminPaths: TUserPath[] = [
+  // {
+  //   index: true,
+  //   element: <AdminDashboard />,
+  // },
   {
     name: 'Dashboard',
     path: 'dashboard',
@@ -38,51 +30,51 @@ const adminPaths = [
   },
 ];
 
-export const adminSidebarItems = adminPaths.reduce(
-  (acc: TSidebarItem[], item) => {
-    // console.log(acc, item);
+// * hard coded Admin sidebar
+// export const adminSidebarItems = adminPaths.reduce(
+//   (acc: TSidebarItem[], item) => {
+//     // console.log(acc, item);
 
-    if (item.name && item.path) {
-      acc.push({
-        key: item.name,
-        label: <NavLink to={`/admin/${item.path}`}> {item.name} </NavLink>,
-      });
-    }
+//     if (item.name && item.path) {
+//       acc.push({
+//         key: item.name,
+//         label: <NavLink to={`/admin/${item.path}`}> {item.name} </NavLink>,
+//       });
+//     }
 
-    if (item.children) {
-      acc.push({
-        key: item.name,
-        label: item.name,
-        children: item.children.map((child) => ({
-          key: child.name,
-          label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
-        })),
-      });
-    }
+//     if (item.children) {
+//       acc.push({
+//         key: item.name,
+//         label: item.name,
+//         children: item.children.map((child) => ({
+//           key: child.name,
+//           label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
+//         })),
+//       });
+//     }
 
-    return acc;
-  },
-  []
-);
+//     return acc;
+//   },
+//   []
+// );
 
-export const adminRoutes = adminPaths.reduce((acc: TRoutes[], item) => {
-  if (item.path && item.element) {
-    acc.push({
-      path: item.path,
-      element: item.element,
-    });
-  }
+// * hard coded AdminRoutes
+// export const adminRoutes = adminPaths.reduce((acc: TRoutes[], item) => {
+//   if (item.path && item.element) {
+//     acc.push({
+//       path: item.path,
+//       element: item.element,
+//     });
+//   }
 
-  if (item.children) {
-    item.children.forEach((child) => {
-      acc.push({
-        path: child.path,
-        element: child.element,
-      });
-    });
-  }
+//   if (item.children) {
+//     item.children.forEach((child) => {
+//       acc.push({
+//         path: child.path,
+//         element: child.element,
+//       });
+//     });
+//   }
 
-  return acc;
-}, []);
-
-console.log(adminSidebarItems, adminRoutes);
+//   return acc;
+// }, []);
