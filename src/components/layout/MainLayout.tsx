@@ -3,12 +3,6 @@ const {Header, Content, Footer} = Layout;
 import {Outlet} from 'react-router-dom';
 import Sidebar from '../shared/Sidebar';
 
-const userRole = {
-  ADMIN: 'admin',
-  FACULTY: 'faculty',
-  STUDENT: 'student',
-} as const;
-
 const MainLayout = () => {
   return (
     <Layout className="h-screen">

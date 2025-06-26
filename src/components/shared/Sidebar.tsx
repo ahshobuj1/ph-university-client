@@ -14,6 +14,10 @@ const Sidebar = () => {
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
       <div className="demo-logo-vertical" />
+
+      <p className="text-white text-2xl font-bold italic text-center py-3.5">
+        PH University
+      </p>
       <Menu
         theme="dark"
         mode="inline"
