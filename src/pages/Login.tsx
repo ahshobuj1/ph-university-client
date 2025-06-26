@@ -2,13 +2,20 @@
 
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Flex} from 'antd';
+import {useLoginMutation} from '../redux/api/baseApi';
 
 const Login = () => {
+  const [login, {data}] = useLoginMutation();
+
+  console.log(data);
+
   const onFinish = (data: any) => {
     const userInfo = {
       id: data.id,
       password: data.password,
     };
+
+    login(userInfo);
 
     console.log('Received values of form: ', userInfo);
   };
