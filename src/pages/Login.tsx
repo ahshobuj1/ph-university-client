@@ -2,22 +2,27 @@
 
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Flex} from 'antd';
-import {useLoginMutation} from '../redux/api/baseApi';
+import {useLoginMutation} from '../redux/features/auth/authApi';
+import {useAppDispatch} from '../redux/hooks';
+import {setUser} from '../redux/features/auth/authSlice';
+import {verifyToken} from '../utils/verifyToken';
 
 const Login = () => {
-  const [login, {data}] = useLoginMutation();
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  // console.log('Received from useLoginMutation : ', data, 'Error => ', error);
 
-  console.log(data);
-
-  const onFinish = (data: any) => {
+  const onFinish = async (data: any) => {
     const userInfo = {
       id: data.id,
       password: data.password,
     };
 
-    login(userInfo);
+    const result = await login(userInfo).unwrap();
+    const user = verifyToken(result.data.accessToken);
+    // console.log(user);
 
-    console.log('Received values of form: ', userInfo);
+    dispatch(setUser({user, token: result.data.accessToken}));
   };
 
   return (
