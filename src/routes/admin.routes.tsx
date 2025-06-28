@@ -2,6 +2,7 @@ import AdminDashboard from '../pages/admin/AdminDashboard';
 import CreateStudent from '../pages/admin/CreateStudent';
 import CreateFaculty from '../pages/admin/CreateFaculty';
 import type {TUserPath} from '../types';
+import Semester from '../pages/admin/academicManagement/Semester';
 
 export const adminPaths: TUserPath[] = [
   // {
@@ -25,6 +26,16 @@ export const adminPaths: TUserPath[] = [
         name: 'Create-Faculty',
         path: 'create-faculty',
         element: <CreateFaculty />,
+      },
+    ],
+  },
+  {
+    name: 'Academic-Management',
+    children: [
+      {
+        name: 'Semester',
+        path: 'semester',
+        element: <Semester />,
       },
     ],
   },

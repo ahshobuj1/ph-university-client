@@ -1,12 +1,18 @@
 import {Button, Layout} from 'antd';
 const {Header, Content, Footer} = Layout;
-import {Outlet} from 'react-router-dom';
+import {Outlet, useNavigate} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import {useAppDispatch} from '../../redux/hooks';
 import {logout} from '../../redux/features/auth/authSlice';
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   return (
     <Layout className="h-screen">
@@ -15,7 +21,7 @@ const MainLayout = () => {
         <Header>
           <ul>
             <li className="text-white">
-              <Button onClick={() => dispatch(logout())}>Logout</Button>
+              <Button onClick={handleLogout}>Logout</Button>
             </li>
           </ul>
         </Header>
