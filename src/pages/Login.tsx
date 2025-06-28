@@ -15,10 +15,7 @@ const Login = () => {
   // console.log('Received from useLoginMutation : ', data, 'Error => ', error);
 
   const onFinish = async (data: any) => {
-    const toastId = toast.loading('waiting for login...', {
-      position: 'top-center',
-    });
-
+    const toastId = toast.loading('waiting for login...');
     const userInfo = {
       id: data.id,
       password: data.password,
@@ -29,22 +26,16 @@ const Login = () => {
       const user = verifyToken(result.data.accessToken) as TUser;
       dispatch(setUser({user, token: result.data.accessToken}));
 
-      toast.success('login successfully', {
-        position: 'top-center',
-        id: toastId,
-      });
+      toast.success('login successfully', {id: toastId});
       navigate(`/${user.role}/dashboard`);
     } catch (err: any) {
       toast.error('Failed to login!', {
-        position: 'top-center',
         id: toastId,
         description: `${err?.data?.message}`,
       });
 
       console.log(err);
     }
-
-    // toast.error('Failed to login!');
   };
 
   return (
