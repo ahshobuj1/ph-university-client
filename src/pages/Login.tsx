@@ -1,28 +1,50 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Flex} from 'antd';
 import {useLoginMutation} from '../redux/features/auth/authApi';
 import {useAppDispatch} from '../redux/hooks';
-import {setUser} from '../redux/features/auth/authSlice';
+import {setUser, type TUser} from '../redux/features/auth/authSlice';
 import {verifyToken} from '../utils/verifyToken';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'sonner';
 
 const Login = () => {
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   // console.log('Received from useLoginMutation : ', data, 'Error => ', error);
 
   const onFinish = async (data: any) => {
+    const toastId = toast.loading('waiting for login...', {
+      position: 'top-center',
+    });
+
     const userInfo = {
       id: data.id,
       password: data.password,
     };
 
-    const result = await login(userInfo).unwrap();
-    const user = verifyToken(result.data.accessToken);
-    // console.log(user);
+    try {
+      const result = await login(userInfo).unwrap();
+      const user = verifyToken(result.data.accessToken) as TUser;
+      dispatch(setUser({user, token: result.data.accessToken}));
 
-    dispatch(setUser({user, token: result.data.accessToken}));
+      toast.success('login successfully', {
+        position: 'top-center',
+        id: toastId,
+      });
+      navigate(`/${user.role}/dashboard`);
+    } catch (err: any) {
+      toast.error('Failed to login!', {
+        position: 'top-center',
+        id: toastId,
+        description: `${err?.data?.message}`,
+      });
+
+      console.log(err);
+    }
+
+    // toast.error('Failed to login!');
   };
 
   return (

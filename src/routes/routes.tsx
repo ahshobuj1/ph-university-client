@@ -8,6 +8,11 @@ import {studentPaths} from './student.routes';
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <App />,
+    children: routesGenerator(adminPaths),
+  },
+  {
     path: '/admin',
     element: <App />,
     children: routesGenerator(adminPaths),
