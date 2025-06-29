@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import type {RootState} from '../store';
-import {setUser} from '../features/auth/authSlice';
+import {logout, setUser} from '../features/auth/authSlice';
 import {verifyToken} from '../../utils/verifyToken';
 import type {
   BaseQueryFn,
@@ -28,27 +28,28 @@ const baseQueryWithReAuth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  // console.log('from custom query: ', result);
 
   if (result?.error?.status === 401) {
     // console.log('sending refresh token');
 
-    const res = await fetch('http://localhost:5000/api/v1/auth/refresh-token', {
-      method: 'POST',
-      credentials: 'include',
-    });
-    const data = await res.json();
-    const token = data.data.accessToken;
-    const user = verifyToken(token);
-
-    api.dispatch(
-      setUser({
-        user,
-        token,
-      })
+    const res: any = await baseQuery(
+      {
+        url: 'auth/refresh-token',
+        method: 'POST',
+      },
+      api,
+      extraOptions
     );
 
-    result = await baseQuery(args, api, extraOptions);
+    if (res?.data?.data?.accessToken) {
+      const token = res.data.data.accessToken;
+      const user = verifyToken(token);
+
+      api.dispatch(setUser({user, token}));
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      api.dispatch(logout());
+    }
   }
 
   return result;
