@@ -10,8 +10,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: routesGenerator(adminPaths),
   },
+
   {
     path: '/admin',
     element: <App />,
@@ -29,7 +29,6 @@ const router = createBrowserRouter([
     element: <App />,
     children: routesGenerator(studentPaths),
   },
-
   {
     path: '/login',
     element: <Login />,
