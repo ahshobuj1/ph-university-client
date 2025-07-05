@@ -1,17 +1,36 @@
 import type {FormProps} from 'antd';
-import {Button, Col, Flex, Form, Select} from 'antd';
-import {semesterName, yearOptions} from '../../../../constant/semester';
+import {Button, Col, Flex, Form, Input, Select} from 'antd';
+import {useGetAllAcademicFacultyQuery} from '../../../../redux/features/admin/academicFacultyApi';
+import type {TAcademicFaculty, TResponse} from '../../../../types';
+import {useAddDepartmentMutation} from '../../../../redux/features/admin/departmentApi';
+import {toast} from 'sonner';
 
 type FieldType = {
   name: string;
-  semester: string;
+  academicFaculty: string;
 };
 
 const CreateDepartment = () => {
   const [form] = Form.useForm();
+  const [addDepartment] = useAddDepartmentMutation();
+  const {data: academicFaculty, isLoading: isAcademicFacultyLoading} =
+    useGetAllAcademicFacultyQuery(undefined);
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    console.log(values);
+    try {
+      const res = (await addDepartment(values)) as TResponse;
+
+      if (res.data) {
+        toast.success('Department is created successfully!');
+        form.resetFields();
+      }
+      if (res.error) {
+        toast.error(res?.error?.data?.message);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error('something went wrong');
+    }
   };
 
   return (
@@ -26,28 +45,25 @@ const CreateDepartment = () => {
           onFinish={onFinish}
           autoComplete="off">
           <Form.Item<FieldType>
-            label="Name"
+            label="Department Name"
             name="name"
-            rules={[{required: true, message: 'Please select semester name!'}]}>
-            <Select placeholder="Select semester name" size="large">
-              {semesterName.map((item) => (
-                <Select.Option key={item} value={item}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
+            rules={[{required: true, message: 'Input department name!'}]}>
+            <Input placeholder="Input department name" size="large" />
           </Form.Item>
 
           <Form.Item
-            label="Academic Faculty"
+            label="Select Academic Faculty"
             name="academicFaculty"
             rules={[
               {required: true, message: 'Please select academic faculty!'},
             ]}>
-            <Select placeholder="Select academic faculty" size="large">
-              {yearOptions.map((item) => (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.value}
+            <Select
+              placeholder="Select academic faculty"
+              size="large"
+              disabled={isAcademicFacultyLoading}>
+              {academicFaculty?.data?.map((item: TAcademicFaculty) => (
+                <Select.Option key={item._id} value={item._id}>
+                  {item.name}
                 </Select.Option>
               ))}
             </Select>
