@@ -1,11 +1,14 @@
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Flex} from 'antd';
-import {useLoginMutation} from '../redux/features/auth/authApi';
-import {useAppDispatch} from '../redux/hooks';
-import {setUser, type TUser} from '../redux/features/auth/authSlice';
-import {verifyToken} from '../utils/verifyToken';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'sonner';
+import {useLoginMutation} from '../../redux/features/auth/authApi';
+import {useAppDispatch} from '../../redux/hooks';
+import {verifyToken} from '../../utils/verifyToken';
+import {setUser, type TUser} from '../../redux/features/auth/authSlice';
+import type {TError} from '../../types';
+
+type TLogin = {id: string; password: string};
 
 const Login = () => {
   const [login] = useLoginMutation();
@@ -14,7 +17,7 @@ const Login = () => {
 
   // console.log('Received from useLoginMutation : ', data, 'Error => ', error);
 
-  const onFinish = async (data: any) => {
+  const onFinish = async (data: TLogin) => {
     const toastId = toast.loading('waiting for login...');
     const userInfo = {
       id: data.id,
@@ -28,13 +31,14 @@ const Login = () => {
 
       toast.success('login successfully', {id: toastId});
       navigate(`/${user.role}/dashboard`);
-    } catch (err: any) {
+    } catch (error: unknown) {
+      console.log(error);
+      const err = error as TError;
+
       toast.error('Failed to login!', {
         id: toastId,
-        description: `${err?.data?.message}`,
+        description: err?.data?.message || 'Something went wrong!',
       });
-
-      console.log(err);
     }
   };
 

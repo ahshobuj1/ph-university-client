@@ -1,8 +1,9 @@
 import AdminDashboard from '../pages/admin/AdminDashboard';
-import CreateStudent from '../pages/admin/CreateStudent';
-import CreateFaculty from '../pages/admin/CreateFaculty';
 import type {TUserPath} from '../types';
-import Semester from '../pages/admin/academicManagement/Semester';
+import Semester from '../pages/admin/academicManagement/semester/Semester';
+import CreateStudent from '../pages/admin/userManagement/student/CreateStudent';
+import CreateFaculty from '../pages/admin/userManagement/faculty/CreateFaculty';
+import CreateSemester from '../pages/admin/academicManagement/semester/CreateSemester';
 
 export const adminPaths: TUserPath[] = [
   // {
@@ -15,7 +16,7 @@ export const adminPaths: TUserPath[] = [
     element: <AdminDashboard />,
   },
   {
-    name: 'User',
+    name: 'User-Management',
     children: [
       {
         name: 'Create-Student',
@@ -36,6 +37,11 @@ export const adminPaths: TUserPath[] = [
         name: 'Semester',
         path: 'semester',
         element: <Semester />,
+      },
+      {
+        name: 'Create-Semester',
+        path: 'create-semester',
+        element: <CreateSemester />,
       },
     ],
   },

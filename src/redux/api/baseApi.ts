@@ -29,6 +29,14 @@ const baseQueryWithReAuth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
+  // type TRefreshResponse = {
+  //   success: boolean;
+  //   message: string;
+  //   data?: {
+  //     accessToken: string;
+  //   };
+  // };
+
   if (result?.error?.status === 401) {
     // console.log('sending refresh token');
 
@@ -40,6 +48,11 @@ const baseQueryWithReAuth: BaseQueryFn<
       api,
       extraOptions
     );
+
+    // const response = res as {
+    //   data?: TRefreshResponse;
+    //   error?: FetchBaseQueryError;
+    // };
 
     if (res?.data?.data?.accessToken) {
       const token = res.data.data.accessToken;
