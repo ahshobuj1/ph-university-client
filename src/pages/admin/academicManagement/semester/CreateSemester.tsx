@@ -89,7 +89,7 @@ const CreateSemester = () => {
           </Form.Item>
 
           <Form.Item
-            label="Start-Month"
+            label="Start Month"
             name="startMonth"
             rules={[{required: true, message: 'Select start month!'}]}>
             <Select placeholder="Select start month" size="large">
@@ -102,7 +102,7 @@ const CreateSemester = () => {
           </Form.Item>
 
           <Form.Item
-            label="End-Month"
+            label="End Month"
             name="endMonth"
             rules={[{required: true, message: 'Select end month!'}]}>
             <Select placeholder="Select end month" size="large">

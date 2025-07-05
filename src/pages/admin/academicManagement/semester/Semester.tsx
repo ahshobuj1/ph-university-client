@@ -92,7 +92,7 @@ const Semester = () => {
       dataIndex: 'action',
       render: () => {
         return (
-          <div className="space-x-5">
+          <div className="space-x-5 flex">
             <Button color="primary" variant="filled">
               <BiEdit />
             </Button>
