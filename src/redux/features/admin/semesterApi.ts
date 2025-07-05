@@ -1,3 +1,4 @@
+import type {TQueryParams} from '../../../pages/admin/academicManagement/semester/Semester';
 import {baseApi} from '../../api/baseApi';
 
 const semesterApi = baseApi.injectEndpoints({
@@ -13,10 +14,21 @@ const semesterApi = baseApi.injectEndpoints({
     }),
 
     getAllSemester: builder.query({
-      query: () => ({
-        url: '/semesters',
-        method: 'GET',
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: TQueryParams) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: '/semesters',
+          method: 'GET',
+          params,
+        };
+      },
     }),
   }),
 });
