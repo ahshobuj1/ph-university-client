@@ -1,5 +1,5 @@
 import {useGetAllSemesterQuery} from '../../../../redux/features/admin/semesterApi';
-import {Button, Input, Pagination, Table} from 'antd';
+import {Button, Col, Flex, Input, Pagination, Row, Select, Table} from 'antd';
 import type {TableColumnsType, TableProps} from 'antd';
 import {toast} from 'sonner';
 import type {TSemester, TSemesterTable} from '../../../../types/semester.type';
@@ -117,19 +117,47 @@ const Semester = () => {
     },
   ];
 
+  const sortOptions = [
+    {label: 'Default', value: ''},
+    {label: 'Name (A-Z)', value: 'name'},
+    {label: 'Name (Z-A)', value: '-name'},
+    {label: 'Year (Low to High)', value: 'year'},
+    {label: 'Year (High to Low)', value: '-year'},
+  ];
+
   return (
     <div className="space-y-4">
-      <Input.Search
-        size="large"
-        placeholder="Search Here"
-        allowClear
-        enterButton
-        onSearch={(value) => {
-          setParams([{name: 'searchTerm', value}]);
-          // setSearchTerm(value);
-        }}
-        style={{width: 300, marginBottom: 16}}
-      />
+      <Flex vertical gap="middle" style={{marginBottom: 16}}>
+        <Row gutter={[16, 16]} justify="space-between">
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Input.Search
+              size="large"
+              placeholder="Search Here"
+              allowClear
+              enterButton
+              onSearch={(value) => {
+                setParams([{name: 'searchTerm', value}]);
+              }}
+            />
+          </Col>
+
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <Select
+              size="large"
+              placeholder="Sort by"
+              className="w-full"
+              options={sortOptions}
+              onChange={(value) => {
+                const updatedParams = [
+                  ...params.filter((p) => p.name !== 'sort'),
+                  {name: 'sort', value},
+                ];
+                setParams(updatedParams);
+              }}
+            />
+          </Col>
+        </Row>
+      </Flex>
 
       <div className="overflow-x-auto">
         <Table<TSemesterTable>
