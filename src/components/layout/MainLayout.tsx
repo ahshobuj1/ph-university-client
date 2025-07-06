@@ -33,7 +33,7 @@ const MainLayout = () => {
             <Outlet /> {/* Main content */}
           </div>
         </Content>
-        <Footer style={{textAlign: 'center'}}>
+        <Footer className="text-center">
           AH ©{new Date().getFullYear()} Created by AH
         </Footer>
       </Layout>

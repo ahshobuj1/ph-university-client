@@ -26,3 +26,8 @@ export type TResponse = {
   success: boolean;
   message: string;
 };
+
+export type TQueryParams = {
+  name: string;
+  value: boolean | React.Key;
+};

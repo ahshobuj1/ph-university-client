@@ -1,12 +1,20 @@
 import {Button, Table, type TableColumnsType} from 'antd';
 import {useGetAllDepartmentQuery} from '../../../../redux/features/admin/departmentApi';
-import type {TDepartment, TDepartmentTable} from '../../../../types';
+import type {
+  TAcademicFaculty,
+  TDepartment,
+  TDepartmentTable,
+} from '../../../../types';
 import {AiOutlineDelete} from 'react-icons/ai';
 import {BiEdit} from 'react-icons/bi';
+import {useGetAllAcademicFacultyQuery} from '../../../../redux/features/admin/academicFacultyApi';
+// import type {TQueryParams} from '../semester/Semester';
 
 const Department = () => {
   const {data: departmentData, isFetching} =
     useGetAllDepartmentQuery(undefined);
+
+  const {data: academicFacultyData} = useGetAllAcademicFacultyQuery(undefined);
 
   const data: TDepartmentTable[] = departmentData?.data?.map(
     (item: TDepartment) => ({
@@ -21,14 +29,14 @@ const Department = () => {
     {
       title: 'Department',
       dataIndex: 'name',
-      filters: departmentData?.data?.map((item: TDepartment) => ({
-        text: item.name,
-        value: item.name,
-      })),
     },
     {
       title: 'Academic Faculty',
       dataIndex: 'academicFaculty',
+      filters: academicFacultyData?.data?.map((item: TAcademicFaculty) => ({
+        text: item.name,
+        value: item.name,
+      })),
     },
 
     {
@@ -48,6 +56,19 @@ const Department = () => {
       },
     },
   ];
+
+  // const onChange: TableProps<DataType>['onChange'] = (
+  //   pagination,
+  //   filters,
+  //   sorter,
+  //   extra
+  // ) => {
+  //   console.log('params', pagination, filters, sorter, extra);
+
+  //   if (extra.action === 'filter') {
+  //     const queryParam: TQueryParams[] = [];
+  //   }
+  // };
 
   return (
     <div className="overflow-x-auto">

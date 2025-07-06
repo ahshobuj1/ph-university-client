@@ -1,4 +1,4 @@
-import type {TQueryParams} from '../../../pages/admin/academicManagement/semester/Semester';
+import type {TQueryParams} from '../../../types';
 import {baseApi} from '../../api/baseApi';
 
 const semesterApi = baseApi.injectEndpoints({
@@ -22,6 +22,8 @@ const semesterApi = baseApi.injectEndpoints({
             params.append(item.name, item.value as string);
           });
         }
+
+        // const params = querySearchParams(args);
 
         return {
           url: '/semesters',

@@ -1,5 +1,5 @@
 import {useGetAllSemesterQuery} from '../../../../redux/features/admin/semesterApi';
-import {Button, Table} from 'antd';
+import {Button, Input, Pagination, Table} from 'antd';
 import type {TableColumnsType, TableProps} from 'antd';
 import {toast} from 'sonner';
 import type {TSemester, TSemesterTable} from '../../../../types/semester.type';
@@ -7,20 +7,24 @@ import {BiEdit} from 'react-icons/bi';
 import {AiOutlineDelete} from 'react-icons/ai';
 import {yearOptions} from '../../../../constant/semester';
 import {useState} from 'react';
-
-export type TQueryParams = {
-  name: string;
-  value: boolean | React.Key;
-};
+import type {TMeta, TQueryParams} from '../../../../types';
 
 const Semester = () => {
-  const [params, setParams] = useState<TQueryParams[] | undefined>(undefined);
+  const [params, setParams] = useState<TQueryParams[]>([]);
+  const [page, setPage] = useState<number>(1);
+  // const [searchTerm, setSearchTerm] = useState('');
 
   const {
     data: semesterData,
     error,
     isFetching,
-  } = useGetAllSemesterQuery(params);
+  } = useGetAllSemesterQuery([
+    ...params,
+    {name: 'page', value: page},
+    {name: 'limit', value: 2},
+  ]);
+  const meta: TMeta = semesterData?.meta;
+  console.log(meta);
 
   const onChange: TableProps<TSemesterTable>['onChange'] = (
     _pagination,
@@ -106,15 +110,39 @@ const Semester = () => {
   ];
 
   return (
-    <div className="overflow-x-auto">
-      <Table<TSemesterTable>
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        loading={isFetching}
-        onChange={onChange}
-        scroll={{x: 'max-content'}}
+    <div className="space-y-4">
+      <Input.Search
+        size="large"
+        placeholder="Search Here"
+        allowClear
+        enterButton
+        onSearch={(value) => {
+          setParams([{name: 'searchTerm', value}]);
+          // setSearchTerm(value);
+        }}
+        style={{width: 300, marginBottom: 16}}
       />
+
+      <div className="overflow-x-auto">
+        <Table<TSemesterTable>
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          loading={isFetching}
+          onChange={onChange}
+          scroll={{x: 'max-content'}}
+        />
+      </div>
+
+      <div>
+        <Pagination
+          current={page}
+          onChange={(value) => setPage(value)}
+          pageSize={meta?.limit}
+          total={meta?.total}
+          align="end"
+        />
+      </div>
     </div>
   );
 };
