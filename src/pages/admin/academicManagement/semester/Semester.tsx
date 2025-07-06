@@ -2,7 +2,11 @@ import {useGetAllSemesterQuery} from '../../../../redux/features/admin/semesterA
 import {Button, Col, Flex, Input, Pagination, Row, Select, Table} from 'antd';
 import type {TableColumnsType, TableProps} from 'antd';
 import {toast} from 'sonner';
-import type {TSemester, TSemesterTable} from '../../../../types/semester.type';
+import {
+  sortOptionsSemester,
+  type TSemester,
+  type TSemesterTable,
+} from '../../../../types/semester.type';
 import {BiEdit} from 'react-icons/bi';
 import {AiOutlineDelete} from 'react-icons/ai';
 import {yearOptions} from '../../../../constant/semester';
@@ -24,13 +28,11 @@ const Semester = () => {
     {name: 'limit', value: 2},
   ]);
   const meta: TMeta = semesterData?.meta;
-  console.log(meta);
 
   const onChange: TableProps<TSemesterTable>['onChange'] = (
     _pagination,
     filters,
-    sorter,
-    _extra
+    sorter
   ) => {
     const queryParams: TQueryParams[] = [];
 
@@ -47,7 +49,6 @@ const Semester = () => {
         sorter.order === 'ascend' ? sorter.field : `-${sorter.field}`;
 
       queryParams.push({name: 'sort', value: sortValue});
-      // const sortValue = sorter.order === 'ascend';
     }
 
     setParams(queryParams);
@@ -117,14 +118,6 @@ const Semester = () => {
     },
   ];
 
-  const sortOptions = [
-    {label: 'Default', value: ''},
-    {label: 'Name (A-Z)', value: 'name'},
-    {label: 'Name (Z-A)', value: '-name'},
-    {label: 'Year (Low to High)', value: 'year'},
-    {label: 'Year (High to Low)', value: '-year'},
-  ];
-
   return (
     <div className="space-y-4">
       <Flex vertical gap="middle" style={{marginBottom: 16}}>
@@ -146,13 +139,9 @@ const Semester = () => {
               size="large"
               placeholder="Sort by"
               className="w-full"
-              options={sortOptions}
+              options={sortOptionsSemester}
               onChange={(value) => {
-                const updatedParams = [
-                  ...params.filter((p) => p.name !== 'sort'),
-                  {name: 'sort', value},
-                ];
-                setParams(updatedParams);
+                setParams([{name: 'sort', value}]);
               }}
             />
           </Col>

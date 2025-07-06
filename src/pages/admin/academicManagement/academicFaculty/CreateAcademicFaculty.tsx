@@ -44,7 +44,7 @@ const CreateAcademicFaculty = () => {
             label="Name"
             name="name"
             rules={[{required: true, message: 'Input academic faculty name!'}]}>
-            <Input />
+            <Input size="large" />
           </Form.Item>
 
           <Button

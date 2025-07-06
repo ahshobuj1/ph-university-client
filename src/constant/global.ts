@@ -12,3 +12,6 @@ export const months = [
   'November',
   'December',
 ];
+
+export const Gender = ['male', 'female', 'others'];
+export const BloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];

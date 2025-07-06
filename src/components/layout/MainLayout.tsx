@@ -13,25 +13,25 @@ const MainLayout = () => {
   };
 
   return (
-    <Layout className="h-screen">
+    <Layout style={{height: '100%'}}>
       <Sidebar />
       <Layout>
-        <Header>
+        <Header className="sticky top-0 z-50 w-full bg-[#001529]">
           <ul>
-            <li className="text-white">
-              <Button onClick={handleLogout}>Logout</Button>
+            <li>
+              <Button
+                onClick={handleLogout}
+                type="primary"
+                size="large"
+                style={{padding: '0 30px'}}>
+                Logout
+              </Button>
             </li>
           </ul>
         </Header>
 
         <Content style={{margin: '24px 16px 0'}}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-            }}>
-            <Outlet /> {/* Main content */}
-          </div>
+          <Outlet /> {/* Main content */}
         </Content>
         <Footer className="text-center">
           AH ©{new Date().getFullYear()} Created by AH
