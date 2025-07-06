@@ -29,22 +29,28 @@ const Semester = () => {
   const onChange: TableProps<TSemesterTable>['onChange'] = (
     _pagination,
     filters,
-    _sorter,
-    extra
+    sorter,
+    _extra
   ) => {
-    if (extra.action === 'filter') {
-      const queryParams: TQueryParams[] = [];
+    const queryParams: TQueryParams[] = [];
 
-      filters.name?.forEach((item) =>
-        queryParams.push({name: 'name', value: item})
-      );
+    filters.name?.forEach((item) =>
+      queryParams.push({name: 'name', value: item})
+    );
 
-      filters.year?.forEach((item) =>
-        queryParams.push({name: 'year', value: item})
-      );
+    filters.year?.forEach((item) =>
+      queryParams.push({name: 'year', value: item})
+    );
 
-      setParams(queryParams);
+    if (!Array.isArray(sorter) && sorter.field && sorter.order) {
+      const sortValue =
+        sorter.order === 'ascend' ? sorter.field : `-${sorter.field}`;
+
+      queryParams.push({name: 'sort', value: sortValue});
+      // const sortValue = sorter.order === 'ascend';
     }
+
+    setParams(queryParams);
   };
 
   if (error) {
@@ -74,6 +80,7 @@ const Semester = () => {
     {
       title: 'Code',
       dataIndex: 'code',
+      sorter: true,
     },
     {
       title: 'Year',
@@ -82,6 +89,7 @@ const Semester = () => {
         text: value,
         value,
       })),
+      sorter: true,
     },
     {
       title: 'Start-Month',
