@@ -21,9 +21,10 @@ import type {
 } from '../../../../types';
 import {useState} from 'react';
 import {toast} from 'sonner';
-import {useAddStudentMutation} from '../../../../redux/api/studentApi.admin';
+
 import {useGetAllDepartmentQuery} from '../../../../redux/api/departmentApi';
 import {useGetAllSemesterQuery} from '../../../../redux/api/semesterApi';
+import {useAddStudentMutation} from '../../../../redux/api/userApi';
 
 const CreateStudent = () => {
   const [form] = Form.useForm();

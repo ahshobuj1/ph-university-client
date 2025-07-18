@@ -2,25 +2,25 @@ import {querySearchParams} from '../../utils/querySearchParams';
 import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
-const studentApi = baseApi.injectEndpoints({
+const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllStudents: builder.query({
+    getAllAdmin: builder.query({
       query: (args) => {
         const params = querySearchParams(args);
 
         return {
-          url: '/students',
+          url: '/admins',
           method: 'GET',
           params,
         };
       },
-      providesTags: [tagTypes.student],
+      providesTags: [tagTypes.admin],
     }),
 
-    getSingleStudents: builder.query({
+    getSingleAdmin: builder.query({
       query: (args) => {
         return {
-          url: `/students/${args}`,
+          url: `/admins/${args}`,
           method: 'GET',
         };
       },
@@ -29,29 +29,29 @@ const studentApi = baseApi.injectEndpoints({
     updateStudent: builder.mutation({
       query: (args) => {
         return {
-          url: `/students/${args.studentId}`,
+          url: `/admins/${args.id}`,
           method: 'PATCH',
           body: args.data,
         };
       },
-      invalidatesTags: [tagTypes.student],
+      invalidatesTags: [tagTypes.admin],
     }),
 
-    deleteStudent: builder.mutation({
+    deleteAdmin: builder.mutation({
       query: (args) => {
         return {
-          url: `/students/${args}`,
+          url: `/admins/${args}`,
           method: 'DELETE',
         };
       },
-      invalidatesTags: [tagTypes.student],
+      invalidatesTags: [tagTypes.admin],
     }),
   }),
 });
 
 export const {
-  useGetAllStudentsQuery,
-  useGetSingleStudentsQuery,
+  useGetAllAdminQuery,
+  useGetSingleAdminQuery,
   useUpdateStudentMutation,
-  useDeleteStudentMutation,
-} = studentApi;
+  useDeleteAdminMutation,
+} = adminApi;

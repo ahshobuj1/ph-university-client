@@ -2,56 +2,56 @@ import {querySearchParams} from '../../utils/querySearchParams';
 import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
-const studentApi = baseApi.injectEndpoints({
+const facultyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllStudents: builder.query({
+    getAllFaculty: builder.query({
       query: (args) => {
         const params = querySearchParams(args);
 
         return {
-          url: '/students',
+          url: '/faculties',
           method: 'GET',
           params,
         };
       },
-      providesTags: [tagTypes.student],
+      providesTags: [tagTypes.faculty],
     }),
 
-    getSingleStudents: builder.query({
+    getSingleFaculty: builder.query({
       query: (args) => {
         return {
-          url: `/students/${args}`,
+          url: `/faculties/${args}`,
           method: 'GET',
         };
       },
     }),
 
-    updateStudent: builder.mutation({
+    updateFaculty: builder.mutation({
       query: (args) => {
         return {
-          url: `/students/${args.studentId}`,
+          url: `/faculties/${args.id}`,
           method: 'PATCH',
           body: args.data,
         };
       },
-      invalidatesTags: [tagTypes.student],
+      invalidatesTags: [tagTypes.faculty],
     }),
 
-    deleteStudent: builder.mutation({
+    deleteFaculty: builder.mutation({
       query: (args) => {
         return {
-          url: `/students/${args}`,
+          url: `/faculties/${args}`,
           method: 'DELETE',
         };
       },
-      invalidatesTags: [tagTypes.student],
+      invalidatesTags: [tagTypes.faculty],
     }),
   }),
 });
 
 export const {
-  useGetAllStudentsQuery,
-  useGetSingleStudentsQuery,
-  useUpdateStudentMutation,
-  useDeleteStudentMutation,
-} = studentApi;
+  useGetAllFacultyQuery,
+  useGetSingleFacultyQuery,
+  useUpdateFacultyMutation,
+  useDeleteFacultyMutation,
+} = facultyApi;
