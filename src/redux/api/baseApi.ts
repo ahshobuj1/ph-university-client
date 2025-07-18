@@ -7,6 +7,7 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
+import {tagTypesList} from '../tag-types';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `http://localhost:5000/api/v1`,
@@ -72,4 +73,5 @@ export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: baseQueryWithReAuth,
   endpoints: () => ({}),
+  tagTypes: tagTypesList,
 });

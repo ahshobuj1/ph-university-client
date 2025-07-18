@@ -19,8 +19,8 @@ const SemesterRegistration = () => {
 
   return (
     <div>
-      <Flex vertical gap="middle" style={{margin: '20px auto '}}>
-        <Row gutter={[16, 16]} justify="space-between">
+      <Flex vertical gap="middle">
+        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
           <Col xs={24} sm={12} md={8} lg={6}>
             <Button type="primary" size="large">
               Register Semester
@@ -41,6 +41,8 @@ const SemesterRegistration = () => {
           </Col>
         </Row>
       </Flex>
+
+      <Row></Row>
 
       <PHForm
         onSubmit={handleSubmit}
