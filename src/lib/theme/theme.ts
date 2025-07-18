@@ -5,5 +5,8 @@ export const theme: ThemeConfig = {
     Pagination: {
       // itemActiveBg: '#001529',
     },
+    Button: {
+      colorPrimary: '#001529',
+    },
   },
 };

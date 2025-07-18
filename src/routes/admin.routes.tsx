@@ -8,6 +8,7 @@ import CreateDepartment from '../pages/admin/academicManagement/department/Creat
 import CreateAcademicFaculty from '../pages/admin/academicManagement/academicFaculty/CreateAcademicFaculty';
 import Department from '../pages/admin/academicManagement/department/Department';
 import AcademicFaculty from '../pages/admin/academicManagement/academicFaculty/AcademicFaculty';
+import SemesterRegistration from '../pages/admin/academicManagement/SemesterRegistration/SemesterRegistration';
 
 export const adminPaths: TUserPath[] = [
   // {
@@ -67,6 +68,11 @@ export const adminPaths: TUserPath[] = [
         name: 'Create-Semester',
         path: 'create-semester',
         element: <CreateSemester />,
+      },
+      {
+        name: 'Semester Registration',
+        path: 'semester-registration',
+        element: <SemesterRegistration />,
       },
     ],
   },
