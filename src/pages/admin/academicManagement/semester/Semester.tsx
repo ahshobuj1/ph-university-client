@@ -1,4 +1,3 @@
-import {useGetAllSemesterQuery} from '../../../../redux/features/admin/semesterApi';
 import {Button, Col, Flex, Input, Pagination, Row, Select, Table} from 'antd';
 import type {TableColumnsType, TableProps} from 'antd';
 import {toast} from 'sonner';
@@ -12,6 +11,7 @@ import {AiOutlineDelete} from 'react-icons/ai';
 import {yearOptions} from '../../../../constant/semester';
 import {useState} from 'react';
 import type {TMeta, TQueryParams} from '../../../../types';
+import {useGetAllSemesterQuery} from '../../../../redux/api/semesterApi';
 
 const Semester = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);

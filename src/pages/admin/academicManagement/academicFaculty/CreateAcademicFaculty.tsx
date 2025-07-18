@@ -1,8 +1,9 @@
 import type {FormProps} from 'antd';
 import {Button, Col, Flex, Form, Input} from 'antd';
-import {useAddAcademicFacultyMutation} from '../../../../redux/features/admin/academicFacultyApi';
+
 import {toast} from 'sonner';
 import type {TResponse} from '../../../../types';
+import {useAddAcademicFacultyMutation} from '../../../../redux/api/academicFacultyApi';
 
 type FieldType = {
   name: string;

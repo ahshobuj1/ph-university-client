@@ -1,12 +1,13 @@
 import {Button, Table, type TableColumnsType} from 'antd';
-import {
-  useGetAllAcademicFacultyQuery,
-  useGetSingleAcademicFacultyQuery,
-} from '../../../../redux/features/admin/academicFacultyApi';
+
 import type {TAcademicFaculty, TAcademicFacultyTable} from '../../../../types';
 import {BiEdit} from 'react-icons/bi';
 import {AiOutlineDelete} from 'react-icons/ai';
 import {useState} from 'react';
+import {
+  useGetAllAcademicFacultyQuery,
+  useGetSingleAcademicFacultyQuery,
+} from '../../../../redux/api/academicFacultyApi';
 
 const AcademicFaculty = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);

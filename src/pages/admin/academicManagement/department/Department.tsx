@@ -1,5 +1,4 @@
 import {Button, Table, type TableColumnsType} from 'antd';
-import {useGetAllDepartmentQuery} from '../../../../redux/features/admin/departmentApi';
 import type {
   TAcademicFaculty,
   TDepartment,
@@ -7,7 +6,9 @@ import type {
 } from '../../../../types';
 import {AiOutlineDelete} from 'react-icons/ai';
 import {BiEdit} from 'react-icons/bi';
-import {useGetAllAcademicFacultyQuery} from '../../../../redux/features/admin/academicFacultyApi';
+import {useGetAllDepartmentQuery} from '../../../../redux/api/departmentApi';
+import {useGetAllAcademicFacultyQuery} from '../../../../redux/api/academicFacultyApi';
+
 // import type {TQueryParams} from '../semester/Semester';
 
 const Department = () => {

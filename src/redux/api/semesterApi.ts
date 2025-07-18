@@ -1,5 +1,5 @@
-import type {TQueryParams} from '../../../types';
-import {baseApi} from '../../api/baseApi';
+import type {TQueryParams} from '../../types';
+import {baseApi} from './baseApi';
 
 const semesterApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

@@ -1,5 +1,5 @@
-import {querySearchParams} from '../../../../utils/querySearchParams';
-import {baseApi} from '../../../api/baseApi';
+import {querySearchParams} from '../../utils/querySearchParams';
+import {baseApi} from './baseApi';
 
 const studentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

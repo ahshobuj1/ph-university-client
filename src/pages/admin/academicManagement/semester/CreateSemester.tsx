@@ -6,9 +6,10 @@ import {
   semesterNameCode,
   yearOptions,
 } from '../../../../constant/semester';
-import {useAddSemesterMutation} from '../../../../redux/features/admin/semesterApi';
+
 import {toast} from 'sonner';
 import type {TResponse} from '../../../../types';
+import {useAddSemesterMutation} from '../../../../redux/api/semesterApi';
 
 type FieldType = {
   name: string;

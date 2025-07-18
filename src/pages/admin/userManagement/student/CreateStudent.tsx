@@ -19,11 +19,11 @@ import type {
   TSemester,
   TStudentRoot,
 } from '../../../../types';
-import {useGetAllDepartmentQuery} from '../../../../redux/features/admin/departmentApi';
-import {useGetAllSemesterQuery} from '../../../../redux/features/admin/semesterApi';
 import {useState} from 'react';
-import {useAddStudentMutation} from '../../../../redux/features/admin/userApi/studentApi.admin';
 import {toast} from 'sonner';
+import {useAddStudentMutation} from '../../../../redux/api/studentApi.admin';
+import {useGetAllDepartmentQuery} from '../../../../redux/api/departmentApi';
+import {useGetAllSemesterQuery} from '../../../../redux/api/semesterApi';
 
 const CreateStudent = () => {
   const [form] = Form.useForm();
