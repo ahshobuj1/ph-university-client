@@ -26,6 +26,7 @@ import {
   MinusCircleOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
+import CreateSemesterRegistrationModal from './CreateSemesterRegistrationModal';
 
 export type TSemesterRegistrationTable = Pick<
   TSemesterRegistration,
@@ -136,9 +137,7 @@ const SemesterRegistration = () => {
       <Flex vertical gap="middle">
         <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
           <Col xs={24} sm={12} md={8} lg={6}>
-            <Button type="primary" size="large">
-              Create Semester Registration
-            </Button>
+            <CreateSemesterRegistrationModal />
           </Col>
 
           <Col xs={24} sm={12} md={8} lg={6}>
