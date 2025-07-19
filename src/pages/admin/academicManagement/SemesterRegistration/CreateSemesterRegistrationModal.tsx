@@ -36,16 +36,13 @@ const CreateSemesterRegistrationModal = () => {
     };
 
     setError('');
-
     try {
       const res = (await registerSemester(data).unwrap()) as TResponse;
-      console.log(res);
 
       if (res?.success) {
         toast.success('Semester Registered successfully!');
         setModalOpen(false);
       } else {
-        console.log('fro else =>>>', res);
         const message = res?.message;
         setError(message);
         toast.error(message);
@@ -74,14 +71,7 @@ const CreateSemesterRegistrationModal = () => {
 
           <PHForm
             onSubmit={handleSubmit}
-            resolver={zodResolver(createSemesterRegistrationSchema)}
-            defaultValues={{
-              semester: '',
-              startDate: null,
-              endDate: null,
-              minCredit: '',
-              maxCredit: '',
-            }}>
+            resolver={zodResolver(createSemesterRegistrationSchema)}>
             <PHSelect
               options={semesterOptions}
               name="semester"

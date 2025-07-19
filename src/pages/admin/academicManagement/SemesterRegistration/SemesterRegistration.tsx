@@ -3,6 +3,7 @@ import {
   Col,
   Flex,
   Pagination,
+  Popconfirm,
   Row,
   Select,
   Table,
@@ -28,10 +29,14 @@ import {formatDate} from '../../../../utils/formatDate';
 import CreateSemesterRegistrationModal from './CreateSemesterRegistrationModal';
 import {useState} from 'react';
 import Loading from '../../../../components/shared/Loading';
+import {toast} from 'sonner';
+import {QuestionCircleOutlined} from '@ant-design/icons';
 
 const SemesterRegistration = () => {
   const [page, setPage] = useState<number>(1);
-  const [deleteRegisterSemester] = useDeleteRegisterSemesterMutation();
+  const [deleteRegisterSemester, {isLoading: deleteLoading}] =
+    useDeleteRegisterSemesterMutation();
+
   const {
     data: semesterRegistration,
     isFetching,
@@ -121,12 +126,20 @@ const SemesterRegistration = () => {
             <Button color="primary" variant="filled">
               <BiEdit />
             </Button>
-            <Button
-              color="danger"
-              variant="filled"
-              onClick={() => handleDelete(item)}>
-              <AiOutlineDelete />
-            </Button>
+
+            <Popconfirm
+              title="Delete The Semester Registration"
+              description="Are you sure to delete this semester registration?"
+              onConfirm={() => handleDelete(item)}
+              okText="Delete"
+              cancelText="Cancel"
+              okButtonProps={{loading: deleteLoading}}
+              icon={<QuestionCircleOutlined style={{color: 'red'}} />}
+              placement="topLeft">
+              <Button color="danger" variant="filled">
+                <AiOutlineDelete />
+              </Button>
+            </Popconfirm>
           </div>
         );
       },
@@ -134,13 +147,19 @@ const SemesterRegistration = () => {
   ];
 
   const handleDelete = async (id: string) => {
-    console.log(id);
-
     try {
       const res = await deleteRegisterSemester(id).unwrap();
-      console.log(res);
-    } catch (err) {
-      console.log(err);
+
+      if (res?.success) {
+        toast.success('Semester Registration deleted successfully!');
+      } else {
+        const message = res?.message;
+        toast.error(message);
+      }
+    } catch (err: any) {
+      const message =
+        err?.data?.message || err?.message || 'Something went wrong...!';
+      toast.error(message);
     }
   };
 
