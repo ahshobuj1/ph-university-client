@@ -1,13 +1,15 @@
+import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
 const departmentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addDepartment: builder.mutation({
-      query: (payload) => ({
+      query: (args) => ({
         url: '/departments/create-department',
         method: 'POST',
-        body: payload,
+        body: args,
       }),
+      invalidatesTags: [tagTypes.department],
     }),
 
     getAllDepartment: builder.query({
@@ -17,6 +19,7 @@ const departmentApi = baseApi.injectEndpoints({
           method: 'GET',
         };
       },
+      providesTags: [tagTypes.department],
     }),
 
     getSingleDepartment: builder.query({
@@ -27,6 +30,17 @@ const departmentApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    updateDepartment: builder.mutation({
+      query: (args) => {
+        return {
+          url: `/departments/${args.id}`,
+          method: 'PATCH',
+          body: args.data,
+        };
+      },
+      invalidatesTags: [tagTypes.department],
+    }),
   }),
 });
 
@@ -34,4 +48,5 @@ export const {
   useAddDepartmentMutation,
   useGetAllDepartmentQuery,
   useGetSingleDepartmentQuery,
+  useUpdateDepartmentMutation,
 } = departmentApi;

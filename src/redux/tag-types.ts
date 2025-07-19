@@ -6,6 +6,11 @@ export const tagTypes = {
   student: 'student',
   faculty: 'faculty',
   admin: 'admin',
+  department: 'department',
+  course: 'course',
+  courseFaculty: 'courseFaculty',
+  offeredCourse: 'offeredCourse',
+  enrolledCourse: 'enrolledCourse',
 } as const;
 
 export const tagTypesList = [
@@ -16,4 +21,9 @@ export const tagTypesList = [
   tagTypes.student,
   tagTypes.faculty,
   tagTypes.admin,
+  tagTypes.department,
+  tagTypes.course,
+  tagTypes.courseFaculty,
+  tagTypes.offeredCourse,
+  tagTypes.enrolledCourse,
 ];

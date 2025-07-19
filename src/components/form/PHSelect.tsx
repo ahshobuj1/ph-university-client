@@ -3,7 +3,6 @@ import {Controller, useFormContext} from 'react-hook-form';
 
 interface IPHSelectProps {
   name: string;
-  label: string;
   type?: string | 'text';
   placeholder?: string;
   disabled?: boolean;
@@ -14,7 +13,6 @@ interface IPHSelectProps {
 
 const PHSelect = ({
   name,
-  label,
   placeholder,
   disabled = false,
   size = 'large',
@@ -29,7 +27,6 @@ const PHSelect = ({
       render={({field, fieldState: {error}}) => (
         <>
           <Form.Item
-            label={label}
             name={name}
             validateStatus={error ? 'error' : ''}
             help={error ? error.message : ''}>

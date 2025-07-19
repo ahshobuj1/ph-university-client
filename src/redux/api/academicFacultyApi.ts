@@ -1,3 +1,4 @@
+import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
 const academicFacultyApi = baseApi.injectEndpoints({
@@ -8,6 +9,7 @@ const academicFacultyApi = baseApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+      invalidatesTags: [tagTypes.academicFaculty],
     }),
 
     getAllAcademicFaculty: builder.query({
@@ -17,6 +19,7 @@ const academicFacultyApi = baseApi.injectEndpoints({
           method: 'GET',
         };
       },
+      providesTags: [tagTypes.academicFaculty],
     }),
 
     getSingleAcademicFaculty: builder.query({

@@ -1,4 +1,3 @@
-import {Form} from 'antd';
 import {
   FormProvider,
   useForm,
@@ -42,9 +41,7 @@ const PHForm = ({
 
   return (
     <FormProvider {...methods}>
-      <Form onFinish={handleSubmit(submit)} layout="vertical">
-        {children}
-      </Form>
+      <form onSubmit={handleSubmit(submit)}>{children}</form>
     </FormProvider>
   );
 };

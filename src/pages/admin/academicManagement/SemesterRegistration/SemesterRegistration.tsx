@@ -2,6 +2,7 @@ import {
   Button,
   Col,
   Flex,
+  Pagination,
   Row,
   Select,
   Table,
@@ -12,37 +13,39 @@ import {
   sortOptionsSemester,
   type TSemesterRegistration,
 } from '../../../../types';
-// import PHForm from '../../../../components/form/PHForm';
-// import PHInput from '../../../../components/form/PHInput';
-// import z from 'zod';
-// import {zodResolver} from '@hookform/resolvers/zod';
-// import {UserOutlined} from '@ant-design/icons';
-import {useGetAllRegisterSemesterQuery} from '../../../../redux/api/semesterRegistrationApi';
-import {BiEdit} from 'react-icons/bi';
-import {AiOutlineDelete} from 'react-icons/ai';
-import {formatDate} from '../../../../utils/formatDate';
 import {
   ClockCircleOutlined,
   MinusCircleOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
+import {
+  useDeleteRegisterSemesterMutation,
+  useGetAllRegisterSemesterQuery,
+} from '../../../../redux/api/semesterRegistrationApi';
+import {BiEdit} from 'react-icons/bi';
+import {AiOutlineDelete} from 'react-icons/ai';
+import {formatDate} from '../../../../utils/formatDate';
 import CreateSemesterRegistrationModal from './CreateSemesterRegistrationModal';
-
-export type TSemesterRegistrationTable = Pick<
-  TSemesterRegistration,
-  'status' | 'semester' | '_id' | 'endDate' | 'maxCredit' | 'startDate'
->;
-
-// const semesterRegistrationSchema = z.object({
-//   name: z.string().min(5, 'name must be 5 characters'),
-//   email: z.string().email('Please enter a valid email address!'),
-// });
+import {useState} from 'react';
+import Loading from '../../../../components/shared/Loading';
 
 const SemesterRegistration = () => {
-  const {data: semesterRegistration, isFetching} =
-    useGetAllRegisterSemesterQuery(undefined);
+  const [page, setPage] = useState<number>(1);
+  const [deleteRegisterSemester] = useDeleteRegisterSemesterMutation();
+  const {
+    data: semesterRegistration,
+    isFetching,
+    isLoading,
+  } = useGetAllRegisterSemesterQuery([
+    {name: 'page', value: page},
+    {name: 'limit', value: 2},
+    {name: 'sort', value: '-status'},
+  ]);
 
-  console.log(semesterRegistration);
+  if (isLoading) {
+    return <Loading />;
+  }
+  const meta = semesterRegistration?.meta;
 
   const data: TSemesterRegistration[] = semesterRegistration?.data?.map(
     (item: TSemesterRegistration) => ({
@@ -52,8 +55,7 @@ const SemesterRegistration = () => {
       startDate: formatDate(item.startDate),
       endDate: formatDate(item.endDate),
       credit: item.minCredit + ' To ' + item.maxCredit,
-      // startMonth: item.startMonth,
-      // endMonth: item.endMonth,
+      action: item._id,
     })
   );
 
@@ -113,13 +115,16 @@ const SemesterRegistration = () => {
     {
       title: 'Action',
       dataIndex: 'action',
-      render: () => {
+      render: (item) => {
         return (
           <div className="space-x-5 flex">
             <Button color="primary" variant="filled">
               <BiEdit />
             </Button>
-            <Button color="danger" variant="filled">
+            <Button
+              color="danger"
+              variant="filled"
+              onClick={() => handleDelete(item)}>
               <AiOutlineDelete />
             </Button>
           </div>
@@ -128,9 +133,16 @@ const SemesterRegistration = () => {
     },
   ];
 
-  // const handleSubmit = (values: FieldValues) => {
-  //   console.log(values);
-  // };
+  const handleDelete = async (id: string) => {
+    console.log(id);
+
+    try {
+      const res = await deleteRegisterSemester(id).unwrap();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -166,70 +178,15 @@ const SemesterRegistration = () => {
         />
       </div>
 
-      {/* 
-      <PHForm
-        onSubmit={handleSubmit}
-        resolver={zodResolver(semesterRegistrationSchema)}>
-        <Row justify={'center'} gutter={[10, 10]}>
-          <Col xs={22} md={12} lg={8}>
-            <PHInput
-              name="name"
-              label="Name"
-              placeholder="Name type here"
-              icon={<UserOutlined />}
-            />
-          </Col>
-          <Col xs={22} md={12} lg={8}>
-            <PHInput
-              name="email"
-              label="Name"
-              placeholder="Name type here"
-              icon={<UserOutlined />}
-            />
-          </Col>
-          <Col xs={22} md={12} lg={8}>
-            <PHInput
-              name="email"
-              label="Name"
-              placeholder="Name type here"
-              icon={<UserOutlined />}
-            />
-          </Col>
-        </Row>
-        <Row justify={'space-between'} gutter={[10, 10]}>
-          <Col lg={8}>
-            <PHInput
-              name="name"
-              label="Name"
-              placeholder="Name type here"
-              icon={<UserOutlined />}
-            />
-          </Col>
-          <Col lg={8}>
-            <PHInput
-              name="email"
-              label="Name"
-              placeholder="Name type here"
-              icon={<UserOutlined />}
-            />
-          </Col>
-          <Col lg={8}>
-            <PHInput
-              name="email"
-              label="Name"
-              placeholder="Name type here"
-              icon={<UserOutlined />}
-            />
-          </Col>
-        </Row>
-        <Row justify="end">
-          <Col>
-            <Button type="primary" htmlType="submit" size="large">
-              Submit here
-            </Button>
-          </Col>
-        </Row>
-      </PHForm> */}
+      <div>
+        <Pagination
+          current={page}
+          onChange={(value) => setPage(value)}
+          pageSize={meta?.limit}
+          total={meta?.total}
+          align="end"
+        />
+      </div>
     </div>
   );
 };

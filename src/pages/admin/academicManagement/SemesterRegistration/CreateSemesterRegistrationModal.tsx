@@ -1,4 +1,4 @@
-import {Button, Row, Tag} from 'antd';
+import {Button, Row} from 'antd';
 import {useState} from 'react';
 import PHModal from '../../../../components/shared/Modal/PHModal';
 import PHForm from '../../../../components/form/PHForm';
@@ -10,12 +10,15 @@ import PHDatePicker from '../../../../components/form/PHDatePicker';
 import PHInput from '../../../../components/form/PHInput';
 import {useRegisterSemesterMutation} from '../../../../redux/api/semesterRegistrationApi';
 import {toast} from 'sonner';
+import ErrorMessage from '../../../../components/shared/ErrorMessage';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {createSemesterRegistrationSchema} from '../../../../schemas';
 
 const CreateSemesterRegistrationModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [error, setError] = useState<any>('');
+  const [error, setError] = useState<string>('');
 
-  const [registerSemester] = useRegisterSemesterMutation();
+  const [registerSemester, {isLoading}] = useRegisterSemesterMutation();
   const {data: semesterData} = useGetAllSemesterQuery([
     {name: 'sort', value: 'year'},
   ]);
@@ -32,19 +35,27 @@ const CreateSemesterRegistrationModal = () => {
       minCredit: Number(values.minCredit),
     };
 
-    try {
-      const res = (await registerSemester(data)) as TResponse;
+    setError('');
 
-      if (res?.data) {
+    try {
+      const res = (await registerSemester(data).unwrap()) as TResponse;
+      console.log(res);
+
+      if (res?.success) {
         toast.success('Semester Registered successfully!');
         setModalOpen(false);
-        setError('');
+      } else {
+        console.log('fro else =>>>', res);
+        const message = res?.message;
+        setError(message);
+        toast.error(message);
       }
-      if (!res?.error) {
-        setError(res?.error?.data?.message);
-      }
-    } catch (error: any) {
-      throw new Error(error?.message || 'something went wrong!');
+    } catch (err: any) {
+      const message =
+        err?.data?.message || err?.message || 'Something went wrong...!';
+
+      toast.error(message);
+      setError(message);
     }
   };
 
@@ -58,53 +69,40 @@ const CreateSemesterRegistrationModal = () => {
         open={modalOpen}
         setOpen={setModalOpen}
         title="Create Semester Registration">
-        <PHForm
-          onSubmit={handleSubmit}
-          defaultValues={{
-            semester: '',
-            startDate: null,
-            endDate: null,
-            minCredit: '',
-            maxCredit: '',
-          }}>
-          <PHSelect
-            options={semesterOptions}
-            name="semester"
-            label="Semester"
-            placeholder="Select Semester"
-          />
+        <div className="pt-2">
+          {error ? <ErrorMessage error={error} /> : ''}
 
-          <PHDatePicker
-            name="startDate"
-            label="Start Date"
-            placeholder="Select start date"
-          />
-          <PHDatePicker
-            name="endDate"
-            label="End Date"
-            placeholder="Select end date"
-          />
+          <PHForm
+            onSubmit={handleSubmit}
+            resolver={zodResolver(createSemesterRegistrationSchema)}
+            defaultValues={{
+              semester: '',
+              startDate: null,
+              endDate: null,
+              minCredit: '',
+              maxCredit: '',
+            }}>
+            <PHSelect
+              options={semesterOptions}
+              name="semester"
+              placeholder="Select Semester"
+            />
+            <PHDatePicker name="startDate" placeholder="Select start date" />
+            <PHDatePicker name="endDate" placeholder="Select end date" />
+            <PHInput name="minCredit" placeholder="Min Credit" />
+            <PHInput name="maxCredit" placeholder="Max Credit" />
 
-          <PHInput name="minCredit" label="Min Credit" />
-          <PHInput name="maxCredit" label="Max Credit" />
-
-          <Row justify="space-between">
-            <Button type="primary" htmlType="submit" size="large">
-              Register Semester
-            </Button>
-          </Row>
-
-          {error ? (
-            <Tag
-              color="error"
-              bordered={false}
-              style={{fontSize: '15px', marginTop: '10px'}}>
-              {error}
-            </Tag>
-          ) : (
-            ''
-          )}
-        </PHForm>
+            <Row justify="end">
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                loading={isLoading}>
+                Register Semester
+              </Button>
+            </Row>
+          </PHForm>
+        </div>
       </PHModal>
     </div>
   );

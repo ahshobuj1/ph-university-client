@@ -7,7 +7,9 @@ function App() {
   return (
     <ConfigProvider theme={theme}>
       <ProtectedRoutes>
-        <MainLayout />
+        <div className="max-w-[1420px] mx-auto">
+          <MainLayout />
+        </div>
       </ProtectedRoutes>
     </ConfigProvider>
   );

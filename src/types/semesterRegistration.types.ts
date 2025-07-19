@@ -11,3 +11,8 @@ export type TSemesterRegistration = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TSemesterRegistrationTable = Pick<
+  TSemesterRegistration,
+  'status' | 'semester' | '_id' | 'endDate' | 'maxCredit' | 'startDate'
+>;

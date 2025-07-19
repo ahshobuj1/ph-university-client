@@ -1,4 +1,4 @@
-import type {TQueryParams} from '../../types';
+import {querySearchParams} from '../../utils/querySearchParams';
 import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
@@ -17,15 +17,7 @@ const semesterRegistrationApi = baseApi.injectEndpoints({
 
     getAllRegisterSemester: builder.query({
       query: (args) => {
-        const params = new URLSearchParams();
-
-        if (args) {
-          args.forEach((item: TQueryParams) => {
-            params.append(item.name, item.value as string);
-          });
-        }
-
-        // const params = querySearchParams(args);
+        const params = querySearchParams(args);
 
         return {
           url: '/semester-registrations',

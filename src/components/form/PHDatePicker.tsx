@@ -4,18 +4,18 @@ import moment from 'moment';
 
 interface IPHDatePickerProps {
   name: string;
-  label: string;
   placeholder?: string;
   disabled?: boolean;
   size?: 'small' | 'middle' | 'large';
+  icon?: React.ReactNode;
 }
 
 const PHDatePicker = ({
   name,
-  label,
   placeholder,
   disabled = false,
   size = 'large',
+  icon,
 }: IPHDatePickerProps) => {
   const {control} = useFormContext();
   return (
@@ -25,7 +25,6 @@ const PHDatePicker = ({
       render={({field, fieldState: {error}}) => (
         <>
           <Form.Item
-            label={label}
             name={name}
             validateStatus={error ? 'error' : ''}
             help={error ? error.message : ''}>
@@ -41,6 +40,7 @@ const PHDatePicker = ({
               disabledDate={(current) =>
                 current && current < moment().startOf('day')
               }
+              prefix={icon}
             />
           </Form.Item>
         </>
