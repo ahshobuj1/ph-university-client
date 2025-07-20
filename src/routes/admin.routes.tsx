@@ -9,6 +9,20 @@ import CreateAcademicFaculty from '../pages/admin/academicManagement/academicFac
 import Department from '../pages/admin/academicManagement/department/Department';
 import AcademicFaculty from '../pages/admin/academicManagement/academicFaculty/AcademicFaculty';
 import SemesterRegistration from '../pages/admin/academicManagement/SemesterRegistration/SemesterRegistration';
+import {MdOutlineDashboardCustomize, MdCastForEducation} from 'react-icons/md';
+import {
+  PiStudentBold,
+  PiBookOpenUserBold,
+  PiUserListFill,
+  PiCashRegisterFill,
+} from 'react-icons/pi';
+import {FaUserTie} from 'react-icons/fa6';
+import {HiOutlineAcademicCap} from 'react-icons/hi';
+import {LiaUsersSolid} from 'react-icons/lia';
+import {BsBuildingsFill, BsBuildings} from 'react-icons/bs';
+import {MdOutlineHourglassEmpty} from 'react-icons/md';
+import {GiArchiveRegister} from 'react-icons/gi';
+import {FaUsersCog} from 'react-icons/fa';
 
 export const adminPaths: TUserPath[] = [
   // {
@@ -19,29 +33,36 @@ export const adminPaths: TUserPath[] = [
     name: 'Dashboard',
     path: 'dashboard',
     element: <AdminDashboard />,
+    icon: <MdOutlineDashboardCustomize />,
   },
   {
-    name: 'User-Management',
+    name: 'User Management',
+    icon: <LiaUsersSolid />,
     children: [
       {
-        name: 'Create-Student',
+        name: 'Create Student',
         path: 'create-student',
         element: <CreateStudent />,
+        icon: <PiStudentBold />,
       },
       {
-        name: 'Create-Faculty',
+        name: 'Create Faculty',
         path: 'create-faculty',
         element: <CreateFaculty />,
+        icon: <FaUserTie />,
       },
     ],
   },
   {
-    name: 'Academic-Management',
+    name: 'Academic Management',
+    icon: <PiBookOpenUserBold />,
+    // icon: <GiArchiveRegister />,
     children: [
       {
         name: 'Academic Faculty',
         path: 'academic-faculty',
         element: <AcademicFaculty />,
+        icon: <MdCastForEducation />,
       },
 
       {
@@ -53,6 +74,7 @@ export const adminPaths: TUserPath[] = [
         name: 'Department',
         path: 'department',
         element: <Department />,
+        icon: <BsBuildings />,
       },
       {
         name: 'Create-Department',
@@ -63,6 +85,7 @@ export const adminPaths: TUserPath[] = [
         name: 'Semester',
         path: 'semester',
         element: <Semester />,
+        icon: <MdOutlineHourglassEmpty />,
       },
       {
         name: 'Create-Semester',
@@ -73,6 +96,7 @@ export const adminPaths: TUserPath[] = [
         name: 'Semester Registration',
         path: 'semester-registration',
         element: <SemesterRegistration />,
+        icon: <PiCashRegisterFill />,
       },
     ],
   },

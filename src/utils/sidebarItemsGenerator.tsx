@@ -15,17 +15,36 @@ export const sidebarItemsGenerator = (paths: TUserPath[], role: string) => {
     if (item.name && item.path) {
       acc.push({
         key: item.name,
-        label: <NavLink to={`/${role}/${item.path}`}>{item.name}</NavLink>,
+        label: (
+          <NavLink
+            to={`/${role}/${item.path}`}
+            className="flex items-center font-semibold text-md">
+            {item.icon && <span className="pr-2 text-xl">{item.icon}</span>}
+            {item.name}
+          </NavLink>
+        ),
       });
     }
 
     if (item.children) {
       acc.push({
         key: item.name,
-        label: item.name,
+        label: (
+          <span className="flex items-center font-semibold text-md">
+            {item.icon && <span className="pr-2 text-xl">{item.icon}</span>}
+            {item.name}
+          </span>
+        ),
         children: item.children.map((child) => ({
           key: child.name,
-          label: <NavLink to={`/${role}/${child.path}`}>{child.name}</NavLink>,
+          label: (
+            <NavLink
+              to={`/${role}/${child.path}`}
+              className="flex items-center font-semibold text-md">
+              {item.icon && <span className="pr-2 text-xl">{child.icon}</span>}
+              {child.name}
+            </NavLink>
+          ),
         })),
       });
     }
