@@ -126,3 +126,73 @@ export const adminPaths: TUserPath[] = [
 
 //   return acc;
 // }, []);
+
+// export const adminPaths: TUserPath[] = [
+//   // {
+//   //   index: true,
+//   //   element: <AdminDashboard />,
+//   // },
+//   {
+//     name: 'Dashboard',
+//     path: 'dashboard',
+//     element: <AdminDashboard />,
+//     icon: <UsergroupAddOutlined />,
+//   },
+//   {
+//     name: 'User-Management',
+//     icon: <UsergroupAddOutlined />,
+//     children: [
+//       {
+//         name: 'Create-Student',
+//         path: 'create-student',
+//         element: <CreateStudent />,
+//       },
+//       {
+//         name: 'Create-Faculty',
+//         path: 'create-faculty',
+//         element: <CreateFaculty />,
+//       },
+//     ],
+//   },
+//   {
+//     name: 'Academic-Management',
+//     children: [
+//       {
+//         name: 'Academic Faculty',
+//         path: 'academic-faculty',
+//         element: <AcademicFaculty />,
+//       },
+
+//       {
+//         name: 'Create A. Faculty',
+//         path: 'create-academic-faculty',
+//         element: <CreateAcademicFaculty />,
+//       },
+//       {
+//         name: 'Department',
+//         path: 'department',
+//         element: <Department />,
+//       },
+//       {
+//         name: 'Create-Department',
+//         path: 'create-department',
+//         element: <CreateDepartment />,
+//       },
+//       {
+//         name: 'Semester',
+//         path: 'semester',
+//         element: <Semester />,
+//       },
+//       {
+//         name: 'Create-Semester',
+//         path: 'create-semester',
+//         element: <CreateSemester />,
+//       },
+//       {
+//         name: 'Semester Registration',
+//         path: 'semester-registration',
+//         element: <SemesterRegistration />,
+//       },
+//     ],
+//   },
+// ];

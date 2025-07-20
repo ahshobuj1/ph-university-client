@@ -59,7 +59,7 @@ const CreateSemesterRegistrationModal = () => {
   return (
     <div>
       <Button type="primary" size="large" onClick={() => setModalOpen(true)}>
-        Create Semester Registration
+        Add Semester Registration
       </Button>
 
       <PHModal

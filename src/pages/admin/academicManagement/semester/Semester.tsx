@@ -25,7 +25,7 @@ const Semester = () => {
   } = useGetAllSemesterQuery([
     ...params,
     {name: 'page', value: page},
-    {name: 'limit', value: 2},
+    {name: 'limit', value: 9},
   ]);
   const meta: TMeta = semesterData?.meta;
 
@@ -148,6 +148,26 @@ const Semester = () => {
         </Row>
       </Flex>
 
+      <div className="overflow-x-auto">
+        <Table<TSemesterTable>
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          loading={isFetching}
+          onChange={onChange}
+          scroll={{x: 'max-content'}}
+        />
+      </div>
+      <div className="overflow-x-auto">
+        <Table<TSemesterTable>
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          loading={isFetching}
+          onChange={onChange}
+          scroll={{x: 'max-content'}}
+        />
+      </div>
       <div className="overflow-x-auto">
         <Table<TSemesterTable>
           columns={columns}

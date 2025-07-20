@@ -11,13 +11,15 @@ import {
   type TableColumnsType,
 } from 'antd';
 import {
-  sortOptionsSemester,
+  sortOptionsSemesterRegistration,
+  type TQueryParams,
   type TSemesterRegistration,
 } from '../../../../types';
 import {
   ClockCircleOutlined,
   MinusCircleOutlined,
   SyncOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 import {
   useDeleteRegisterSemesterMutation,
@@ -30,10 +32,11 @@ import CreateSemesterRegistrationModal from './CreateSemesterRegistrationModal';
 import {useState} from 'react';
 import Loading from '../../../../components/shared/Loading';
 import {toast} from 'sonner';
-import {QuestionCircleOutlined} from '@ant-design/icons';
 
 const SemesterRegistration = () => {
+  const [params, setParams] = useState<TQueryParams[]>([]);
   const [page, setPage] = useState<number>(1);
+
   const [deleteRegisterSemester, {isLoading: deleteLoading}] =
     useDeleteRegisterSemesterMutation();
 
@@ -42,9 +45,9 @@ const SemesterRegistration = () => {
     isFetching,
     isLoading,
   } = useGetAllRegisterSemesterQuery([
+    ...params,
     {name: 'page', value: page},
     {name: 'limit', value: 2},
-    {name: 'sort', value: '-status'},
   ]);
 
   if (isLoading) {
@@ -52,14 +55,27 @@ const SemesterRegistration = () => {
   }
   const meta = semesterRegistration?.meta;
 
+  // const onChange: TableProps<TSemesterRegistrationTable>['onChange'] = (
+  //   _pagination,
+  //   _sorter,
+  //   filters
+  // ) => {
+  //   const queryParams: TQueryParams[] = [];
+
+  //   filters.status?.forEach((item: string) =>
+  //     queryParams.push({name: 'status', value: item})
+  //   );
+
+  //   setParams(queryParams);
+  // };
+
   const data: TSemesterRegistration[] = semesterRegistration?.data?.map(
     (item: TSemesterRegistration) => ({
       key: item._id,
       name: item.semester.name + ' ' + item.semester.year,
       status: item.status,
-      startDate: formatDate(item.startDate),
-      endDate: formatDate(item.endDate),
-      credit: item.minCredit + ' To ' + item.maxCredit,
+      date: formatDate(item.startDate) + ' - ' + formatDate(item.endDate),
+      credit: item.minCredit + ' - ' + item.maxCredit,
       action: item._id,
     })
   );
@@ -71,12 +87,8 @@ const SemesterRegistration = () => {
       width: '20%',
     },
     {
-      title: 'Start Date',
-      dataIndex: 'startDate',
-    },
-    {
-      title: 'End Month',
-      dataIndex: 'endDate',
+      title: 'Date',
+      dataIndex: 'date',
     },
     {
       title: 'Credits',
@@ -85,6 +97,11 @@ const SemesterRegistration = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      filters: [
+        {text: 'UPCOMING', value: 'UPCOMING'},
+        {text: 'ONGOING', value: 'ONGOING'},
+        {text: 'ENDED', value: 'ENDED'},
+      ],
       render: (item) => {
         let style;
 
@@ -167,19 +184,29 @@ const SemesterRegistration = () => {
     <div>
       <Flex vertical gap="middle">
         <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
-          <Col xs={24} sm={12} md={8} lg={6}>
+          <Col xs={12} sm={12} md={8} lg={6}>
             <CreateSemesterRegistrationModal />
+
+            {/* <Select
+              size="large"
+              placeholder="Filter By Status"
+              className="w-full"
+              options={filterOptionsSemesterRegistration}
+              onChange={(value) => {
+                setParams([{name: 'status', value}]);
+              }}
+            /> */}
           </Col>
 
-          <Col xs={24} sm={12} md={8} lg={6}>
+          <Col xs={12} sm={12} md={8} lg={6}>
             <Select
               size="large"
               placeholder="Sort by"
               className="w-full"
-              options={sortOptionsSemester}
+              options={sortOptionsSemesterRegistration}
               onChange={(value) => {
-                // setParams([{name: 'sort', value}]);
-                console.log(value);
+                setParams([{name: 'sort', value}]);
+                // console.log(value);
               }}
             />
           </Col>
@@ -192,7 +219,6 @@ const SemesterRegistration = () => {
           dataSource={data}
           pagination={false}
           loading={isFetching}
-          // onChange={onChange}
           scroll={{x: 'max-content'}}
         />
       </div>
