@@ -33,6 +33,7 @@ import CreateSemesterRegistrationModal from './CreateSemesterRegistrationModal';
 import {useState} from 'react';
 import Loading from '../../../../components/shared/Loading';
 import {toast} from 'sonner';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
 
 const SemesterRegistration = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
@@ -185,20 +186,10 @@ const SemesterRegistration = () => {
         const message = res?.message;
         toast.error(message);
       }
-    } catch (err: any) {
-      const message =
-        err?.data?.message || err?.message || 'Something went wrong...!';
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
       toast.error(message);
     }
-
-    // if (status) {
-    //   const updateData = {
-    //     id: item._id,
-    //     data: {
-    //       status: status,
-    //     },
-    //   };
-    // }
   };
 
   const handleDelete = async (item: TSemesterRegistration) => {
@@ -211,10 +202,10 @@ const SemesterRegistration = () => {
         const message = res?.message;
         toast.error(message);
       }
-    } catch (err: any) {
-      const message =
-        err?.data?.message || err?.message || 'Something went wrong...!';
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
       toast.error(message);
+      // const message = err?.data?.message || err?.message || 'Something went wrong...!';
     }
   };
 

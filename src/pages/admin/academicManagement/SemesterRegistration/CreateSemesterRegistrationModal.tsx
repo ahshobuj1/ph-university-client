@@ -14,12 +14,14 @@ import ErrorMessage from '../../../../components/shared/ErrorMessage';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {createSemesterRegistrationSchema} from '../../../../schemas';
 import {BsFillPenFill} from 'react-icons/bs';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
 
 const CreateSemesterRegistrationModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
   const [registerSemester, {isLoading}] = useRegisterSemesterMutation();
+
   const {data: semesterData} = useGetAllSemesterQuery([
     {name: 'sort', value: 'year'},
   ]);
@@ -48,10 +50,8 @@ const CreateSemesterRegistrationModal = () => {
         setError(message);
         toast.error(message);
       }
-    } catch (err: any) {
-      const message =
-        err?.data?.message || err?.message || 'Something went wrong...!';
-
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
       toast.error(message);
       setError(message);
     }

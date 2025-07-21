@@ -2,6 +2,7 @@ import {Form, Select} from 'antd';
 import {Controller, useFormContext} from 'react-hook-form';
 
 interface IPHSelectProps {
+  mode?: 'multiple' | undefined;
   name: string;
   type?: string | 'text';
   placeholder?: string;
@@ -13,6 +14,7 @@ interface IPHSelectProps {
 
 const PHSelect = ({
   name,
+  mode,
   placeholder,
   disabled = false,
   size = 'large',
@@ -32,6 +34,7 @@ const PHSelect = ({
             help={error ? error.message : ''}>
             <Select
               {...field}
+              mode={mode}
               options={options}
               showSearch
               size={size}
