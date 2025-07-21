@@ -13,9 +13,10 @@ import {toast} from 'sonner';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {createSemesterRegistrationSchema} from '../../../../schemas';
+import {BsFillPenFill} from 'react-icons/bs';
 
 const CreateSemesterRegistrationModal = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
   const [registerSemester, {isLoading}] = useRegisterSemesterMutation();
@@ -58,7 +59,11 @@ const CreateSemesterRegistrationModal = () => {
 
   return (
     <div>
-      <Button type="primary" size="large" onClick={() => setModalOpen(true)}>
+      <Button
+        icon={<BsFillPenFill />}
+        type="primary"
+        size="large"
+        onClick={() => setModalOpen(true)}>
         Add Semester Registration
       </Button>
 

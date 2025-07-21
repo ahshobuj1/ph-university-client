@@ -30,7 +30,9 @@ const SecondSider = () => {
   return (
     <>
       <div className="flex items-center justify-center h-16 border-b-2 border-gray-400 border-dashed">
-        <h1 className="text-xl font-bold text-indigo-700">PH University</h1>
+        <h1 className="text-xl font-bold text-indigo-700">
+          Meridian University
+        </h1>
       </div>
 
       <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-1">

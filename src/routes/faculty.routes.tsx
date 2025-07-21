@@ -1,6 +1,7 @@
+import ChangePassword from '../components/shared/ChangePassword/ChangePassword';
 import FacultyDashboard from '../pages/faculty/FacultyDashboard';
 import type {TUserPath} from '../types';
-
+import {MdOutlineDashboardCustomize, MdOutlineVpnKey} from 'react-icons/md';
 export const facultyPaths: TUserPath[] = [
   // {
   //   index: true,
@@ -10,5 +11,12 @@ export const facultyPaths: TUserPath[] = [
     name: 'Dashboard',
     path: 'dashboard',
     element: <FacultyDashboard />,
+    icon: <MdOutlineDashboardCustomize />,
+  },
+  {
+    name: 'Change Password',
+    path: 'change-password',
+    element: <ChangePassword />,
+    icon: <MdOutlineVpnKey />,
   },
 ];

@@ -1,5 +1,4 @@
 import {
-  Button,
   Col,
   Flex,
   Pagination,
@@ -11,6 +10,7 @@ import {
   type TableColumnsType,
 } from 'antd';
 import {
+  filterOptionsSemesterRegistration,
   sortOptionsSemesterRegistration,
   type TQueryParams,
   type TSemesterRegistration,
@@ -20,13 +20,14 @@ import {
   MinusCircleOutlined,
   SyncOutlined,
   QuestionCircleOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons';
 import {
   useDeleteRegisterSemesterMutation,
   useGetAllRegisterSemesterQuery,
+  useUpdateRegisterSemesterMutation,
 } from '../../../../redux/api/semesterRegistrationApi';
 import {BiEdit} from 'react-icons/bi';
-import {AiOutlineDelete} from 'react-icons/ai';
 import {formatDate} from '../../../../utils/formatDate';
 import CreateSemesterRegistrationModal from './CreateSemesterRegistrationModal';
 import {useState} from 'react';
@@ -39,6 +40,7 @@ const SemesterRegistration = () => {
 
   const [deleteRegisterSemester, {isLoading: deleteLoading}] =
     useDeleteRegisterSemesterMutation();
+  const [updateSemesterStatus] = useUpdateRegisterSemesterMutation();
 
   const {
     data: semesterRegistration,
@@ -55,20 +57,6 @@ const SemesterRegistration = () => {
   }
   const meta = semesterRegistration?.meta;
 
-  // const onChange: TableProps<TSemesterRegistrationTable>['onChange'] = (
-  //   _pagination,
-  //   _sorter,
-  //   filters
-  // ) => {
-  //   const queryParams: TQueryParams[] = [];
-
-  //   filters.status?.forEach((item: string) =>
-  //     queryParams.push({name: 'status', value: item})
-  //   );
-
-  //   setParams(queryParams);
-  // };
-
   const data: TSemesterRegistration[] = semesterRegistration?.data?.map(
     (item: TSemesterRegistration) => ({
       key: item._id,
@@ -76,7 +64,7 @@ const SemesterRegistration = () => {
       status: item.status,
       date: formatDate(item.startDate) + ' - ' + formatDate(item.endDate),
       credit: item.minCredit + ' - ' + item.maxCredit,
-      action: item._id,
+      action: item,
     })
   );
 
@@ -119,7 +107,7 @@ const SemesterRegistration = () => {
         }
         if (item === 'ENDED') {
           style = {
-            icon: <MinusCircleOutlined spin />,
+            icon: <MinusCircleOutlined />,
             color: 'error',
           };
         }
@@ -140,9 +128,21 @@ const SemesterRegistration = () => {
       render: (item) => {
         return (
           <div className="space-x-5 flex">
-            <Button color="primary" variant="filled">
-              <BiEdit />
-            </Button>
+            {item.status !== 'ENDED' && (
+              <Popconfirm
+                title="Update Status"
+                description="Are you sure to update status?"
+                onConfirm={() => handleUpdateStatus(item)}
+                okText="Update"
+                cancelText="Cancel"
+                okButtonProps={{loading: deleteLoading}}
+                icon={<QuestionCircleOutlined style={{color: 'red'}} />}
+                placement="topRight">
+                <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
+                  <BiEdit />
+                </span>
+              </Popconfirm>
+            )}
 
             <Popconfirm
               title="Delete The Semester Registration"
@@ -153,9 +153,9 @@ const SemesterRegistration = () => {
               okButtonProps={{loading: deleteLoading}}
               icon={<QuestionCircleOutlined style={{color: 'red'}} />}
               placement="topLeft">
-              <Button color="danger" variant="filled">
-                <AiOutlineDelete />
-              </Button>
+              <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
+                <DeleteOutlined />
+              </span>
             </Popconfirm>
           </div>
         );
@@ -163,9 +163,47 @@ const SemesterRegistration = () => {
     },
   ];
 
-  const handleDelete = async (id: string) => {
+  const handleUpdateStatus = async (item: TSemesterRegistration) => {
+    let status: string;
+
+    if (item.status === 'UPCOMING') {
+      status = 'ONGOING';
+    } else if (item.status === 'ONGOING') {
+      status = 'ENDED';
+    } else return;
+
+    const updateData = {
+      id: item._id,
+      data: {status},
+    };
+
     try {
-      const res = await deleteRegisterSemester(id).unwrap();
+      const res = await updateSemesterStatus(updateData).unwrap();
+      if (res?.success) {
+        toast.success('Semester Registration deleted successfully!');
+      } else {
+        const message = res?.message;
+        toast.error(message);
+      }
+    } catch (err: any) {
+      const message =
+        err?.data?.message || err?.message || 'Something went wrong...!';
+      toast.error(message);
+    }
+
+    // if (status) {
+    //   const updateData = {
+    //     id: item._id,
+    //     data: {
+    //       status: status,
+    //     },
+    //   };
+    // }
+  };
+
+  const handleDelete = async (item: TSemesterRegistration) => {
+    try {
+      const res = await deleteRegisterSemester(item._id).unwrap();
 
       if (res?.success) {
         toast.success('Semester Registration deleted successfully!');
@@ -186,27 +224,34 @@ const SemesterRegistration = () => {
         <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
           <Col xs={12} sm={12} md={8} lg={6}>
             <CreateSemesterRegistrationModal />
+          </Col>
+        </Row>
+      </Flex>
 
-            {/* <Select
+      <Flex vertical gap="middle">
+        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
+          <Col xs={12} sm={12} md={8} lg={6}>
+            <Select
               size="large"
               placeholder="Filter By Status"
               className="w-full"
               options={filterOptionsSemesterRegistration}
               onChange={(value) => {
                 setParams([{name: 'status', value}]);
+                // console.log(value);
               }}
-            /> */}
+            />
           </Col>
 
-          <Col xs={12} sm={12} md={8} lg={6}>
+          <Col xs={6} sm={5} md={5} lg={3}>
             <Select
               size="large"
               placeholder="Sort by"
+              variant="borderless"
               className="w-full"
               options={sortOptionsSemesterRegistration}
               onChange={(value) => {
                 setParams([{name: 'sort', value}]);
-                // console.log(value);
               }}
             />
           </Col>

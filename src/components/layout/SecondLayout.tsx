@@ -21,7 +21,7 @@ export default function SecondLayout() {
     <div className="flex h-screen font-sans bg-gray-50">
       {/* Overlay for mobile */}
       <div
-        className={`fixed inset-0 z-20 md:hidden bg-black/20 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-20 md:hidden bg-black/20 transition-opacity duration-300 cursor-pointer ${
           drawerOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
@@ -31,7 +31,7 @@ export default function SecondLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-[#d9d9d9] shadow-lg transform transition-transform duration-300 md:translate-x-0 md:static md:shadow-none flex flex-col ${
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-primary-main shadow-lg transform transition-transform duration-300 md:translate-x-0 md:static md:shadow-none flex flex-col ${
           drawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}>
         <SecondSider />
@@ -105,15 +105,15 @@ export default function SecondLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between bg-[#d9d9d9] px-4 md:px-6 h-16 ">
+        <header className="flex items-center justify-between bg-primary-main px-4 md:px-6 h-16 ">
           <button
-            className="md:hidden text-gray-600"
+            className="md:hidden text-gray-600 cursor-pointer hover:text-indigo-600"
             onClick={() => setDrawerOpen(true)}>
             <FaBars size={22} />
           </button>
           <div>
             <h2 className="font-semibold text-gray-900">Hello, A H Shobuj</h2>
-            <p className="text-gray-900">Welcome To PH University</p>
+            <p className="text-gray-900">Welcome To StackHub University</p>
           </div>
           <Popover content={profileDropdown} placement="bottomRight">
             <Avatar size={40} shape="square" src="https://i.pravatar.cc/40" />

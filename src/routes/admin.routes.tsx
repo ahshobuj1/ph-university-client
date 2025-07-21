@@ -9,20 +9,22 @@ import CreateAcademicFaculty from '../pages/admin/academicManagement/academicFac
 import Department from '../pages/admin/academicManagement/department/Department';
 import AcademicFaculty from '../pages/admin/academicManagement/academicFaculty/AcademicFaculty';
 import SemesterRegistration from '../pages/admin/academicManagement/SemesterRegistration/SemesterRegistration';
-import {MdOutlineDashboardCustomize, MdCastForEducation} from 'react-icons/md';
+import {
+  MdOutlineDashboardCustomize,
+  MdCastForEducation,
+  MdOutlineHourglassEmpty,
+  MdOutlineVpnKey,
+} from 'react-icons/md';
 import {
   PiStudentBold,
   PiBookOpenUserBold,
-  PiUserListFill,
   PiCashRegisterFill,
 } from 'react-icons/pi';
 import {FaUserTie} from 'react-icons/fa6';
-import {HiOutlineAcademicCap} from 'react-icons/hi';
 import {LiaUsersSolid} from 'react-icons/lia';
-import {BsBuildingsFill, BsBuildings} from 'react-icons/bs';
-import {MdOutlineHourglassEmpty} from 'react-icons/md';
-import {GiArchiveRegister} from 'react-icons/gi';
-import {FaUsersCog} from 'react-icons/fa';
+import {BsBuildings} from 'react-icons/bs';
+
+import ChangePassword from '../components/shared/ChangePassword/ChangePassword';
 
 export const adminPaths: TUserPath[] = [
   // {
@@ -99,6 +101,12 @@ export const adminPaths: TUserPath[] = [
         icon: <PiCashRegisterFill />,
       },
     ],
+  },
+  {
+    name: 'Change Password',
+    path: 'change-password',
+    element: <ChangePassword />,
+    icon: <MdOutlineVpnKey />,
   },
 ];
 
