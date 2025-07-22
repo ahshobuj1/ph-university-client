@@ -4,6 +4,7 @@ import {sidebarItemsGenerator} from '../../utils/sidebarItemsGenerator';
 import {useAppSelector} from '../../redux/hooks';
 import {adminPaths} from '../../routes/admin.routes';
 import {facultyPaths} from '../../routes/faculty.routes';
+import {useLocation} from 'react-router-dom';
 
 const userRole = {
   ADMIN: 'admin',
@@ -13,6 +14,8 @@ const userRole = {
 
 const SecondSider = () => {
   const user = useAppSelector((state) => state.auth.user);
+  const location = useLocation();
+
   let sidebarItems;
 
   switch (user?.role) {
@@ -27,6 +30,11 @@ const SecondSider = () => {
       break;
   }
 
+  // get active key from current path
+  const pathParts = location.pathname.split('/');
+  const activeKey = pathParts[pathParts.length - 1];
+  // console.log(pathParts);
+
   return (
     <>
       <div className="flex items-center justify-center h-16 border-b-2 border-gray-400 border-dashed">
@@ -37,7 +45,7 @@ const SecondSider = () => {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={['4']}
+          defaultSelectedKeys={[activeKey]}
           items={sidebarItems}
           style={{background: '#d9d9d9'}}
         />

@@ -9,10 +9,13 @@ import {toast} from 'sonner';
 import {useState} from 'react';
 import {getErrorMessage} from '../../utils/getErrorMessage';
 import ErrorMessage from '../../components/shared/ErrorMessage';
+import {useAppDispatch} from '../../redux/hooks';
+import {logout} from '../../redux/features/auth/authSlice';
 
 const ChangePassword = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const [changePassword, {isLoading}] = useChangePasswordMutation();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (values: FieldValues) => {
     if (values.oldPassword === values.newPassword) {
@@ -24,6 +27,7 @@ const ChangePassword = () => {
       const res = await changePassword(values).unwrap();
       if (res?.success) {
         toast.success('password is changed successfully!');
+        dispatch(logout());
       } else {
         const message = res?.message;
         setError(message);
