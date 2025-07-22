@@ -4,8 +4,6 @@ import Semester from '../pages/admin/academicManagement/semester/Semester';
 import CreateStudent from '../pages/admin/userManagement/student/CreateStudent';
 import CreateFaculty from '../pages/admin/userManagement/faculty/CreateFaculty';
 import CreateSemester from '../pages/admin/academicManagement/semester/CreateSemester';
-import CreateDepartment from '../pages/admin/academicManagement/department/CreateDepartment';
-import CreateAcademicFaculty from '../pages/admin/academicManagement/academicFaculty/CreateAcademicFaculty';
 import Department from '../pages/admin/academicManagement/department/Department';
 import AcademicFaculty from '../pages/admin/academicManagement/academicFaculty/AcademicFaculty';
 import SemesterRegistration from '../pages/admin/academicManagement/SemesterRegistration/SemesterRegistration';
@@ -66,22 +64,11 @@ export const adminPaths: TUserPath[] = [
         element: <AcademicFaculty />,
         icon: <FaUniversity />,
       },
-
-      {
-        name: 'Create A. Faculty',
-        path: 'create-academic-faculty',
-        element: <CreateAcademicFaculty />,
-      },
       {
         name: 'Department',
         path: 'department',
         element: <Department />,
         icon: <BsBuildings />,
-      },
-      {
-        name: 'Create-Department',
-        path: 'create-department',
-        element: <CreateDepartment />,
       },
       {
         name: 'Semester',

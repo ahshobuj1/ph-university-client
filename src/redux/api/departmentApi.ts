@@ -1,3 +1,4 @@
+import {querySearchParams} from '../../utils/querySearchParams';
 import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
@@ -13,10 +14,12 @@ const departmentApi = baseApi.injectEndpoints({
     }),
 
     getAllDepartment: builder.query({
-      query: () => {
+      query: (args) => {
+        const params = querySearchParams(args);
         return {
           url: '/departments',
           method: 'GET',
+          params,
         };
       },
       providesTags: [tagTypes.department],
@@ -41,6 +44,16 @@ const departmentApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.department],
     }),
+
+    delDepartment: builder.mutation({
+      query: (args) => {
+        return {
+          url: `/departments/${args}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: [tagTypes.department],
+    }),
   }),
 });
 
@@ -49,4 +62,5 @@ export const {
   useGetAllDepartmentQuery,
   useGetSingleDepartmentQuery,
   useUpdateDepartmentMutation,
+  useDelDepartmentMutation,
 } = departmentApi;

@@ -27,9 +27,14 @@ const Login = () => {
     try {
       const result = await login(userInfo).unwrap();
       const user = verifyToken(result.data.accessToken) as TUser;
-      dispatch(setUser({user, token: result.data.accessToken}));
+
+      dispatch(setUser({user, token: result?.data?.accessToken}));
 
       toast.success('login successfully', {id: toastId});
+
+      if (result?.data?.needsPasswordChange) {
+        return navigate(`/${user.role}/change-password`);
+      }
       navigate(`/${user.role}/dashboard`);
     } catch (error: unknown) {
       console.log(error);

@@ -15,3 +15,15 @@ export const months = [
 
 export const Gender = ['male', 'female', 'others'];
 export const BloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+
+export const sortOptionsAcademicFaculty = [
+  {label: 'Default', value: ''},
+  {label: 'Name ⬇', value: 'name'},
+  {label: 'Name ⬆', value: '-name'},
+];
+
+export const sortOptionsDepartment = [
+  {label: 'Default', value: ''},
+  {label: 'Dept ⬇', value: 'name'},
+  {label: 'Dept ⬆', value: '-name'},
+];

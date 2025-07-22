@@ -1,3 +1,4 @@
+import {querySearchParams} from '../../utils/querySearchParams';
 import {tagTypes} from '../tag-types';
 import {baseApi} from './baseApi';
 
@@ -13,10 +14,13 @@ const academicFacultyApi = baseApi.injectEndpoints({
     }),
 
     getAllAcademicFaculty: builder.query({
-      query: () => {
+      query: (args) => {
+        const params = querySearchParams(args);
+
         return {
           url: '/academic-faculties',
           method: 'GET',
+          params,
         };
       },
       providesTags: [tagTypes.academicFaculty],
@@ -30,6 +34,16 @@ const academicFacultyApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    delAcademicFaculty: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/academic-faculties/${id}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: [tagTypes.academicFaculty],
+    }),
   }),
 });
 
@@ -37,4 +51,5 @@ export const {
   useAddAcademicFacultyMutation,
   useGetAllAcademicFacultyQuery,
   useGetSingleAcademicFacultyQuery,
+  useDelAcademicFacultyMutation,
 } = academicFacultyApi;

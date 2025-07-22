@@ -1,15 +1,19 @@
 import {z} from 'zod';
 
 export const createCourseSchema = z.object({
-  title: z.string().nonempty('Title is required'),
-  prefix: z.string().nonempty('Prefix is required'),
-  code: z.number().min(1, 'Code must be positive'),
-  credits: z.number().min(1, 'Credits must be at least 1'),
-  preRequisiteCourses: z
-    .array(
-      z.object({
-        course: z.string().nonempty('Course id is required'),
-      })
-    )
-    .optional(),
+  title: z.string('Title is required'),
+  prefix: z
+    .string('Prefix is required')
+    .min(2, 'Must be at least 2 characters'),
+  // code: z.number('Code must be positive Number'),
+  // credits: z.number('Credits must be positive Number'),
+  code: z.preprocess(
+    (value) => (typeof value === 'string' ? Number(value) : value),
+    z.number('Course code must be a positive number')
+  ),
+  credits: z.preprocess(
+    (value) => (typeof value === 'string' ? Number(value) : value),
+    z.number('Course credits must be a positive number')
+  ),
+  preRequisiteCourses: z.array(z.string()).optional(),
 });

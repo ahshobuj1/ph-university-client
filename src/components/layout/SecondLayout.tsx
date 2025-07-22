@@ -3,19 +3,23 @@ import {Link, Outlet} from 'react-router-dom';
 import {FaBars} from 'react-icons/fa';
 import {Popover, Avatar, Button} from 'antd';
 import SecondSider from './SecondSider';
-
-const profileDropdown = (
-  <div className="flex flex-col space-y-2">
-    <Link to="/profile">Profile</Link>
-    <Link to="/settings">Settings</Link>
-    <Button danger size="small">
-      Logout
-    </Button>
-  </div>
-);
+import {logout} from '../../redux/features/auth/authSlice';
+import {useAppDispatch} from '../../redux/hooks';
 
 export default function SecondLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const profileDropdown = (
+    <div className="flex flex-col space-y-2">
+      <Link to="/profile">Profile</Link>
+      <Link to="/settings">Settings</Link>
+      <Button danger size="small" onClick={() => dispatch(logout())}>
+        Logout
+      </Button>
+    </div>
+  );
 
   return (
     <div className="flex h-screen font-sans bg-gray-50">

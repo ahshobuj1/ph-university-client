@@ -4,15 +4,23 @@ import PHModal from '../../../../components/shared/Modal/PHModal';
 import PHForm from '../../../../components/form/PHForm';
 import type {FieldValues} from 'react-hook-form';
 import PHSelect from '../../../../components/form/PHSelect';
-import type {TCourse} from '../../../../types';
+import type {TCourse, TResponse} from '../../../../types';
 import PHInput from '../../../../components/form/PHInput';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
 import {BsFillPenFill} from 'react-icons/bs';
-import {useGetAllCourseQuery} from '../../../../redux/api/courseApi';
+import {
+  useAddCourseMutation,
+  useGetAllCourseQuery,
+} from '../../../../redux/api/courseApi';
+import {createCourseSchema} from '../../../../schemas';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {toast} from 'sonner';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
 
 const CreateCourseModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [addCourse, {isLoading: addingCourse}] = useAddCourseMutation();
 
   const {data: courseData} = useGetAllCourseQuery([
     {name: 'sort', value: 'title'},
@@ -28,29 +36,31 @@ const CreateCourseModal = () => {
   const handleSubmit = async (values: FieldValues) => {
     const data = {
       ...values,
-      code: Number(values.code),
-      credits: Number(values.credits),
+      preRequisiteCourses: (values?.preRequisiteCourses || []).map(
+        (id: string) => ({
+          course: id,
+        })
+      ),
     };
 
-    console.log(data);
-
     setError('');
-    // try {
-    //   const res = (await registerSemester(data).unwrap()) as TResponse;
+    try {
+      const res = (await addCourse(data).unwrap()) as TResponse;
+      console.log(res);
 
-    //   if (res?.success) {
-    //     toast.success('Semester Registered successfully!');
-    //     setModalOpen(false);
-    //   } else {
-    //     const message = res?.message;
-    //     setError(message);
-    //     toast.error(message);
-    //   }
-    // } catch (err: unknown) {
-    //   const message = getErrorMessage(err);
-    //   toast.error(message);
-    //   setError(message);
-    // }
+      if (res?.success) {
+        toast.success('Course is created successfully!');
+        setModalOpen(false);
+      } else {
+        const message = res?.message;
+        setError(message);
+        toast.error(message);
+      }
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
+      toast.error(message);
+      setError(message);
+    }
   };
 
   return (
@@ -72,12 +82,11 @@ const CreateCourseModal = () => {
 
           <PHForm
             onSubmit={handleSubmit}
-            // resolver={zodResolver(createSemesterRegistrationSchema)}
-          >
+            resolver={zodResolver(createCourseSchema)}>
             <PHInput name="title" placeholder="Course Title" />
             <PHInput name="prefix" placeholder="Course Prefix" />
             <PHInput name="code" placeholder="Course code" />
-            <PHInput name="credits" placeholder="course credits" />
+            <PHInput name="credits" placeholder="Course credits" />
             <PHSelect
               mode="multiple"
               options={coursesOptions}
@@ -90,8 +99,7 @@ const CreateCourseModal = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                // loading={isLoading}
-              >
+                loading={addingCourse}>
                 Create Course
               </Button>
             </Row>

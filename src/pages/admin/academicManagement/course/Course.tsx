@@ -13,15 +13,21 @@ import {QuestionCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import {BiEdit} from 'react-icons/bi';
 import {useState} from 'react';
 import Loading from '../../../../components/shared/Loading';
-import {useGetAllCourseQuery} from '../../../../redux/api/courseApi';
+import {
+  useDeleteCourseMutation,
+  useGetAllCourseQuery,
+} from '../../../../redux/api/courseApi';
 import {sortOptionsCourse} from '../../../../constant';
 import {PHSearch} from '../../../../components/form/PHSearch';
 import PHSort from '../../../../components/form/PHSort';
 import CreateCourseModal from './CreateCourseModal';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import {toast} from 'sonner';
 
 const Course = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [deleteCourse, {isLoading: deleteLoading}] = useDeleteCourseMutation();
 
   const {
     data: courseData,
@@ -32,6 +38,22 @@ const Course = () => {
     {name: 'page', value: page},
     {name: 'limit', value: 2},
   ]);
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await deleteCourse(id).unwrap();
+
+      if (res?.success) {
+        toast.success('Course is deleted successfully!');
+      } else {
+        const message = res?.message;
+        toast.error(message);
+      }
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
+      toast.error(message);
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -106,10 +128,10 @@ const Course = () => {
             <Popconfirm
               title="Delete The Semester Registration"
               description="Are you sure to delete this semester registration?"
-              // onConfirm={() => handleDelete(item)}
+              onConfirm={() => handleDelete(item._id)}
               okText="Delete"
               cancelText="Cancel"
-              // okButtonProps={{loading: deleteLoading}}
+              okButtonProps={{loading: deleteLoading}}
               icon={<QuestionCircleOutlined style={{color: 'red'}} />}
               placement="topLeft">
               <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
