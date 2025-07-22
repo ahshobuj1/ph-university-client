@@ -3,7 +3,6 @@ import type {TUserPath} from '../types';
 import Semester from '../pages/admin/academicManagement/semester/Semester';
 import CreateStudent from '../pages/admin/userManagement/student/CreateStudent';
 import CreateFaculty from '../pages/admin/userManagement/faculty/CreateFaculty';
-import CreateSemester from '../pages/admin/academicManagement/semester/CreateSemester';
 import Department from '../pages/admin/academicManagement/department/Department';
 import AcademicFaculty from '../pages/admin/academicManagement/academicFaculty/AcademicFaculty';
 import SemesterRegistration from '../pages/admin/academicManagement/SemesterRegistration/SemesterRegistration';
@@ -19,7 +18,7 @@ import {BsBuildings} from 'react-icons/bs';
 import {FaBolt, FaRegCalendarAlt, FaUniversity} from 'react-icons/fa';
 import {GiNotebook} from 'react-icons/gi';
 import {IoMdDoneAll} from 'react-icons/io';
-import ChangePassword from '../components/shared/ChangePassword/ChangePassword';
+import ChangePassword from '../pages/auth/ChangePassword';
 import Course from '../pages/admin/academicManagement/course/Course';
 import OfferedCourse from '../pages/admin/academicManagement/offeredCourse/OfferedCourse';
 import EnrolledCourse from '../pages/admin/academicManagement/enrolledCourse/EnrolledCourse';
@@ -75,11 +74,6 @@ export const adminPaths: TUserPath[] = [
         path: 'semester',
         element: <Semester />,
         icon: <FaRegCalendarAlt />,
-      },
-      {
-        name: 'Create-Semester',
-        path: 'create-semester',
-        element: <CreateSemester />,
       },
       {
         name: 'Semester Registration',

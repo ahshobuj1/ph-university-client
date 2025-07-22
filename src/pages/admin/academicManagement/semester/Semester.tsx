@@ -1,4 +1,13 @@
-import {Button, Col, Flex, Input, Pagination, Row, Select, Table} from 'antd';
+import {
+  Col,
+  Flex,
+  Input,
+  Pagination,
+  Popconfirm,
+  Row,
+  Select,
+  Table,
+} from 'antd';
 import type {TableColumnsType, TableProps} from 'antd';
 import {toast} from 'sonner';
 import {
@@ -6,28 +15,52 @@ import {
   type TSemester,
   type TSemesterTable,
 } from '../../../../types/semester.type';
-import {BiEdit} from 'react-icons/bi';
-import {AiOutlineDelete} from 'react-icons/ai';
 import {yearOptions} from '../../../../constant/semester';
 import {useState} from 'react';
 import type {TMeta, TQueryParams} from '../../../../types';
-import {useGetAllSemesterQuery} from '../../../../redux/api/semesterApi';
+import {
+  useDeleteSemesterMutation,
+  useGetAllSemesterQuery,
+} from '../../../../redux/api/semesterApi';
+import CreateSemesterModal from './CreateSemesterModal';
+import {QuestionCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import Loading from '../../../../components/shared/Loading';
 
 const Semester = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
   const [page, setPage] = useState<number>(1);
-  // const [searchTerm, setSearchTerm] = useState('');
+  const [deleteSemester, {isLoading: deleteLoading}] =
+    useDeleteSemesterMutation();
 
   const {
     data: semesterData,
-    error,
     isFetching,
+    isLoading,
   } = useGetAllSemesterQuery([
     ...params,
     {name: 'page', value: page},
     {name: 'limit', value: 9},
   ]);
+
+  if (isLoading) return <Loading />;
+
   const meta: TMeta = semesterData?.meta;
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await deleteSemester(id).unwrap();
+      if (res?.success) {
+        toast.success('semester is deleted successfully!');
+      } else {
+        const message = res?.message;
+        toast.error(message);
+      }
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
+      toast.error(message);
+    }
+  };
 
   const onChange: TableProps<TSemesterTable>['onChange'] = (
     _pagination,
@@ -54,10 +87,6 @@ const Semester = () => {
     setParams(queryParams);
   };
 
-  if (error) {
-    toast.error('error');
-  }
-
   const data: TSemesterTable[] = semesterData?.data?.map((item: TSemester) => ({
     key: item._id,
     name: item.name,
@@ -65,6 +94,7 @@ const Semester = () => {
     year: item.year,
     startMonth: item.startMonth,
     endMonth: item.endMonth,
+    action: item,
   }));
 
   const columns: TableColumnsType<TSemesterTable> = [
@@ -78,11 +108,7 @@ const Semester = () => {
       ],
       width: '20%',
     },
-    {
-      title: 'Code',
-      dataIndex: 'code',
-      sorter: true,
-    },
+
     {
       title: 'Year',
       dataIndex: 'year',
@@ -90,6 +116,11 @@ const Semester = () => {
         text: value,
         value,
       })),
+      sorter: true,
+    },
+    {
+      title: 'Code',
+      dataIndex: 'code',
       sorter: true,
     },
     {
@@ -103,15 +134,22 @@ const Semester = () => {
     {
       title: 'Action',
       dataIndex: 'action',
-      render: () => {
+      render: (item) => {
         return (
           <div className="space-x-5 flex">
-            <Button color="primary" variant="filled">
-              <BiEdit />
-            </Button>
-            <Button color="danger" variant="filled">
-              <AiOutlineDelete />
-            </Button>
+            <Popconfirm
+              title="Delete The Semester"
+              description="Are you sure to delete this semester?"
+              onConfirm={() => handleDelete(item._id)}
+              okText="Delete"
+              cancelText="Cancel"
+              okButtonProps={{loading: deleteLoading}}
+              icon={<QuestionCircleOutlined style={{color: 'red'}} />}
+              placement="topLeft">
+              <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
+                <DeleteOutlined />
+              </span>
+            </Popconfirm>
           </div>
         );
       },
@@ -120,8 +158,16 @@ const Semester = () => {
 
   return (
     <div className="space-y-4">
-      <Flex vertical gap="middle" style={{marginBottom: 16}}>
-        <Row gutter={[16, 16]} justify="space-between">
+      <Flex vertical gap="middle">
+        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
+          <Col xs={24} sm={12} md={8} lg={6}>
+            <CreateSemesterModal />
+          </Col>
+        </Row>
+      </Flex>
+
+      <Flex vertical gap="middle">
+        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
           <Col xs={24} sm={12} md={8} lg={6}>
             <Input.Search
               size="large"
@@ -148,26 +194,6 @@ const Semester = () => {
         </Row>
       </Flex>
 
-      <div className="overflow-x-auto">
-        <Table<TSemesterTable>
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          loading={isFetching}
-          onChange={onChange}
-          scroll={{x: 'max-content'}}
-        />
-      </div>
-      <div className="overflow-x-auto">
-        <Table<TSemesterTable>
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          loading={isFetching}
-          onChange={onChange}
-          scroll={{x: 'max-content'}}
-        />
-      </div>
       <div className="overflow-x-auto">
         <Table<TSemesterTable>
           columns={columns}

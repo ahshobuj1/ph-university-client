@@ -83,7 +83,7 @@ const CreateSemester = () => {
             <Select placeholder="Select semester name" size="large">
               {yearOptions.map((item) => (
                 <Select.Option key={item.value} value={item.value}>
-                  {item.value}
+                  {item.label}
                 </Select.Option>
               ))}
             </Select>

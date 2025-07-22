@@ -1,4 +1,4 @@
-import ChangePassword from '../components/shared/ChangePassword/ChangePassword';
+import ChangePassword from '../pages/auth/ChangePassword';
 import FacultyDashboard from '../pages/faculty/FacultyDashboard';
 import type {TUserPath} from '../types';
 import {MdOutlineDashboardCustomize, MdOutlineVpnKey} from 'react-icons/md';

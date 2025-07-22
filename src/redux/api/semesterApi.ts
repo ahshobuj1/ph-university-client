@@ -54,6 +54,16 @@ const semesterApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.semester],
     }),
+
+    deleteSemester: builder.mutation({
+      query: (args) => {
+        return {
+          url: `/semesters/${args}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: [tagTypes.semester],
+    }),
   }),
 });
 
@@ -62,4 +72,5 @@ export const {
   useGetAllSemesterQuery,
   useGetSingleSemesterQuery,
   useUpdateSemesterMutation,
+  useDeleteSemesterMutation,
 } = semesterApi;
