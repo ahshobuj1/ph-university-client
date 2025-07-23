@@ -36,7 +36,7 @@ const Course = () => {
   } = useGetAllCourseQuery([
     ...params,
     {name: 'page', value: page},
-    {name: 'limit', value: 2},
+    {name: 'limit', value: 9},
   ]);
 
   const handleDelete = async (id: string) => {

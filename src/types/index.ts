@@ -6,3 +6,5 @@ export * from './department.types';
 export * from './student.types';
 export * from './semesterRegistration.types';
 export * from './course.types';
+export * from './offeredCourse.type';
+export * from './faculty.type';

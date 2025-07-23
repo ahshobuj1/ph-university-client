@@ -4,6 +4,7 @@ export type TStudentRoot = {
 };
 
 export type TStudent = {
+  id: string;
   name: Name;
   age: number;
   semester: string;

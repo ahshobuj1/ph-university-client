@@ -50,7 +50,7 @@ const SemesterRegistration = () => {
   } = useGetAllRegisterSemesterQuery([
     ...params,
     {name: 'page', value: page},
-    {name: 'limit', value: 2},
+    {name: 'limit', value: 9},
   ]);
 
   if (isLoading) {

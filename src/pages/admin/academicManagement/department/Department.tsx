@@ -47,7 +47,7 @@ const Department = () => {
     try {
       const res = await deleteDepartment(id).unwrap();
       if (res?.success) {
-        toast.success('department is created successfully!');
+        toast.success('department is deleted successfully!');
       } else {
         const message = res?.message;
         toast.error(message);

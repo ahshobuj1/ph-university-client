@@ -24,10 +24,6 @@ import OfferedCourse from '../pages/admin/academicManagement/offeredCourse/Offer
 import EnrolledCourse from '../pages/admin/academicManagement/enrolledCourse/EnrolledCourse';
 
 export const adminPaths: TUserPath[] = [
-  // {
-  //   index: true,
-  //   element: <AdminDashboard />,
-  // },
   {
     name: 'Dashboard',
     path: 'dashboard',
