@@ -10,7 +10,7 @@ import type {
 import {tagTypesList} from '../tag-types';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `http://localhost:5000/api/v1`,
+  baseUrl: `${import.meta.env.VITE_BASE_URL}`,
   credentials: 'include', // for sending cookies (refresh token)
   prepareHeaders: (headers, {getState}) => {
     const token = (getState() as RootState).auth.token;

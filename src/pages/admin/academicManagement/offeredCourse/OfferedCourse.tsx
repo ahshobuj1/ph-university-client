@@ -28,6 +28,7 @@ import {
   MinusCircleOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
+import CreateOfferedCourseModal from './CreateOfferedCourseModal';
 
 // import CreateDepartmentModal from './CreateDepartmentModal';
 
@@ -219,7 +220,7 @@ const OfferedCourse = () => {
       <Flex vertical gap="middle">
         <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
           <Col xs={12} sm={12} md={8} lg={6}>
-            {/* <CreateDepartmentModal /> */}
+            <CreateOfferedCourseModal />
           </Col>
         </Row>
       </Flex>

@@ -15,6 +15,9 @@ export const months = [
 
 export const monthOptions = months.map((item) => ({label: item, value: item}));
 
+export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export const daysOptions = days?.map((day) => ({label: day, value: day}));
+
 export const Gender = ['male', 'female', 'others'];
 export const BloodGroup = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 

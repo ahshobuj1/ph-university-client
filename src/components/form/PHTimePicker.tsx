@@ -1,28 +1,24 @@
-import {Form, Select} from 'antd';
+import {Form, TimePicker} from 'antd';
 import {Controller, useFormContext} from 'react-hook-form';
+import dayjs from 'dayjs';
 
-interface IPHSelectProps {
-  mode?: 'multiple' | undefined;
+interface IPHTimePickerProps {
   name: string;
-  type?: string | 'text';
   placeholder?: string;
   disabled?: boolean;
-  options: {value: string; label: string; disabled?: boolean}[] | undefined;
   size?: 'small' | 'middle' | 'large';
   icon?: React.ReactNode;
-  onChange?: (value: string) => void;
+  format?: string;
 }
 
-const PHSelect = ({
+const PHTimePicker = ({
   name,
-  mode,
   placeholder,
   disabled = false,
   size = 'large',
   icon,
-  options,
-  onChange,
-}: IPHSelectProps) => {
+  format = 'HH:mm',
+}: IPHTimePickerProps) => {
   const {control} = useFormContext();
   return (
     <Controller
@@ -34,21 +30,14 @@ const PHSelect = ({
             name={name}
             validateStatus={error ? 'error' : ''}
             help={error ? error.message : ''}>
-            <Select
-              {...field}
-              mode={mode}
-              options={options}
-              showSearch
-              size={size}
+            <TimePicker
+              value={field.value ? dayjs(field.value) : dayjs()}
+              onChange={(value) => field.onChange(value)}
               placeholder={placeholder}
+              size={size}
               disabled={disabled}
               prefix={icon}
-              onChange={(value) => {
-                field.onChange(value);
-                if (typeof onChange === 'function') {
-                  onChange(value);
-                }
-              }}
+              format={format}
             />
           </Form.Item>
         </>
@@ -57,4 +46,4 @@ const PHSelect = ({
   );
 };
 
-export default PHSelect;
+export default PHTimePicker;

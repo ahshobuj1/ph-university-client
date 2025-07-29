@@ -115,7 +115,6 @@ const EnrolledCourse = () => {
         </span>
       ),
     },
-
     {
       title: 'Marks',
       dataIndex: 'courseMarks',
