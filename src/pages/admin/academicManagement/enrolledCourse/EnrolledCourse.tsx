@@ -1,11 +1,13 @@
 import {
   Avatar,
+  Breadcrumb,
+  Card,
   Col,
-  Flex,
   Pagination,
   Row,
   Table,
   Tag,
+  Typography,
   type TableColumnsType,
 } from 'antd';
 import type {
@@ -15,13 +17,20 @@ import type {
   TStudent,
 } from '../../../../types';
 import {useState} from 'react';
-import {CheckCircleOutlined, SyncOutlined} from '@ant-design/icons';
+import {
+  BookOutlined,
+  CheckCircleOutlined,
+  HomeOutlined,
+  SyncOutlined,
+} from '@ant-design/icons';
 import {PHSearch} from '../../../../components/form/PHSearch';
 import Loading from '../../../../components/shared/Loading';
 import {sortOptionsDepartment} from '../../../../constant';
 import PHSort from '../../../../components/form/PHSort';
 import type {TEnrolledCourse} from '../../../../types/enrolledCourse.type';
 import {useGetAllEnrolledCourseQuery} from '../../../../redux/api/enrolledCourseApi';
+
+const {Title} = Typography;
 
 const EnrolledCourse = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
@@ -45,7 +54,6 @@ const EnrolledCourse = () => {
 
   const data = enrolledCourse?.data?.map((item: TEnrolledCourse) => ({
     key: item._id,
-    action: item,
     faculty: item.faculty,
     student: item.student,
     department: item.department.name,
@@ -62,58 +70,46 @@ const EnrolledCourse = () => {
     {
       title: 'Faculty',
       dataIndex: 'faculty',
-      render: (item: TFaculty) => {
-        return (
-          <span className="flex items-center gap-2 font-semibold text-gray-700">
-            <Avatar src={item.profileImage} />
-
-            <span>
-              <p className="">{item.id}</p>
-              <p className=" text-[10px]">
-                {item.name.firstName} {item.name.middleName}{' '}
-                {item.name.lastName}
-              </p>
-            </span>
+      render: (item: TFaculty) => (
+        <span className="flex items-center gap-2 font-semibold text-gray-700">
+          <Avatar src={item.profileImage} />
+          <span>
+            <p>{item.id}</p>
+            <p className="text-[10px]">
+              {item.name.firstName} {item.name.middleName} {item.name.lastName}
+            </p>
           </span>
-        );
-      },
+        </span>
+      ),
     },
     {
       title: 'Student',
       dataIndex: 'student',
-      render: (item: TStudent) => {
-        return (
-          <span className="flex items-center gap-2 font-semibold text-gray-700">
-            <Avatar src={item.profileImage} />
-
-            <span>
-              <p className="">{item.id}</p>
-              <p className=" text-[10px]">
-                {item.name.firstName} {item.name.middleName}{' '}
-                {item.name.lastName}
-              </p>
-            </span>
+      render: (item: TStudent) => (
+        <span className="flex items-center gap-2 font-semibold text-gray-700">
+          <Avatar src={item.profileImage} />
+          <span>
+            <p>{item.id}</p>
+            <p className="text-[10px]">
+              {item.name.firstName} {item.name.middleName} {item.name.lastName}
+            </p>
           </span>
-        );
-      },
+        </span>
+      ),
     },
-
     {
       title: 'Status',
       dataIndex: 'isCompleted',
-      render: (isCompleted: boolean) => (
-        <span>
-          {isCompleted ? (
-            <Tag icon={<CheckCircleOutlined />} color="success">
-              complete
-            </Tag>
-          ) : (
-            <Tag icon={<SyncOutlined spin />} color="processing">
-              processing
-            </Tag>
-          )}
-        </span>
-      ),
+      render: (isCompleted: boolean) =>
+        isCompleted ? (
+          <Tag icon={<CheckCircleOutlined />} color="success">
+            Complete
+          </Tag>
+        ) : (
+          <Tag icon={<SyncOutlined spin />} color="processing">
+            Processing
+          </Tag>
+        ),
     },
     {
       title: 'Marks',
@@ -121,7 +117,7 @@ const EnrolledCourse = () => {
       render: (marks) => {
         if (!marks) return <Tag color="cyan">No marks yet</Tag>;
         return (
-          <div className="flex items-center gap-1 flex-col">
+          <div className="flex flex-col gap-1">
             <span>
               {marks.classTest1 !== 0 && (
                 <Tag color="blue">C1: {marks.classTest1}</Tag>
@@ -130,7 +126,6 @@ const EnrolledCourse = () => {
                 <Tag color="blue">C2: {marks.classTest2}</Tag>
               )}
             </span>
-
             <span>
               {marks.midTerm !== 0 && (
                 <Tag color="green">M: {marks.midTerm}</Tag>
@@ -168,44 +163,57 @@ const EnrolledCourse = () => {
   ];
 
   return (
-    <div>
-      <Flex vertical gap="middle">
-        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
-          <Col xs={12} sm={12} md={8} lg={6}></Col>
-        </Row>
-      </Flex>
+    <div className="bg-green-50 p-4 md:p-6">
+      {/* Breadcrumb */}
+      <div className="mb-6">
+        <Breadcrumb separator=">">
+          <Breadcrumb.Item href="">
+            <HomeOutlined /> <span>Course Management</span>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <BookOutlined /> <span>Enrolled Courses</span>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
 
-      <Flex vertical gap="middle">
-        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
+      {/* Page Title */}
+      <Title level={3} className="mb-6">
+        Enrolled Courses
+      </Title>
+
+      {/* Card Wrapper */}
+      <Card>
+        {/* Filters */}
+        <Row gutter={[16, 16]} justify="space-between" className="mb-5">
           <Col xs={12} sm={12} md={8} lg={6}>
             <PHSearch setParams={setParams} />
           </Col>
-
           <Col xs={6} sm={5} md={5} lg={3}>
             <PHSort setParams={setParams} options={sortOptionsDepartment} />
           </Col>
         </Row>
-      </Flex>
 
-      <div className="overflow-x-auto mb-5">
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          loading={isFetching}
-          scroll={{x: 'max-content'}}
-        />
-      </div>
+        {/* Table */}
+        <div className="overflow-x-auto mb-5">
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            loading={isFetching}
+            scroll={{x: 'max-content'}}
+          />
+        </div>
+      </Card>
 
-      <div>
-        <Pagination
-          current={page}
-          onChange={(value) => setPage(value)}
-          pageSize={meta?.limit}
-          total={meta?.total}
-          align="end"
-        />
-      </div>
+      {/* Pagination */}
+      <Pagination
+        current={page}
+        onChange={(value) => setPage(value)}
+        pageSize={meta?.limit}
+        total={meta?.total}
+        className="!mt-6"
+        align="end"
+      />
     </div>
   );
 };

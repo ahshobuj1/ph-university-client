@@ -1,9 +1,7 @@
 import {
-  Col,
-  Flex,
+  Breadcrumb,
   Pagination,
   Popconfirm,
-  Row,
   Table,
   type TableColumnsType,
 } from 'antd';
@@ -13,12 +11,17 @@ import type {
   TQueryParams,
 } from '../../../../types';
 import {BiEdit} from 'react-icons/bi';
-import {QuestionCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import {
+  QuestionCircleOutlined,
+  DeleteOutlined,
+  HomeOutlined,
+  BookOutlined,
+} from '@ant-design/icons';
 import {useState} from 'react';
 import {PHSearch} from '../../../../components/form/PHSearch';
 import Loading from '../../../../components/shared/Loading';
-import {sortOptionsDepartment} from '../../../../constant';
 import PHSort from '../../../../components/form/PHSort';
+import {sortOptionsDepartment} from '../../../../constant';
 import {
   useDelDepartmentMutation,
   useGetAllDepartmentQuery,
@@ -47,20 +50,16 @@ const Department = () => {
     try {
       const res = await deleteDepartment(id).unwrap();
       if (res?.success) {
-        toast.success('department is deleted successfully!');
+        toast.success('Department deleted successfully!');
       } else {
-        const message = res?.message;
-        toast.error(message);
+        toast.error(res?.message);
       }
     } catch (err: unknown) {
-      const message = getErrorMessage(err);
-      toast.error(message);
+      toast.error(getErrorMessage(err));
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (isLoading) return <Loading />;
 
   const meta = departmentData?.meta;
 
@@ -77,90 +76,104 @@ const Department = () => {
     {
       title: 'Department',
       dataIndex: 'department',
+      render: (text) => (
+        <span className="font-semibold text-gray-800">{text}</span>
+      ),
     },
     {
       title: 'Faculty',
       dataIndex: 'faculty',
+      render: (text) => <span className="text-gray-700">{text}</span>,
     },
     {
       title: 'Action',
       dataIndex: 'action',
-      render: (item) => {
-        return (
-          <div className="space-x-5 flex">
-            <Popconfirm
-              title="Update Status"
-              description="Are you sure to update status?"
-              // onConfirm={() => handleUpdateStatus(item)}
-              okText="Update"
-              cancelText="Cancel"
-              // okButtonProps={{loading: deleteLoading}}
-              icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-              placement="topRight">
-              <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-blue-500">
-                <BiEdit />
-              </span>
-            </Popconfirm>
+      render: (item) => (
+        <div className="flex space-x-3">
+          <Popconfirm
+            title="Update Department"
+            description="Are you sure to update this department?"
+            okText="Update"
+            cancelText="Cancel"
+            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
+            placement="topRight">
+            <span className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
+              <BiEdit size={18} />
+            </span>
+          </Popconfirm>
 
-            <Popconfirm
-              title="Delete The Semester Registration"
-              description="Are you sure to delete this semester registration?"
-              onConfirm={() => handleDelete(item._id)}
-              okText="Delete"
-              cancelText="Cancel"
-              okButtonProps={{loading: deleteLoading}}
-              icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-              placement="topLeft">
-              <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
-                <DeleteOutlined />
-              </span>
-            </Popconfirm>
-          </div>
-        );
-      },
+          <Popconfirm
+            title="Delete Department"
+            description="Are you sure to delete this department?"
+            onConfirm={() => handleDelete(item._id)}
+            okText="Delete"
+            cancelText="Cancel"
+            okButtonProps={{loading: deleteLoading}}
+            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
+            placement="topLeft">
+            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
+              <DeleteOutlined />
+            </span>
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
 
   return (
-    <div>
-      <Flex vertical gap="middle">
-        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
-          <Col xs={12} sm={12} md={8} lg={6}>
-            <CreateDepartmentModal />
-          </Col>
-        </Row>
-      </Flex>
+    <div className="p-4 md:p-6 bg-green-50 rounded-lg">
+      {/* Breadcrumb */}
+      <div className="mb-6">
+        <Breadcrumb separator=">">
+          <Breadcrumb.Item href="">
+            <HomeOutlined /> <span>Academic Management</span>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <BookOutlined /> <span>Department</span>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
 
-      <Flex vertical gap="middle">
-        <Row gutter={[16, 16]} justify="space-between" className="my-5 ">
-          <Col xs={12} sm={12} md={8} lg={6}>
-            <PHSearch setParams={setParams} />
-          </Col>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2 md:mb-0">
+          Department
+        </h2>
+        <CreateDepartmentModal />
+      </div>
 
-          <Col xs={6} sm={5} md={5} lg={3}>
-            <PHSort setParams={setParams} options={sortOptionsDepartment} />
-          </Col>
-        </Row>
-      </Flex>
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6 p-4 bg-white rounded-lg shadow-sm">
+        <div>
+          <PHSearch setParams={setParams} />
+        </div>
+        <div>
+          <PHSort setParams={setParams} options={sortOptionsDepartment} />
+        </div>
+      </div>
 
-      <div className="overflow-x-auto mb-5">
+      {/* Table */}
+      <div className="overflow-x-auto rounded-lg shadow-lg bg-white">
         <Table<TDepartmentTable>
           columns={columns}
           dataSource={data}
           pagination={false}
           loading={isFetching}
-          // onChange={onChange}
           scroll={{x: 'max-content'}}
+          rowClassName={() =>
+            'hover:bg-gray-50 transition-colors cursor-pointer'
+          }
         />
       </div>
 
-      <div>
+      {/* Pagination */}
+      <div className="flex justify-end mt-6">
         <Pagination
           current={page}
           onChange={(value) => setPage(value)}
           pageSize={meta?.limit}
           total={meta?.total}
-          align="end"
+          showSizeChanger={false}
         />
       </div>
     </div>

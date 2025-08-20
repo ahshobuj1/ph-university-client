@@ -14,7 +14,7 @@ import {useAddAcademicFacultyMutation} from '../../../../redux/api/academicFacul
 const CreateAcademicFacultyModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [addAcademicFaculty, {isLoading: deleteLoading}] =
+  const [addAcademicFaculty, {isLoading: submitLoading}] =
     useAddAcademicFacultyMutation();
 
   const handleSubmit = async (values: FieldValues) => {
@@ -39,21 +39,26 @@ const CreateAcademicFacultyModal = () => {
 
   return (
     <div>
+      {/* Add Academic Faculty Button */}
       <Button
         icon={<BsFillPenFill />}
         type="primary"
         size="large"
-        onClick={() => setModalOpen(true)}>
+        onClick={() => setModalOpen(true)}
+        className="rounded-lg shadow-sm transition-transform hover:scale-105">
         Add Academic Faculty
       </Button>
 
+      {/* Modal */}
       <PHModal
         open={modalOpen}
         setOpen={setModalOpen}
-        title="Create Academic Faculty For Your University">
-        <div className="pt-2">
-          {error ? <ErrorMessage error={error} /> : ''}
+        title="Add Academic Faculty">
+        <div className="pt-2 space-y-4">
+          {/* Error Message */}
+          <ErrorMessage error={error} />
 
+          {/* Form */}
           <PHForm onSubmit={handleSubmit}>
             <PHInput name="name" placeholder="Academic Faculty Name" />
 
@@ -62,7 +67,8 @@ const CreateAcademicFacultyModal = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                loading={deleteLoading}>
+                loading={submitLoading}
+                className="rounded-lg shadow-sm transition-transform hover:scale-105">
                 Create Academic Faculty
               </Button>
             </Row>
