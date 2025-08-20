@@ -73,6 +73,8 @@ const CreateOfferedCourseModal = () => {
   const handleSubmit = async (values: FieldValues) => {
     console.log(values);
 
+    // ** TODO -------------------------------------------------
+
     // setError('');
     // try {
     //   const res = (await addCourse(data).unwrap()) as TResponse;
