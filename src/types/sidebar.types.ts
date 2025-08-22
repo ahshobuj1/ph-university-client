@@ -8,3 +8,10 @@ export type TUserPath = {
   icon?: ReactNode;
   // index?: boolean;
 };
+
+export const USER_ROLES = {
+  SUPER_ADMIN: 'superAdmin',
+  ADMIN: 'admin',
+  FACULTY: 'faculty',
+  STUDENT: 'student',
+} as const;

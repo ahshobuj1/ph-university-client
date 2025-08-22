@@ -24,7 +24,7 @@ export default function SecondLayout() {
   // };
 
   const profileDropdown = (
-    <div className="flex flex-col p-2 space-y-2 min-w-[150px]">
+    <div className="flex flex-col md:p-2 space-y-2 min-w-[150px]">
       <Link
         to="/"
         className="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 transition-colors">
@@ -172,7 +172,7 @@ export default function SecondLayout() {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-4 md:p-6 overflow-auto">
+        <main className="flex-1 md:p-2 overflow-auto">
           <Outlet />
         </main>
       </div>
