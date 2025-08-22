@@ -9,6 +9,7 @@ import {setUser, type TUser} from '../../redux/features/auth/authSlice';
 import type {TError} from '../../types';
 import loginImage from '../../assets/images/login.png';
 import {FaUniversity} from 'react-icons/fa';
+import {useState} from 'react';
 
 type TLogin = {id: string; password: string};
 
@@ -17,6 +18,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(false);
 
   // !TODO- only for dev and test purpose
   const roleCredentials: Record<string, {id: string; password: string}> = {
@@ -35,6 +37,8 @@ const Login = () => {
 
   const onFinish = async (data: TLogin) => {
     const toastId = toast.loading('Logging in...');
+    setLoading(true);
+
     try {
       const result = await login(data).unwrap();
       const user = verifyToken(result.data.accessToken) as TUser;
@@ -48,6 +52,7 @@ const Login = () => {
         navigate(`/${user.role}/dashboard`);
       }
     } catch (error: unknown) {
+      setLoading(false);
       const err = error as TError;
       toast.error('Login failed', {
         id: toastId,
@@ -154,8 +159,12 @@ const Login = () => {
               type="primary"
               htmlType="submit"
               block
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg mt-3">
-              Log In
+              loading={loading}
+              disabled={loading}
+              className={`bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg mt-3 ${
+                loading && '!bg-blue-600 !text-white'
+              }`}>
+              {loading ? 'Logging in...' : 'Log In'}
             </Button>
           </Form.Item>
         </Form>

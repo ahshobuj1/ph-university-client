@@ -8,12 +8,14 @@ interface IPHInputProps {
   disabled?: boolean;
   size?: 'small' | 'middle' | 'large';
   icon?: React.ReactNode;
+  required?: boolean;
 }
 
 const PHInput = ({
   name,
   type,
   placeholder,
+  required,
   disabled = false,
   size = 'large',
   icon,
@@ -27,6 +29,7 @@ const PHInput = ({
         <>
           <Form.Item
             name={name}
+            required
             validateStatus={error ? 'error' : ''}
             help={error ? error.message : ''}>
             <Input
@@ -36,6 +39,7 @@ const PHInput = ({
               placeholder={placeholder}
               disabled={disabled}
               prefix={icon}
+              required={required}
             />
           </Form.Item>
         </>

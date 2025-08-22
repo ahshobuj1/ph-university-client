@@ -40,14 +40,14 @@ const ChangePassword = () => {
     }
   };
   return (
-    <div className="h-full flex items-center justify-center">
-      <div className="bg-gray-100 p-10 shadow-xl rounded-xl max-w-xl">
+    <div className="h-full flex items-center justify-center bg-primary-light">
+      <div className="bg-primary-light p-10 shadow-xl rounded-xl max-w-xl">
         <Row gutter={[0, 30]} justify="center" align="middle">
           <Col span={24}>
             <img
               src={svgImage}
               alt="Change Password"
-              className="w-60 h-auto mx-auto"
+              className="w-40 h-auto mx-auto"
             />
           </Col>
           <div className="text-center text-gray-700">
@@ -60,8 +60,18 @@ const ChangePassword = () => {
           <Col span={24}>
             <PHForm onSubmit={handleSubmit}>
               {error && <ErrorMessage error={error} />}
-              <PHInput name="oldPassword" placeholder="Your Old Password" />
-              <PHInput name="newPassword" placeholder="Your New Password" />
+              <PHInput
+                name="oldPassword"
+                placeholder="Your Old Password"
+                size="middle"
+                required={true}
+              />
+              <PHInput
+                name="newPassword"
+                placeholder="Your New Password"
+                size="middle"
+                required={true}
+              />
 
               <Flex vertical gap="small" className="site-button-ghost-wrapper">
                 <Button
