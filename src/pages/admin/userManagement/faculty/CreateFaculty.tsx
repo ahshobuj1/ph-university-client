@@ -11,6 +11,7 @@ import {
   Typography,
   type FormProps,
   type UploadFile,
+  DatePicker,
 } from 'antd';
 import {HomeOutlined, UploadOutlined, UserOutlined} from '@ant-design/icons';
 import {
@@ -183,7 +184,7 @@ const CreateFaculty = () => {
                     label="Date of Birth"
                     name={['faculty', 'dateOfBirth']}
                     rules={[{required: true, message: 'Enter date of birth'}]}>
-                    <Input type="date" />
+                    <DatePicker style={{width: '100%'}} />
                   </Form.Item>
                 </Col>
 

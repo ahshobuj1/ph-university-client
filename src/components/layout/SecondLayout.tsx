@@ -1,23 +1,59 @@
 import {useState} from 'react';
 import {Link, Outlet} from 'react-router-dom';
 import {FaBars} from 'react-icons/fa';
-import {Popover, Avatar, Button} from 'antd';
+import {Popover, Avatar, Button, Popconfirm} from 'antd';
 import SecondSider from './SecondSider';
 import {logout} from '../../redux/features/auth/authSlice';
 import {useAppDispatch} from '../../redux/hooks';
+import {UserOutlined, SettingOutlined, LogoutOutlined} from '@ant-design/icons';
 
 export default function SecondLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const dispatch = useAppDispatch();
 
+  // const showLogoutConfirm = () => {
+  //   Modal.confirm({
+  //     title: 'Confirm Logout',
+  //     content: 'Are you sure you want to logout?',
+  //     okText: 'Yes',
+  //     cancelText: 'No',
+  //     okType: 'danger',
+  //     onOk: () => dispatch(logout()),
+  //   });
+  // };
+
   const profileDropdown = (
-    <div className="flex flex-col space-y-2">
-      <Link to="/profile">Profile</Link>
-      <Link to="/settings">Settings</Link>
-      <Button danger size="small" onClick={() => dispatch(logout())}>
-        Logout
-      </Button>
+    <div className="flex flex-col p-2 space-y-2 min-w-[150px]">
+      <Link
+        to="/"
+        className="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 transition-colors">
+        <UserOutlined />
+        <span>My Profile</span>
+      </Link>
+
+      <Link
+        to="/"
+        className="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 transition-colors">
+        <SettingOutlined />
+        <span>Settings</span>
+      </Link>
+
+      <Popconfirm
+        title="Are you sure you want to logout?"
+        okText="Logout"
+        cancelText="Cancel"
+        onConfirm={() => dispatch(logout())}
+        icon={<LogoutOutlined />}
+        placement="bottomLeft">
+        <Button
+          danger
+          size="small"
+          className="flex items-center gap-2 justify-start px-3 py-1 w-full">
+          <LogoutOutlined />
+          Logout
+        </Button>
+      </Popconfirm>
     </div>
   );
 
@@ -119,8 +155,19 @@ export default function SecondLayout() {
             <h2 className="font-semibold text-gray-900">Hello, A H Shobuj</h2>
             <p className="text-gray-900">Welcome To StackHub University</p>
           </div>
-          <Popover content={profileDropdown} placement="bottomRight">
-            <Avatar size={40} shape="square" src="https://i.pravatar.cc/40" />
+
+          {/* // Profile */}
+          <Popover
+            content={profileDropdown}
+            placement="bottomRight"
+            trigger="click"
+            overlayClassName="rounded-lg shadow-lg">
+            <Avatar
+              size={45}
+              shape="square"
+              src="https://i.pravatar.cc/48"
+              className="cursor-pointer hover:scale-105 transition-transform duration-200"
+            />
           </Popover>
         </header>
 

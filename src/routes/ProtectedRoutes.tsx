@@ -4,6 +4,11 @@ import {Navigate} from 'react-router-dom';
 
 const ProtectedRoutes = ({children}: {children: ReactNode}) => {
   const token = useAppSelector((state) => state.auth.token);
+  const user = useAppSelector((state) => state.auth.user);
+
+  if (!user) {
+    return <Navigate to={'/login'} replace />;
+  }
 
   if (!token) {
     return <Navigate to={'/login'} replace />;

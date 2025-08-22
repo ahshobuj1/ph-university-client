@@ -233,14 +233,28 @@ const OfferedCourse = () => {
     <div className="min-h-screen bg-primary-light p-6">
       {/* Top Header / Breadcrumb */}
       <div className="mb-6">
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item href="">
-            <HomeOutlined /> <span>Course Management</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <BookOutlined /> <span>Offered Courses</span>
-          </Breadcrumb.Item>
-        </Breadcrumb>
+        <Breadcrumb
+          separator=">"
+          items={[
+            {
+              href: '/admin/students',
+              title: (
+                <>
+                  <HomeOutlined />
+                  <span>Course Management</span>
+                </>
+              ),
+            },
+            {
+              title: (
+                <>
+                  <BookOutlined />
+                  <span>Offered Courses</span>
+                </>
+              ),
+            },
+          ]}
+        />
       </div>
 
       {/* Page Title Card */}
