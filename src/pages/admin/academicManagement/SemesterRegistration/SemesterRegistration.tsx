@@ -132,7 +132,7 @@ const SemesterRegistration = () => {
               okButtonProps={{loading: deleteLoading}}
               icon={<QuestionCircleOutlined style={{color: 'red'}} />}
               placement="topRight">
-              <span className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
+              <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
                 <BiEdit size={18} />
               </span>
             </Popconfirm>
@@ -189,7 +189,7 @@ const SemesterRegistration = () => {
   };
   return (
     <div>
-      <div className="p-6 bg-blue-50 rounded-lg">
+      <div className="p-6 bg-primary-light rounded-lg">
         <div className="mb-6">
           <Breadcrumb separator=">">
             <Breadcrumb.Item href="">
@@ -392,7 +392,7 @@ export default SemesterRegistration;
 //                 okButtonProps={{loading: deleteLoading}}
 //                 icon={<QuestionCircleOutlined style={{color: 'red'}} />}
 //                 placement="topRight">
-//                 <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
+//                 <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-primary-light hover:text-red-500">
 //                   <BiEdit />
 //                 </span>
 //               </Popconfirm>
@@ -407,7 +407,7 @@ export default SemesterRegistration;
 //               okButtonProps={{loading: deleteLoading}}
 //               icon={<QuestionCircleOutlined style={{color: 'red'}} />}
 //               placement="topLeft">
-//               <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:text-red-500">
+//               <span className="text-xl cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-primary-light hover:text-red-500">
 //                 <DeleteOutlined />
 //               </span>
 //             </Popconfirm>

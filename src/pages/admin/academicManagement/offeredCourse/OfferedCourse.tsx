@@ -206,7 +206,7 @@ const OfferedCourse = () => {
             cancelText="Cancel"
             icon={<QuestionCircleOutlined style={{color: 'red'}} />}
             placement="topRight">
-            <span className="text-lg cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-blue-50 hover:bg-blue-100 hover:text-blue-600 transition-all duration-200">
+            <span className="text-lg cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-primary-light hover:bg-blue-100 hover:text-blue-600 transition-all duration-200">
               <BiEdit />
             </span>
           </Popconfirm>
@@ -230,7 +230,7 @@ const OfferedCourse = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-blue-50 p-6">
+    <div className="min-h-screen bg-primary-light p-6">
       {/* Top Header / Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb separator=">">
@@ -245,7 +245,7 @@ const OfferedCourse = () => {
 
       {/* Page Title Card */}
       <div className="rounded-2xl bg-gradient-to-r from-violet-700 via-fuchsia-600 to-pink-600 p-[1px] shadow-lg mb-6">
-        <div className="bg-blue-50 rounded-2xl p-5">
+        <div className="bg-primary-light rounded-2xl p-5">
           <Row align="middle" justify="space-between" gutter={[16, 16]}>
             <Col>
               <div>
@@ -342,7 +342,7 @@ export default OfferedCourse;
   /* Page Title Card */
 }
 // <div className="rounded-2xl bg-gradient-to-r from-violet-700 via-fuchsia-600 to-pink-600 p-[1px] shadow-lg mb-6">
-//   <div className="bg-blue-50 rounded-2xl p-5">
+//   <div className="bg-primary-light rounded-2xl p-5">
 //     <Row align="middle" justify="space-between" gutter={[16, 16]}>
 //       <Col>
 //         <div>

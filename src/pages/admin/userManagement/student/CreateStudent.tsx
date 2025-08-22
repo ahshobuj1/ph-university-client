@@ -13,7 +13,7 @@ import {
   type FormProps,
   type UploadFile,
 } from 'antd';
-import {UploadOutlined} from '@ant-design/icons';
+import {HomeOutlined, UploadOutlined, UserOutlined} from '@ant-design/icons';
 import {BloodGroup, Gender} from '../../../../constant/global';
 import type {
   TDepartment,
@@ -23,10 +23,10 @@ import type {
 } from '../../../../types';
 import {useState} from 'react';
 import {toast} from 'sonner';
-
 import {useGetAllDepartmentQuery} from '../../../../redux/api/departmentApi';
 import {useGetAllSemesterQuery} from '../../../../redux/api/semesterApi';
 import {useAddStudentMutation} from '../../../../redux/api/userApi';
+import {handleUploadToCloudinary} from '../../../../utils/handleUploadToCloudinary';
 
 const {Title, Text} = Typography;
 
@@ -42,14 +42,22 @@ const CreateStudent = () => {
   const onFinish: FormProps<TStudentRoot>['onFinish'] = async (values) => {
     const {password, ...student} = values;
 
-    const studentData = {password, student};
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(studentData));
-    if (fileList[0]?.originFileObj)
-      formData.append('file', fileList[0].originFileObj);
+    let imageUrl = null;
+    if (fileList[0]?.originFileObj) {
+      imageUrl = await handleUploadToCloudinary(fileList[0].originFileObj);
+    }
+
+    // const studentData = {password, student};
+    // const formData = new FormData();
+    // formData.append('data', JSON.stringify(studentData));
+    // if (fileList[0]?.originFileObj)
+    //   formData.append('file', fileList[0].originFileObj);
+
+    const studentData = {password, student, profileImage: imageUrl};
+    // console.log(studentData);
 
     try {
-      const res = (await addStudent(formData)) as TResponse;
+      const res = (await addStudent(studentData)) as TResponse;
       if (res?.data) {
         toast.success('Student is created successfully!');
         form.resetFields();
@@ -64,16 +72,36 @@ const CreateStudent = () => {
   };
 
   return (
-    <div style={{background: '#f3f4f6', minHeight: '100vh', padding: '24px'}}>
+    <div className="bg-primary-light p-4 md:p-6 min-h-screen">
       {/* Breadcrumb */}
-      <Breadcrumb style={{marginBottom: 16}}>
-        <Breadcrumb.Item>User Management</Breadcrumb.Item>
-        <Breadcrumb.Item>Create Student</Breadcrumb.Item>
-      </Breadcrumb>
+
+      <Breadcrumb
+        separator=">"
+        items={[
+          {
+            href: '/admin/create-student',
+            title: (
+              <>
+                <HomeOutlined />
+                <span>User Management</span>
+              </>
+            ),
+          },
+          {
+            href: '',
+            title: (
+              <>
+                <UserOutlined />
+                <span>Create Student</span>
+              </>
+            ),
+          },
+        ]}
+      />
 
       {/* Page Title */}
       <Title level={2}>Create Student</Title>
-      <Text type="secondary">Add a new student to the system</Text>
+      <Text type="secondary">Add a new student to the University</Text>
 
       <Row justify="center" style={{marginTop: 24}}>
         <Col xs={24} md={22} lg={20} xl={18}>
@@ -84,10 +112,7 @@ const CreateStudent = () => {
             autoComplete="off"
             className="space-y-6">
             {/* Personal Info */}
-            <Card
-              title="🧍 Personal Info"
-              bordered={false}
-              style={{marginBottom: 24}}>
+            <Card title="🧍 Personal Info" style={{marginBottom: 24}}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} sm={12} lg={8}>
                   <Form.Item label="Image">
@@ -98,19 +123,14 @@ const CreateStudent = () => {
                       onChange={({fileList}) => setFileList(fileList)}
                       maxCount={1}
                       listType="picture">
-                      <Button icon={<UploadOutlined />} size="large">
-                        Upload Image
-                      </Button>
+                      <Button icon={<UploadOutlined />}>Upload Image</Button>
                     </Upload>
                   </Form.Item>
                 </Col>
 
                 <Col xs={24} sm={12} lg={8}>
                   <Form.Item label="Password" name="password">
-                    <Input
-                      size="large"
-                      placeholder="Enter password (optional)"
-                    />
+                    <Input placeholder="Enter password (optional)" />
                   </Form.Item>
                 </Col>
 
@@ -125,7 +145,7 @@ const CreateStudent = () => {
                         message: 'Enter valid email',
                       },
                     ]}>
-                    <Input size="large" placeholder="Enter email" />
+                    <Input placeholder="Enter email" />
                   </Form.Item>
                 </Col>
 
@@ -134,13 +154,13 @@ const CreateStudent = () => {
                     label="First Name"
                     name={['name', 'firstName']}
                     rules={[{required: true, message: 'Enter first name'}]}>
-                    <Input size="large" placeholder="Enter first name" />
+                    <Input placeholder="Enter first name" />
                   </Form.Item>
                 </Col>
 
                 <Col xs={24} sm={12} lg={8}>
                   <Form.Item label="Middle Name" name={['name', 'middleName']}>
-                    <Input size="large" placeholder="Enter middle name" />
+                    <Input placeholder="Enter middle name" />
                   </Form.Item>
                 </Col>
 
@@ -149,7 +169,7 @@ const CreateStudent = () => {
                     label="Last Name"
                     name={['name', 'lastName']}
                     rules={[{required: true, message: 'Enter last name'}]}>
-                    <Input size="large" placeholder="Enter last name" />
+                    <Input placeholder="Enter last name" />
                   </Form.Item>
                 </Col>
 
@@ -161,9 +181,9 @@ const CreateStudent = () => {
                       {required: true, type: 'number', message: 'Enter age'},
                     ]}>
                     <InputNumber
-                      size="large"
                       className="w-full"
                       style={{width: '100%'}}
+                      placeholder="Enter last age"
                     />
                   </Form.Item>
                 </Col>
@@ -173,7 +193,7 @@ const CreateStudent = () => {
                     label="Contact"
                     name="contact"
                     rules={[{required: true, message: 'Enter valid contact'}]}>
-                    <Input size="large" placeholder="Enter contact" />
+                    <Input placeholder="Enter contact" />
                   </Form.Item>
                 </Col>
 
@@ -182,7 +202,7 @@ const CreateStudent = () => {
                     label="Gender"
                     name="gender"
                     rules={[{required: true, message: 'Select gender'}]}>
-                    <Select placeholder="Select gender" size="large">
+                    <Select placeholder="Select gender">
                       {Gender?.map((item) => (
                         <Select.Option key={item} value={item}>
                           {item.charAt(0).toUpperCase() + item.slice(1)}
@@ -194,7 +214,7 @@ const CreateStudent = () => {
 
                 <Col xs={24} sm={12} lg={8}>
                   <Form.Item label="Blood Group" name="blood">
-                    <Select placeholder="Select blood group" size="large">
+                    <Select placeholder="Select blood group">
                       {BloodGroup?.map((blood) => (
                         <Select.Option key={blood} value={blood}>
                           {blood.toUpperCase()}
@@ -207,17 +227,14 @@ const CreateStudent = () => {
             </Card>
 
             {/* Academic Info */}
-            <Card
-              title="🏫 Academic Details"
-              bordered={false}
-              style={{marginBottom: 24}}>
+            <Card title="🏫 Academic Details" style={{marginBottom: 24}}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} sm={12} lg={8}>
                   <Form.Item
                     label="Department"
                     name="department"
                     rules={[{required: true, message: 'Select department'}]}>
-                    <Select placeholder="Select department" size="large">
+                    <Select placeholder="Select department">
                       {departmentData?.data?.map((item: TDepartment) => (
                         <Select.Option key={item._id} value={item._id}>
                           {item.name}
@@ -232,7 +249,7 @@ const CreateStudent = () => {
                     label="Semester"
                     name="semester"
                     rules={[{required: true, message: 'Select semester'}]}>
-                    <Select placeholder="Select semester" size="large">
+                    <Select placeholder="Select semester">
                       {semesterData?.data?.map((item: TSemester) => (
                         <Select.Option key={item._id} value={item._id}>
                           {item.name} - {item.year}
@@ -245,17 +262,14 @@ const CreateStudent = () => {
             </Card>
 
             {/* Guardian Info */}
-            <Card
-              title="👨‍👩‍👧 Guardian Information"
-              bordered={false}
-              style={{marginBottom: 24}}>
+            <Card title="👨‍👩‍👧 Guardian Information" style={{marginBottom: 24}}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} sm={12} lg={8}>
                   <Form.Item
                     label="Father's Name"
                     name="fatherName"
                     rules={[{required: true, message: "Enter father's name"}]}>
-                    <Input size="large" placeholder="e.g. Abdul Karim Khan" />
+                    <Input placeholder="e.g. Ahmed Khan" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={8}>
@@ -263,7 +277,7 @@ const CreateStudent = () => {
                     label="Mother's Name"
                     name="motherName"
                     rules={[{required: true, message: "Enter mother's name"}]}>
-                    <Input size="large" placeholder="e.g. Fatema Begum" />
+                    <Input placeholder="e.g. Fatema Begum" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={8}>
@@ -273,7 +287,7 @@ const CreateStudent = () => {
                     rules={[
                       {required: true, message: "Enter father's contact"},
                     ]}>
-                    <Input size="large" placeholder="+8801812345678" />
+                    <Input placeholder="+8801812345678" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={8}>
@@ -283,23 +297,20 @@ const CreateStudent = () => {
                     rules={[
                       {required: true, message: "Enter mother's contact"},
                     ]}>
-                    <Input size="large" placeholder="+8801912345678" />
+                    <Input placeholder="+8801912345678" />
                   </Form.Item>
                 </Col>
               </Row>
             </Card>
 
             {/* Permanent Address */}
-            <Card
-              title="🏠 Permanent Address"
-              bordered={false}
-              style={{marginBottom: 24}}>
+            <Card title="🏠 Permanent Address" style={{marginBottom: 24}}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} sm={12} lg={6}>
                   <Form.Item
                     label="Village"
                     name={['permanentAddress', 'village']}>
-                    <Input size="large" placeholder="Chandpur" />
+                    <Input placeholder="Chandpur" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={6}>
@@ -307,7 +318,7 @@ const CreateStudent = () => {
                     label="Post Office"
                     name={['permanentAddress', 'postOffice']}
                     rules={[{required: true, message: 'Enter post office'}]}>
-                    <Input size="large" placeholder="Chandpur Sadar" />
+                    <Input placeholder="Chandpur Sadar" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={6}>
@@ -315,7 +326,7 @@ const CreateStudent = () => {
                     label="Police Station"
                     name={['permanentAddress', 'policeStation']}
                     rules={[{required: true, message: 'Enter police station'}]}>
-                    <Input size="large" placeholder="Chandpur" />
+                    <Input placeholder="Chandpur" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={6}>
@@ -323,21 +334,18 @@ const CreateStudent = () => {
                     label="Town/City"
                     name={['permanentAddress', 'town']}
                     rules={[{required: true, message: 'Enter town or city'}]}>
-                    <Input size="large" placeholder="Chandpur" />
+                    <Input placeholder="Chandpur" />
                   </Form.Item>
                 </Col>
               </Row>
             </Card>
 
             {/* Local Address */}
-            <Card
-              title="📍 Local Address"
-              bordered={false}
-              style={{marginBottom: 24}}>
+            <Card title="📍 Local Address" style={{marginBottom: 24}}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} sm={12} lg={6}>
                   <Form.Item label="Village" name={['localAddress', 'village']}>
-                    <Input size="large" placeholder="Mohammadpur" />
+                    <Input placeholder="Mohammadpur" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={6}>
@@ -345,7 +353,7 @@ const CreateStudent = () => {
                     label="Post Office"
                     name={['localAddress', 'postOffice']}
                     rules={[{required: true, message: 'Enter post office'}]}>
-                    <Input size="large" placeholder="Dhanmondi" />
+                    <Input placeholder="Dhanmondi" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={6}>
@@ -353,7 +361,7 @@ const CreateStudent = () => {
                     label="Police Station"
                     name={['localAddress', 'policeStation']}
                     rules={[{required: true, message: 'Enter police station'}]}>
-                    <Input size="large" placeholder="Mohammadpur" />
+                    <Input placeholder="Mohammadpur" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} lg={6}>
@@ -361,7 +369,7 @@ const CreateStudent = () => {
                     label="Town/City"
                     name={['localAddress', 'town']}
                     rules={[{required: true, message: 'Enter town or city'}]}>
-                    <Input size="large" placeholder="Dhaka" />
+                    <Input placeholder="Dhaka" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -373,7 +381,6 @@ const CreateStudent = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  size="large"
                   loading={isLoading}
                   className="rounded-lg shadow-md"
                   style={{backgroundColor: '#2563EB', borderColor: '#2563EB'}}>

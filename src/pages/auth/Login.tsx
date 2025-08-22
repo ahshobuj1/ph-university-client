@@ -83,10 +83,18 @@ const Login = () => {
 
         {/* Image */}
         <div className="flex justify-center mb-6">
+          {/* <Image
+            src={loginImage}
+            alt="Login illustration"
+            width={170}
+            height={170}
+            preview={false}
+            className="object-contain drop-shadow-lg"
+          /> */}
           <img
             src={loginImage}
             alt="Login illustration"
-            className="w-44 h-44 object-contain drop-shadow-lg"
+            className=" h-44 w-44 object-contain drop-shadow-lg"
           />
         </div>
 

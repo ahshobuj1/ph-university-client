@@ -1,7 +1,6 @@
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import type {TUserPath} from '../types';
 import Semester from '../pages/admin/academicManagement/semester/Semester';
-import CreateStudent from '../pages/admin/userManagement/student/CreateStudent';
 import CreateFaculty from '../pages/admin/userManagement/faculty/CreateFaculty';
 import Department from '../pages/admin/academicManagement/department/Department';
 import AcademicFaculty from '../pages/admin/academicManagement/academicFaculty/AcademicFaculty';
@@ -22,6 +21,8 @@ import ChangePassword from '../pages/auth/ChangePassword';
 import Course from '../pages/admin/academicManagement/course/Course';
 import OfferedCourse from '../pages/admin/academicManagement/offeredCourse/OfferedCourse';
 import EnrolledCourse from '../pages/admin/academicManagement/enrolledCourse/EnrolledCourse';
+import StudentManagement from '../pages/admin/userManagement/student/StudentManagement';
+import CreateStudent from '../pages/admin/userManagement/student/CreateStudent';
 
 export const adminPaths: TUserPath[] = [
   {
@@ -35,16 +36,24 @@ export const adminPaths: TUserPath[] = [
     icon: <LiaUsersSolid />,
     children: [
       {
-        name: 'Create Student',
-        path: 'create-student',
-        element: <CreateStudent />,
+        name: 'Students',
+        path: 'students',
+        element: <StudentManagement />,
         icon: <PiStudentBold />,
       },
       {
-        name: 'Create Faculty',
-        path: 'create-faculty',
+        path: 'create-student',
+        element: <CreateStudent />,
+      },
+      {
+        name: 'Faculties',
+        path: 'faculties',
         element: <CreateFaculty />,
         icon: <FaUserTie />,
+      },
+      {
+        path: 'create-faculty',
+        element: <CreateFaculty />,
       },
     ],
   },

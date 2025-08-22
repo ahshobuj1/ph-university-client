@@ -152,7 +152,7 @@ const Semester = () => {
   ];
 
   return (
-    <div className="p-6 bg-green-50 rounded-lg">
+    <div className="p-6 bg-primary-light rounded-lg">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb separator=">">

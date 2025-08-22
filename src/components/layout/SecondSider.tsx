@@ -10,6 +10,7 @@ const userRole = {
   ADMIN: 'admin',
   FACULTY: 'faculty',
   STUDENT: 'student',
+  SUPERADMIN: 'superAdmin',
 } as const;
 
 const SecondSider = () => {

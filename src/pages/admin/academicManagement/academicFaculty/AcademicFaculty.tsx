@@ -92,8 +92,8 @@ const AcademicFaculty = () => {
             cancelText="Cancel"
             icon={<QuestionCircleOutlined style={{color: 'red'}} />}
             placement="topRight">
-            <span className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <BiEdit size={18} />
+            <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110 flex items-center">
+              <BiEdit className="text-base" />
             </span>
           </Popconfirm>
 
@@ -116,7 +116,7 @@ const AcademicFaculty = () => {
   ];
 
   return (
-    <div className="p-6 bg-blue-50 rounded-lg">
+    <div className="p-6 bg-primary-light rounded-lg">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb separator=">">

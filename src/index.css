@@ -5,8 +5,14 @@
 @import 'tailwindcss';
 
 @theme {
+  /* *Primary color */
   --color-primary-main: rgb(217, 217, 217);
   /* --color-secondary: oklch(0.98 0.04 113.22); */
+  --color-primary-light: oklch(97% 0.014 254.604);
+
+  /* *Secondary color */
+  /* --color-secondary: ; */
+  --color-secondary-light: oklch(98.2% 0.018 155.826);
 }
 
 * {

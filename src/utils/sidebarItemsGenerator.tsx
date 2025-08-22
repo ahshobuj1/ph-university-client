@@ -11,8 +11,9 @@ type TSidebarItem = {
 export const sidebarItemsGenerator = (paths: TUserPath[], role: string) => {
   return paths.reduce((acc: TSidebarItem[], item) => {
     // console.log(acc, item);
+    if (!item.name) return acc;
 
-    if (item.name && item.path) {
+    if (item.path) {
       acc.push({
         key: item.path,
         label: (
@@ -26,27 +27,33 @@ export const sidebarItemsGenerator = (paths: TUserPath[], role: string) => {
       });
     }
 
-    if (item.children) {
-      acc.push({
-        key: item.name,
-        label: (
-          <span className="flex items-center font-semibold text-md">
-            {item.icon && <span className="pr-2 text-xl">{item.icon}</span>}
-            {item.name}
-          </span>
-        ),
-        children: item.children.map((child) => ({
-          key: child?.path as string,
+    if (item.children && item.children.length > 0) {
+      const childrenItems = item.children
+        .filter((child) => child.name)
+        .map((child) => ({
+          key: child.path as string,
           label: (
             <NavLink
               to={`/${role}/${child.path}`}
               className="flex items-center font-semibold text-md">
-              {item.icon && <span className="pr-2 text-xl">{child.icon}</span>}
+              {child.icon && <span className="pr-2 text-xl">{child.icon}</span>}
               {child.name}
             </NavLink>
           ),
-        })),
-      });
+        }));
+
+      if (childrenItems.length > 0) {
+        acc.push({
+          key: item.name,
+          label: (
+            <span className="flex items-center font-semibold text-md">
+              {item.icon && <span className="pr-2 text-xl">{item.icon}</span>}
+              {item.name}
+            </span>
+          ),
+          children: childrenItems,
+        });
+      }
     }
 
     return acc;

@@ -163,7 +163,7 @@ const EnrolledCourse = () => {
   ];
 
   return (
-    <div className="bg-green-50 p-4 md:p-6">
+    <div className="bg-primary-light p-4 md:p-6">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Breadcrumb separator=">">

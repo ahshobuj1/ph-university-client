@@ -8,6 +8,7 @@ import type {
   TAcademicFaculty,
   TCourse,
   TDepartment,
+  TResponse,
   TSemesterRegistration,
 } from '../../../../types';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
@@ -22,6 +23,8 @@ import {useGetAllRegisterSemesterQuery} from '../../../../redux/api/semesterRegi
 import {daysOptions} from '../../../../constant';
 import PHTimePicker from '../../../../components/form/PHTimePicker';
 import PHInput from '../../../../components/form/PHInput';
+import {toast} from 'sonner';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
 
 const CreateOfferedCourseModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -75,24 +78,24 @@ const CreateOfferedCourseModal = () => {
 
     // ** TODO -------------------------------------------------
 
-    // setError('');
-    // try {
-    //   const res = (await addCourse(data).unwrap()) as TResponse;
-    //   console.log(res);
+    setError('');
+    try {
+      const res = (await addCourse(values).unwrap()) as TResponse;
+      console.log(res);
 
-    //   if (res?.success) {
-    //     toast.success('Course is created successfully!');
-    //     setModalOpen(false);
-    //   } else {
-    //     const message = res?.message;
-    //     setError(message);
-    //     toast.error(message);
-    //   }
-    // } catch (err: unknown) {
-    //   const message = getErrorMessage(err);
-    //   toast.error(message);
-    //   setError(message);
-    // }
+      if (res?.success) {
+        toast.success('Course is created successfully!');
+        setModalOpen(false);
+      } else {
+        const message = res?.message;
+        setError(message);
+        toast.error(message);
+      }
+    } catch (err: unknown) {
+      const message = getErrorMessage(err);
+      toast.error(message);
+      setError(message);
+    }
   };
 
   return (
