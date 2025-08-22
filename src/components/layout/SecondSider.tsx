@@ -5,13 +5,7 @@ import {useAppSelector} from '../../redux/hooks';
 import {adminPaths} from '../../routes/admin.routes';
 import {facultyPaths} from '../../routes/faculty.routes';
 import {useLocation} from 'react-router-dom';
-
-const userRole = {
-  ADMIN: 'admin',
-  FACULTY: 'faculty',
-  STUDENT: 'student',
-  SUPERADMIN: 'superAdmin',
-} as const;
+import {USER_ROLES} from '../../types';
 
 const SecondSider = () => {
   const user = useAppSelector((state) => state.auth.user);
@@ -20,13 +14,13 @@ const SecondSider = () => {
   let sidebarItems;
 
   switch (user?.role) {
-    case userRole.ADMIN:
+    case USER_ROLES.ADMIN:
       sidebarItems = sidebarItemsGenerator(adminPaths, user.role);
       break;
-    case userRole.FACULTY:
+    case USER_ROLES.FACULTY:
       sidebarItems = sidebarItemsGenerator(facultyPaths, user.role);
       break;
-    case userRole.STUDENT:
+    case USER_ROLES.STUDENT:
       sidebarItems = sidebarItemsGenerator(studentPaths, user.role);
       break;
   }

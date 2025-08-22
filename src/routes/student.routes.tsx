@@ -4,10 +4,6 @@ import type {TUserPath} from '../types';
 import {MdOutlineDashboardCustomize, MdOutlineVpnKey} from 'react-icons/md';
 
 export const studentPaths: TUserPath[] = [
-  // {
-  //   index: true,
-  //   element: <StudentDashboard />,
-  // },
   {
     name: 'Dashboard',
     path: 'dashboard',
@@ -20,4 +16,9 @@ export const studentPaths: TUserPath[] = [
     element: <ChangePassword />,
     icon: <MdOutlineVpnKey />,
   },
+
+  // {
+  //   index: true,
+  //   element: <StudentDashboard />,
+  // },
 ];

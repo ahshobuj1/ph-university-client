@@ -26,14 +26,14 @@ export default function SecondLayout() {
   const profileDropdown = (
     <div className="flex flex-col md:p-2 space-y-2 min-w-[150px]">
       <Link
-        to="/"
+        to=""
         className="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 transition-colors">
         <UserOutlined />
         <span>My Profile</span>
       </Link>
 
       <Link
-        to="/"
+        to=""
         className="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 transition-colors">
         <SettingOutlined />
         <span>Settings</span>

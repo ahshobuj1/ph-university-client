@@ -116,13 +116,30 @@ const AdminDashboard = () => {
         </Col>
       </Row>
 
-      {/* Recent Activities Placeholder */}
-      <Divider className="my-6">Recent Activities</Divider>
+      {/* Recent Activities */}
+      <Divider className="my-6 text-gray-400">Recent Activities</Divider>
       <Card className="rounded-lg shadow-lg">
-        <ul className="space-y-2">
-          <li>Student John Doe enrolled in Computer Science.</li>
-          <li>Faculty Dr. Smith added a new course: Economics 101.</li>
-          <li>Semester 3 has started for Mathematics students.</li>
+        <ul className="space-y-1">
+          <li className="flex items-center space-x-3">
+            <span className="text-blue-500 mt-1">●</span>
+            <span>
+              <strong>John Doe</strong> enrolled in{' '}
+              <strong>Computer Science</strong>.
+            </span>
+          </li>
+          <li className="flex items-center space-x-3">
+            <span className="text-green-500 mt-1">●</span>
+            <span>
+              <strong>Dr. Smith</strong> added a new course:{' '}
+              <strong>Economics 101</strong>.
+            </span>
+          </li>
+          <li className="flex items-center space-x-3">
+            <span className="text-orange-500 mt-1">●</span>
+            <span>
+              Semester 3 has started for <strong>Mathematics</strong> students.
+            </span>
+          </li>
         </ul>
       </Card>
     </div>
