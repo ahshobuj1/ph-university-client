@@ -5,6 +5,7 @@ type TApiErrorData = {
 type TApiError = {
   data?: TApiErrorData;
   message?: string;
+  errorSource?: unknown;
 };
 
 export const getErrorMessage = (err: unknown): string => {

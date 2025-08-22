@@ -32,3 +32,11 @@ export const sortOptionsDepartment = [
   {label: 'Dept ⬇', value: 'name'},
   {label: 'Dept ⬆', value: '-name'},
 ];
+
+export const DesignationOptions = [
+  'Professor',
+  'Associate Professor',
+  'Assistant Professor',
+  'Lecturer',
+  'Instructor',
+];

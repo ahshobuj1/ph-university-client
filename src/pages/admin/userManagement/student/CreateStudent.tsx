@@ -27,10 +27,13 @@ import {useGetAllDepartmentQuery} from '../../../../redux/api/departmentApi';
 import {useGetAllSemesterQuery} from '../../../../redux/api/semesterApi';
 import {useAddStudentMutation} from '../../../../redux/api/userApi';
 import {handleUploadToCloudinary} from '../../../../utils/handleUploadToCloudinary';
+import {useNavigate} from 'react-router-dom';
+import {getErrorMessage} from '../../../../utils/getErrorMessage';
 
 const {Title, Text} = Typography;
 
 const CreateStudent = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [addStudent, {isLoading}] = useAddStudentMutation();
@@ -40,12 +43,20 @@ const CreateStudent = () => {
   ]);
 
   const onFinish: FormProps<TStudentRoot>['onFinish'] = async (values) => {
-    const {password, ...student} = values;
-
+    // upload image to cloudinary
     let imageUrl = null;
     if (fileList[0]?.originFileObj) {
       imageUrl = await handleUploadToCloudinary(fileList[0].originFileObj);
     }
+
+    // student data
+    const studentData = {
+      password: values.password,
+      faculty: {
+        ...values.student,
+        profileImage: imageUrl,
+      },
+    };
 
     // const studentData = {password, student};
     // const formData = new FormData();
@@ -53,21 +64,22 @@ const CreateStudent = () => {
     // if (fileList[0]?.originFileObj)
     //   formData.append('file', fileList[0].originFileObj);
 
-    const studentData = {password, student, profileImage: imageUrl};
-    // console.log(studentData);
-
     try {
       const res = (await addStudent(studentData)) as TResponse;
       if (res?.data) {
         toast.success('Student is created successfully!');
         form.resetFields();
         setFileList([]);
+        navigate('/admin/students');
       }
+
       if (res?.error) {
-        toast.error(res?.error?.data?.message);
+        const errorMessage = `${res.error?.data?.errorSources?.[0]?.path}: ${res.error?.data?.errorSources?.[0]?.message}`;
+        toast.error(errorMessage);
       }
-    } catch {
-      toast.error('Something went wrong!');
+    } catch (err) {
+      const message = getErrorMessage(err);
+      toast.error(message);
     }
   };
 
@@ -79,7 +91,7 @@ const CreateStudent = () => {
         separator=">"
         items={[
           {
-            href: '/admin/create-student',
+            href: '/admin/students',
             title: (
               <>
                 <HomeOutlined />
@@ -88,7 +100,6 @@ const CreateStudent = () => {
             ),
           },
           {
-            href: '',
             title: (
               <>
                 <UserOutlined />

@@ -244,7 +244,7 @@ const OfferedCourse = () => {
       </div>
 
       {/* Page Title Card */}
-      <div className="rounded-2xl bg-gradient-to-r from-violet-700 via-fuchsia-600 to-pink-600 p-[1px] shadow-lg mb-6">
+      <div className="rounded-2xl bg-gradient-to-r from-green-200 via-blue-200 to-indigo-200 p-[1px] shadow-lg mb-6">
         <div className="bg-primary-light rounded-2xl p-5">
           <Row align="middle" justify="space-between" gutter={[16, 16]}>
             <Col>

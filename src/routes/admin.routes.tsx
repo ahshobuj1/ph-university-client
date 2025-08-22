@@ -23,6 +23,7 @@ import OfferedCourse from '../pages/admin/academicManagement/offeredCourse/Offer
 import EnrolledCourse from '../pages/admin/academicManagement/enrolledCourse/EnrolledCourse';
 import StudentManagement from '../pages/admin/userManagement/student/StudentManagement';
 import CreateStudent from '../pages/admin/userManagement/student/CreateStudent';
+import FacultyManagement from '../pages/admin/userManagement/faculty/FacultyManagement';
 
 export const adminPaths: TUserPath[] = [
   {
@@ -48,7 +49,7 @@ export const adminPaths: TUserPath[] = [
       {
         name: 'Faculties',
         path: 'faculties',
-        element: <CreateFaculty />,
+        element: <FacultyManagement />,
         icon: <FaUserTie />,
       },
       {

@@ -1,3 +1,11 @@
+import type {TAcademicFaculty} from './academicFaculty';
+import type {TDepartment} from './department.types';
+
+export type TFacultyRoot = {
+  password?: string;
+  faculty: TFaculty;
+};
+
 export type TFaculty = {
   _id: string;
   id: string; // e.g., "F-0004"
@@ -10,8 +18,8 @@ export type TFaculty = {
     lastName: string;
     _id?: string;
   };
-  academicFaculty: string; // references academicFaculty._id
-  department: string; // references department._id
+  academicFaculty: TAcademicFaculty; // references academicFaculty._id
+  department: TDepartment; // references department._id
   gender: 'male' | 'female' | 'other'; // adjust as needed
   dateOfBirth: string; // "YYYY-MM-DD"
   contact: string;
