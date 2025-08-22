@@ -1,66 +1,130 @@
-import {Card, Col, Row} from 'antd';
+import {Card, Col, Row, Divider} from 'antd';
+import {Pie, Bar} from 'react-chartjs-2';
 import {
-  SyncOutlined,
-  ClockCircleOutlined,
-  MinusCircleOutlined,
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from 'chart.js';
+import {
+  UserOutlined,
+  TeamOutlined,
+  BookOutlined,
   AppstoreAddOutlined,
 } from '@ant-design/icons';
 
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
+);
+
+const stats = [
+  {
+    title: 'Total Students',
+    value: 4500,
+    icon: <UserOutlined style={{fontSize: 28, color: '#1890ff'}} />,
+  },
+  {
+    title: 'Total Faculties',
+    value: 120,
+    icon: <TeamOutlined style={{fontSize: 28, color: '#52c41a'}} />,
+  },
+  {
+    title: 'Offered Courses',
+    value: 85,
+    icon: <BookOutlined style={{fontSize: 28, color: '#faad14'}} />,
+  },
+  {
+    title: 'Total Semesters',
+    value: 12,
+    icon: <AppstoreAddOutlined style={{fontSize: 28, color: '#ff4d4f'}} />,
+  },
+];
+
+const pieData = {
+  labels: ['Computer Science', 'Economics', 'Physics', 'Mathematics'],
+  datasets: [
+    {
+      label: 'Students per Department',
+      data: [1200, 900, 800, 600],
+      backgroundColor: ['#1890ff', '#52c41a', '#faad14', '#ff4d4f'],
+    },
+  ],
+};
+
+const barData = {
+  labels: ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4'],
+  datasets: [
+    {
+      label: 'Ongoing Students',
+      data: [300, 450, 200, 500],
+      backgroundColor: '#1890ff',
+    },
+    {
+      label: 'Completed Students',
+      data: [150, 200, 300, 100],
+      backgroundColor: '#52c41a',
+    },
+  ],
+};
+
 const AdminDashboard = () => {
   return (
-    <div>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={6}>
-          <Card>
-            <div className="flex items-center space-x-4">
-              <AppstoreAddOutlined
-                style={{fontSize: '32px', color: '#1890ff'}}
-              />
-              <div>
-                <div className="text-gray-500">Total Semesters</div>
-                <div className="text-2xl font-semibold">12</div>
+    <div className="p-6 bg-primary-light min-h-screen">
+      {/* Quick Stats */}
+      <Row gutter={[24, 24]} className="mb-6">
+        {stats.map((stat, idx) => (
+          <Col xs={24} sm={12} md={6} key={idx}>
+            <Card className="shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 rounded-full bg-white">{stat.icon}</div>
+                <div>
+                  <div className="text-gray-500">{stat.title}</div>
+                  <div className="text-2xl font-semibold text-gray-800">
+                    {stat.value}
+                  </div>
+                </div>
               </div>
-            </div>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Charts */}
+      <Row gutter={[24, 24]}>
+        <Col xs={24} md={12}>
+          <Card
+            title="Students per Department"
+            className="rounded-lg shadow-lg">
+            <Pie data={pieData} />
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card>
-            <div className="flex items-center space-x-4">
-              <SyncOutlined spin style={{fontSize: '32px', color: '#52c41a'}} />
-              <div>
-                <div className="text-gray-500">Ongoing</div>
-                <div className="text-2xl font-semibold">2</div>
-              </div>
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card>
-            <div className="flex items-center space-x-4">
-              <ClockCircleOutlined
-                style={{fontSize: '32px', color: '#faad14'}}
-              />
-              <div>
-                <div className="text-gray-500">Upcoming</div>
-                <div className="text-2xl font-semibold">3</div>
-              </div>
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Card>
-            <div className="flex items-center space-x-4">
-              <MinusCircleOutlined
-                style={{fontSize: '32px', color: '#ff4d4f'}}
-              />
-              <div>
-                <div className="text-gray-500">Ended</div>
-                <div className="text-2xl font-semibold">7</div>
-              </div>
-            </div>
+        <Col xs={24} md={12}>
+          <Card title="Semester Progress" className="rounded-lg shadow-lg">
+            <Bar
+              data={barData}
+              options={{responsive: true, plugins: {legend: {position: 'top'}}}}
+            />
           </Card>
         </Col>
       </Row>
+
+      {/* Recent Activities Placeholder */}
+      <Divider className="my-6">Recent Activities</Divider>
+      <Card className="rounded-lg shadow-lg">
+        <ul className="space-y-2">
+          <li>Student John Doe enrolled in Computer Science.</li>
+          <li>Faculty Dr. Smith added a new course: Economics 101.</li>
+          <li>Semester 3 has started for Mathematics students.</li>
+        </ul>
+      </Card>
     </div>
   );
 };

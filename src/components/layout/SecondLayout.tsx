@@ -153,7 +153,7 @@ export default function SecondLayout() {
           </button>
           <div>
             <h2 className="font-semibold text-gray-900">Hello, A H Shobuj</h2>
-            <p className="text-gray-900">Welcome To StackHub University</p>
+            <p className="text-gray-900">Welcome To Meridian University</p>
           </div>
 
           {/* // Profile */}
