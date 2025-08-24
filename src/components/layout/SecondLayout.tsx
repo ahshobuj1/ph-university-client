@@ -71,7 +71,7 @@ export default function SecondLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-primary-main shadow-lg transform transition-transform duration-300 md:translate-x-0 md:static md:shadow-none flex flex-col ${
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-primary-bg shadow-lg transform transition-transform duration-300 md:translate-x-0 md:static md:shadow-none flex flex-col ${
           drawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}>
         <SecondSider />
@@ -145,7 +145,7 @@ export default function SecondLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between bg-primary-main px-4 md:px-6 h-16 ">
+        <header className="flex items-center justify-between bg-primary-bg px-4 md:px-6 h-16 ">
           <button
             className="md:hidden text-gray-600 cursor-pointer hover:text-indigo-600"
             onClick={() => setDrawerOpen(true)}>

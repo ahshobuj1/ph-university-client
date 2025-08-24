@@ -10,6 +10,7 @@ import {BsFillPenFill} from 'react-icons/bs';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
 import {useAddAcademicFacultyMutation} from '../../../../redux/api/academicFacultyApi';
+import {FaPlus} from 'react-icons/fa';
 
 const CreateAcademicFacultyModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -41,11 +42,10 @@ const CreateAcademicFacultyModal = () => {
     <div>
       {/* Add Academic Faculty Button */}
       <Button
-        icon={<BsFillPenFill />}
-        type="primary"
+        icon={<FaPlus className="text-xs" />}
         size="large"
         onClick={() => setModalOpen(true)}
-        className="rounded-lg shadow-sm transition-transform hover:scale-105">
+        className="rounded-lg !text-white !bg-blue-500 !border-blue-500 shadow-sm transition-transform hover:scale-105">
         Add Academic Faculty
       </Button>
 

@@ -92,7 +92,7 @@ const AcademicFaculty = () => {
             cancelText="Cancel"
             icon={<QuestionCircleOutlined style={{color: 'red'}} />}
             placement="topRight">
-            <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110 flex items-center">
+            <span className="cursor-pointer hover:bg-primary-light text-blue-700 p-2 rounded-lg transition-transform hover:scale-110 flex items-center">
               <BiEdit className="text-base" />
             </span>
           </Popconfirm>
@@ -106,7 +106,7 @@ const AcademicFaculty = () => {
             okButtonProps={{loading: deleteLoading}}
             icon={<QuestionCircleOutlined style={{color: 'red'}} />}
             placement="topLeft">
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
+            <span className="cursor-pointer hover:bg-red-100 text-red-700 p-2 rounded-lg transition-transform hover:scale-110">
               <DeleteOutlined />
             </span>
           </Popconfirm>
