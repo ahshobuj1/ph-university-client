@@ -6,11 +6,10 @@ import type {FieldValues} from 'react-hook-form';
 import type {TResponse} from '../../../../types';
 import PHInput from '../../../../components/form/PHInput';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
-import {BsFillPenFill} from 'react-icons/bs';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
 import {useAddAcademicFacultyMutation} from '../../../../redux/api/academicFacultyApi';
-import {FaPlus} from 'react-icons/fa';
+import ModalButton from '../../../../components/ui/ModalButton';
 
 const CreateAcademicFacultyModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -40,14 +39,7 @@ const CreateAcademicFacultyModal = () => {
 
   return (
     <div>
-      {/* Add Academic Faculty Button */}
-      <Button
-        icon={<FaPlus className="text-xs" />}
-        size="large"
-        onClick={() => setModalOpen(true)}
-        className="rounded-lg !text-white !bg-blue-500 !border-blue-500 shadow-sm transition-transform hover:scale-105">
-        Add Academic Faculty
-      </Button>
+      <ModalButton modalOpen={setModalOpen} title="Add Academic Faculty" />
 
       {/* Modal */}
       <PHModal

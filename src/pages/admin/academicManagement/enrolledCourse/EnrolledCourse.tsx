@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Breadcrumb,
   Card,
   Col,
   Pagination,
@@ -17,18 +16,14 @@ import type {
   TStudent,
 } from '../../../../types';
 import {useState} from 'react';
-import {
-  BookOutlined,
-  CheckCircleOutlined,
-  HomeOutlined,
-  SyncOutlined,
-} from '@ant-design/icons';
+import {CheckCircleOutlined, SyncOutlined} from '@ant-design/icons';
 import {PHSearch} from '../../../../components/form/PHSearch';
 import Loading from '../../../../components/shared/Loading';
 import {sortOptionsDepartment} from '../../../../constant';
 import PHSort from '../../../../components/form/PHSort';
 import type {TEnrolledCourse} from '../../../../types/enrolledCourse.type';
 import {useGetAllEnrolledCourseQuery} from '../../../../redux/api/enrolledCourseApi';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
 
 const {Title} = Typography;
 
@@ -164,17 +159,7 @@ const EnrolledCourse = () => {
 
   return (
     <div className="bg-primary-light p-4 md:p-6">
-      {/* Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item href="">
-            <HomeOutlined /> <span>Course Management</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <BookOutlined /> <span>Enrolled Courses</span>
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
+      <BreadcrumbSection home="Course Management" sub="Enrolled" />
 
       {/* Page Title */}
       <Title level={3} className="mb-6">

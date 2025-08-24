@@ -8,12 +8,11 @@ import {
   Select,
   Upload,
   Card,
-  Breadcrumb,
   Typography,
   type FormProps,
   type UploadFile,
 } from 'antd';
-import {HomeOutlined, UploadOutlined, UserOutlined} from '@ant-design/icons';
+import {UploadOutlined} from '@ant-design/icons';
 import {BloodGroup, Gender} from '../../../../constant/global';
 import type {
   TDepartment,
@@ -29,6 +28,7 @@ import {useAddStudentMutation} from '../../../../redux/api/userApi';
 import {handleUploadToCloudinary} from '../../../../utils/handleUploadToCloudinary';
 import {useNavigate} from 'react-router-dom';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
 
 const {Title, Text} = Typography;
 
@@ -87,28 +87,7 @@ const CreateStudent = () => {
     <div className="bg-primary-light p-4 md:p-6 min-h-screen">
       {/* Breadcrumb */}
 
-      <Breadcrumb
-        separator=">"
-        items={[
-          {
-            href: '/admin/students',
-            title: (
-              <>
-                <HomeOutlined />
-                <span>User Management</span>
-              </>
-            ),
-          },
-          {
-            title: (
-              <>
-                <UserOutlined />
-                <span>Create Student</span>
-              </>
-            ),
-          },
-        ]}
-      />
+      <BreadcrumbSection home="User Management" sub="Create Student" />
 
       {/* Page Title */}
       <Title level={2}>Create Student</Title>

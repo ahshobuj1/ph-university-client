@@ -1,11 +1,9 @@
 import {
   Avatar,
-  Breadcrumb,
   Button,
   Card,
   Col,
   Pagination,
-  Popconfirm,
   Row,
   Table,
   Tag,
@@ -13,14 +11,6 @@ import {
   Typography,
   type TableColumnsType,
 } from 'antd';
-import {
-  HomeOutlined,
-  BookOutlined,
-  QuestionCircleOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {BiEdit} from 'react-icons/bi';
-
 import type {TQueryParams, TStudent} from '../../../../types';
 import {useState} from 'react';
 import {PHSearch} from '../../../../components/form/PHSearch';
@@ -34,8 +24,11 @@ import {
   useDeleteStudentMutation,
   useGetAllStudentsQuery,
 } from '../../../../redux/api/studentApi.admin';
-import {BsFillPenFill} from 'react-icons/bs';
 import {Link} from 'react-router-dom';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
+import {FaPlus} from 'react-icons/fa';
+import EditActionBtn from '../../../../components/ui/EditActionBtn';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
 
 const {Title, Text} = Typography;
 
@@ -169,32 +162,14 @@ const StudentManagement = () => {
       dataIndex: 'action',
       width: 140,
       render: (student: TStudent) => (
-        <div className="flex space-x-3">
-          <Popconfirm
-            title="Update student"
-            description="Are you sure to update this student?"
-            okText="Update"
-            cancelText="Cancel"
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topRight">
-            <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110 flex items-center">
-              <BiEdit className="text-base" />
-            </span>
-          </Popconfirm>
-
-          <Popconfirm
-            title="Delete the student"
-            description="Are you sure to delete this student?"
-            onConfirm={() => handleDelete(student._id)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topLeft">
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+        <div className="flex items-center space-x-3">
+          <EditActionBtn title="Department" />
+          <DeleteActionBtn
+            id={student._id}
+            title="Department"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </div>
       ),
     },
@@ -202,31 +177,7 @@ const StudentManagement = () => {
 
   return (
     <div className="min-h-screen bg-primary-light p-6">
-      {/* Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb
-          separator=">"
-          items={[
-            {
-              href: '',
-              title: (
-                <>
-                  <HomeOutlined />
-                  <span>User Management</span>
-                </>
-              ),
-            },
-            {
-              title: (
-                <>
-                  <BookOutlined />
-                  <span>Students</span>
-                </>
-              ),
-            },
-          ]}
-        />
-      </div>
+      <BreadcrumbSection home="User Management" sub="Students" />
 
       {/* Title */}
       <div className="rounded-2xl bg-gradient-to-r from-green-200 via-blue-200 to-indigo-200 p-[1px] shadow-lg mb-6">
@@ -244,7 +195,11 @@ const StudentManagement = () => {
             </Col>
             <Col>
               <Link to={'/admin/create-student'}>
-                <Button icon={<BsFillPenFill />} type="primary" size="large">
+                <Button
+                  icon={<FaPlus className="text-sm" />}
+                  type="primary"
+                  size="large"
+                  className="rounded-lg text-white shadow-sm transition-transform hover:scale-105">
                   Add Student
                 </Button>
               </Link>

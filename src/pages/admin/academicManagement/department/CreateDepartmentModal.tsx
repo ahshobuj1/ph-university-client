@@ -6,13 +6,13 @@ import type {FieldValues} from 'react-hook-form';
 import type {TAcademicFaculty, TResponse} from '../../../../types';
 import PHInput from '../../../../components/form/PHInput';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
-import {BsFillPenFill} from 'react-icons/bs';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
 
 import {useAddDepartmentMutation} from '../../../../redux/api/departmentApi';
 import PHSelect from '../../../../components/form/PHSelect';
 import {useGetAllAcademicFacultyQuery} from '../../../../redux/api/academicFacultyApi';
+import ModalButton from '../../../../components/ui/ModalButton';
 
 const CreateDepartmentModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -48,13 +48,7 @@ const CreateDepartmentModal = () => {
 
   return (
     <div>
-      <Button
-        icon={<BsFillPenFill />}
-        type="primary"
-        size="large"
-        onClick={() => setModalOpen(true)}>
-        Add Academic Department
-      </Button>
+      <ModalButton title="Academic Department" modalOpen={setModalOpen} />
 
       <PHModal
         open={modalOpen}

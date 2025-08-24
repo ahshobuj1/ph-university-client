@@ -1,16 +1,17 @@
 import type {ThemeConfig} from 'antd';
 
 export const theme: ThemeConfig = {
-  // token: {
-  //   colorPrimary: '#001529',
-  // },
+  token: {
+    colorPrimary: '#1890ff',
+    colorPrimaryHover: '#40a9ff',
+  },
 
   components: {
     Pagination: {
       // itemActiveBg: '#001529',
     },
     Button: {
-      colorPrimary: '#001529',
+      colorPrimary: '#1890ff',
     },
   },
 };

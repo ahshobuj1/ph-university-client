@@ -7,13 +7,12 @@ import {
   Select,
   Upload,
   Card,
-  Breadcrumb,
   Typography,
   type FormProps,
   type UploadFile,
   DatePicker,
 } from 'antd';
-import {HomeOutlined, UploadOutlined, UserOutlined} from '@ant-design/icons';
+import {UploadOutlined} from '@ant-design/icons';
 import {
   BloodGroup,
   DesignationOptions,
@@ -27,6 +26,7 @@ import {handleUploadToCloudinary} from '../../../../utils/handleUploadToCloudina
 import {useAddFacultyMutation} from '../../../../redux/api/userApi';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
 import {useNavigate} from 'react-router-dom';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
 
 const {Title, Text} = Typography;
 
@@ -77,29 +77,7 @@ const CreateFaculty = () => {
 
   return (
     <div className="bg-primary-light p-4 md:p-6 min-h-screen">
-      {/* Breadcrumb */}
-      <Breadcrumb
-        separator=">"
-        items={[
-          {
-            href: '/admin/faculties',
-            title: (
-              <>
-                <HomeOutlined />
-                <span>User Management</span>
-              </>
-            ),
-          },
-          {
-            title: (
-              <>
-                <UserOutlined />
-                <span>Create Faculty</span>
-              </>
-            ),
-          },
-        ]}
-      />
+      <BreadcrumbSection home="User Management" sub="Create Faculty" />
 
       {/* Page Title */}
       <Title level={2}>Create Faculty</Title>

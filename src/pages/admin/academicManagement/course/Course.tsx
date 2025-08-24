@@ -1,18 +1,5 @@
-import {
-  Breadcrumb,
-  Pagination,
-  Popconfirm,
-  Table,
-  type TableColumnsType,
-} from 'antd';
+import {Pagination, Table, type TableColumnsType} from 'antd';
 import {type TCourse, type TQueryParams} from '../../../../types';
-import {BiEdit} from 'react-icons/bi';
-import {
-  QuestionCircleOutlined,
-  DeleteOutlined,
-  HomeOutlined,
-  BookOutlined,
-} from '@ant-design/icons';
 import {useState} from 'react';
 import Loading from '../../../../components/shared/Loading';
 import {
@@ -25,6 +12,9 @@ import {sortOptionsCourse} from '../../../../constant';
 import CreateCourseModal from './CreateCourseModal';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
+import EditActionBtn from '../../../../components/ui/EditActionBtn';
 
 const Course = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
@@ -91,29 +81,15 @@ const Course = () => {
       title: 'Action',
       dataIndex: 'action',
       render: (item) => (
-        <div className="flex space-x-3">
-          <Popconfirm
-            title="Edit Course"
-            description="Are you sure to update this course?"
-            okText="Update"
-            cancelText="Cancel"
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}>
-            <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <BiEdit size={18} />
-            </span>
-          </Popconfirm>
-          <Popconfirm
-            title="Delete Course"
-            description="Are you sure to delete this course?"
-            onConfirm={() => handleDelete(item._id)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}>
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+        <div className="flex items-center space-x-3">
+          <EditActionBtn title="Course" />
+
+          <DeleteActionBtn
+            id={item._id}
+            title="Course"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </div>
       ),
     },
@@ -121,17 +97,7 @@ const Course = () => {
 
   return (
     <div className="p-4 md:p-6 bg-primary-light rounded-lg">
-      {/* Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item href="">
-            <HomeOutlined /> <span>Course Management</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <BookOutlined /> <span>Courses</span>
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
+      <BreadcrumbSection home="Course Management" sub="Courses" />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">

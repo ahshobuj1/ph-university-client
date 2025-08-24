@@ -1,11 +1,9 @@
 import {
   Avatar,
-  Breadcrumb,
   Button,
   Card,
   Col,
   Pagination,
-  Popconfirm,
   Row,
   Table,
   Tag,
@@ -13,17 +11,8 @@ import {
   Typography,
   type TableColumnsType,
 } from 'antd';
-import {
-  HomeOutlined,
-  BookOutlined,
-  QuestionCircleOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {BiEdit} from 'react-icons/bi';
-import {BsFillPenFill} from 'react-icons/bs';
 import {Link} from 'react-router-dom';
 import {toast} from 'sonner';
-
 import type {TQueryParams, TFaculty} from '../../../../types';
 import {useState} from 'react';
 import {PHSearch} from '../../../../components/form/PHSearch';
@@ -36,7 +25,10 @@ import {
 } from '../../../../redux/api/facultyApi';
 import {sortOptionsDepartment} from '../../../../constant';
 import {CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
-
+import {FaPlus} from 'react-icons/fa';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
+import EditActionBtn from '../../../../components/ui/EditActionBtn';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
 const {Title, Text} = Typography;
 
 const FacultyManagement = () => {
@@ -164,32 +156,14 @@ const FacultyManagement = () => {
       dataIndex: 'action',
       width: 140,
       render: (faculty: TFaculty) => (
-        <div className="flex space-x-3">
-          <Popconfirm
-            title="Update faculty"
-            description="Are you sure to update this faculty?"
-            okText="Update"
-            cancelText="Cancel"
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topRight">
-            <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110 flex items-center">
-              <BiEdit className="text-base" />
-            </span>
-          </Popconfirm>
-
-          <Popconfirm
-            title="Delete the faculty"
-            description="Are you sure to delete this faculty?"
-            onConfirm={() => handleDelete(faculty._id)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topLeft">
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+        <div className="flex items-center space-x-3">
+          <EditActionBtn title="Faculty" />
+          <DeleteActionBtn
+            id={faculty._id}
+            title="Faculty"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </div>
       ),
     },
@@ -197,31 +171,7 @@ const FacultyManagement = () => {
 
   return (
     <div className="min-h-screen bg-primary-light p-6">
-      {/* Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb
-          separator=">"
-          items={[
-            {
-              href: '',
-              title: (
-                <>
-                  <HomeOutlined />
-                  <span>User Management</span>
-                </>
-              ),
-            },
-            {
-              title: (
-                <>
-                  <BookOutlined />
-                  <span>Faculties</span>
-                </>
-              ),
-            },
-          ]}
-        />
-      </div>
+      <BreadcrumbSection home="User Management" sub="Faculties" />
 
       {/* Title */}
       <div className="rounded-2xl bg-gradient-to-r from-green-200 via-blue-200 to-indigo-200 p-[1px] shadow-lg mb-6">
@@ -239,8 +189,12 @@ const FacultyManagement = () => {
             </Col>
             <Col>
               <Link to={'/admin/create-faculty'}>
-                <Button icon={<BsFillPenFill />} type="primary" size="large">
-                  Add Faculty
+                <Button
+                  icon={<FaPlus className="text-sm" />}
+                  type="primary"
+                  size="large"
+                  className="rounded-lg text-white shadow-sm transition-transform hover:scale-105">
+                  Add Student
                 </Button>
               </Link>
             </Col>

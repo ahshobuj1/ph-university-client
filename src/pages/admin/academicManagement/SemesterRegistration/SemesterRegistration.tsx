@@ -1,5 +1,4 @@
 import {
-  Breadcrumb,
   Pagination,
   Popconfirm,
   Select,
@@ -18,9 +17,6 @@ import {
   MinusCircleOutlined,
   SyncOutlined,
   QuestionCircleOutlined,
-  DeleteOutlined,
-  HomeOutlined,
-  BookOutlined,
 } from '@ant-design/icons';
 import {
   useDeleteRegisterSemesterMutation,
@@ -34,6 +30,8 @@ import {useState} from 'react';
 import Loading from '../../../../components/shared/Loading';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
 
 const SemesterRegistration = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
@@ -121,7 +119,7 @@ const SemesterRegistration = () => {
       title: 'Action',
       dataIndex: 'action',
       render: (item) => (
-        <div className="flex space-x-3">
+        <div className="flex items-center space-x-3">
           {item.status !== 'ENDED' && (
             <Popconfirm
               title="Update Status"
@@ -132,24 +130,17 @@ const SemesterRegistration = () => {
               okButtonProps={{loading: deleteLoading}}
               icon={<QuestionCircleOutlined style={{color: 'red'}} />}
               placement="topRight">
-              <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
+              <span className="cursor-pointer hover:bg-blue-100 text-primary p-2 rounded-lg transition-transform hover:scale-110">
                 <BiEdit size={18} />
               </span>
             </Popconfirm>
           )}
-          <Popconfirm
-            title="Delete The Semester Registration"
-            description="Are you sure to delete this semester registration?"
-            onConfirm={() => handleDelete(item)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topLeft">
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+          <DeleteActionBtn
+            id={item._id}
+            title="Semester Registration"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </div>
       ),
     },
@@ -174,9 +165,10 @@ const SemesterRegistration = () => {
       toast.error(getErrorMessage(err));
     }
   };
-  const handleDelete = async (item: TSemesterRegistration) => {
+
+  const handleDelete = async (id: string) => {
     try {
-      const res = await deleteRegisterSemester(item._id).unwrap();
+      const res = await deleteRegisterSemester(id).unwrap();
       if (res?.success) {
         toast.success('Semester Registration deleted successfully!');
       } else {
@@ -187,19 +179,12 @@ const SemesterRegistration = () => {
       toast.error(getErrorMessage(err));
     }
   };
+
   return (
     <div>
       <div className="p-6 bg-primary-light rounded-lg">
-        <div className="mb-6">
-          <Breadcrumb separator=">">
-            <Breadcrumb.Item href="">
-              <HomeOutlined /> <span>Academic Management</span>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <BookOutlined /> <span>Semester Registration</span>
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
+        <BreadcrumbSection home="A. Management" sub="S. Registration" />
+
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-2 md:mb-0">

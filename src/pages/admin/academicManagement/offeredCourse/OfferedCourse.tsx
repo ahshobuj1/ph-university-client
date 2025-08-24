@@ -1,10 +1,8 @@
 import {
   Avatar,
-  Breadcrumb,
   Card,
   Col,
   Pagination,
-  Popconfirm,
   Row,
   Space,
   Table,
@@ -13,14 +11,6 @@ import {
   Typography,
   type TableColumnsType,
 } from 'antd';
-import {
-  HomeOutlined,
-  BookOutlined,
-  QuestionCircleOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {BiEdit} from 'react-icons/bi';
-
 import type {TFaculty, TOfferedCourse, TQueryParams} from '../../../../types';
 import {useState} from 'react';
 import {PHSearch} from '../../../../components/form/PHSearch';
@@ -39,7 +29,9 @@ import {
   SyncOutlined,
 } from '@ant-design/icons';
 import CreateOfferedCourseModal from './CreateOfferedCourseModal';
-
+import EditActionBtn from '../../../../components/ui/EditActionBtn';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
 const {Title, Text} = Typography;
 
 const OfferedCourse = () => {
@@ -199,31 +191,13 @@ const OfferedCourse = () => {
       width: 140,
       render: (item) => (
         <Space>
-          <Popconfirm
-            title="Update offered course"
-            description="Are you sure to update offered course?"
-            okText="Update"
-            cancelText="Cancel"
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topRight">
-            <span className="text-lg cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-primary-light hover:bg-blue-100 hover:text-blue-600 transition-all duration-200">
-              <BiEdit />
-            </span>
-          </Popconfirm>
-
-          <Popconfirm
-            title="Delete the offered course"
-            description="Are you sure to delete this offered course?"
-            onConfirm={() => handleDelete(item._id)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topLeft">
-            <span className="text-lg cursor-pointer rounded-full w-9 h-9 flex items-center justify-center bg-red-50 hover:bg-red-100 hover:text-red-600 transition-all duration-200">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+          <EditActionBtn title="Offered Course" />
+          <DeleteActionBtn
+            id={item._id}
+            title="Offered Course"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </Space>
       ),
     },
@@ -231,31 +205,7 @@ const OfferedCourse = () => {
 
   return (
     <div className="min-h-screen bg-primary-light p-6">
-      {/* Top Header / Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb
-          separator=">"
-          items={[
-            {
-              href: '/admin/students',
-              title: (
-                <>
-                  <HomeOutlined />
-                  <span>Course Management</span>
-                </>
-              ),
-            },
-            {
-              title: (
-                <>
-                  <BookOutlined />
-                  <span>Offered Courses</span>
-                </>
-              ),
-            },
-          ]}
-        />
-      </div>
+      <BreadcrumbSection home="Course Management" sub="Offered" />
 
       {/* Page Title Card */}
       <div className="rounded-2xl bg-gradient-to-r from-green-200 via-blue-200 to-indigo-200 p-[1px] shadow-lg mb-6">

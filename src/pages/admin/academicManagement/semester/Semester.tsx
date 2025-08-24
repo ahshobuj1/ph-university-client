@@ -1,17 +1,4 @@
-import {
-  Breadcrumb,
-  Pagination,
-  Popconfirm,
-  Table,
-  type TableColumnsType,
-  type TableProps,
-} from 'antd';
-import {
-  HomeOutlined,
-  BookOutlined,
-  QuestionCircleOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import {Pagination, Table, type TableColumnsType, type TableProps} from 'antd';
 import {useState} from 'react';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
@@ -30,6 +17,8 @@ import {
 } from '../../../../redux/api/semesterApi';
 import {PHSearch} from '../../../../components/form/PHSearch';
 import PHSort from '../../../../components/form/PHSort';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
 
 const Semester = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
@@ -132,20 +121,13 @@ const Semester = () => {
       title: 'Action',
       dataIndex: 'action',
       render: (item) => (
-        <div className="flex space-x-3">
-          <Popconfirm
-            title="Delete Semester"
-            description="Are you sure to delete this semester?"
-            onConfirm={() => handleDelete(item._id)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topLeft">
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+        <div className="flex items-center space-x-3">
+          <DeleteActionBtn
+            id={item._id}
+            title="Semester"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </div>
       ),
     },
@@ -153,17 +135,7 @@ const Semester = () => {
 
   return (
     <div className="p-6 bg-primary-light rounded-lg">
-      {/* Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item href="">
-            <HomeOutlined /> <span>Academic Management</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <BookOutlined /> <span>Semester</span>
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
+      <BreadcrumbSection home="Academic Management" sub="Semester" />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">

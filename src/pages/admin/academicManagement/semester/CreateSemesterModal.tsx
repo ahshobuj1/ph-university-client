@@ -5,7 +5,6 @@ import PHForm from '../../../../components/form/PHForm';
 import type {FieldValues} from 'react-hook-form';
 import type {TResponse} from '../../../../types';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
-import {BsFillPenFill} from 'react-icons/bs';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
 import PHSelect from '../../../../components/form/PHSelect';
@@ -16,6 +15,7 @@ import {
   semesterNameOptions,
   yearOptions,
 } from '../../../../constant';
+import ModalButton from '../../../../components/ui/ModalButton';
 
 const CreateSemesterModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -51,13 +51,7 @@ const CreateSemesterModal = () => {
 
   return (
     <div>
-      <Button
-        icon={<BsFillPenFill />}
-        type="primary"
-        size="large"
-        onClick={() => setModalOpen(true)}>
-        Add Academic Semester
-      </Button>
+      <ModalButton title="Add Semester" modalOpen={setModalOpen} />
 
       <PHModal
         open={modalOpen}

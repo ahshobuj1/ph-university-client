@@ -1,22 +1,9 @@
-import {
-  Breadcrumb,
-  Pagination,
-  Popconfirm,
-  Table,
-  type TableColumnsType,
-} from 'antd';
+import {Pagination, Table, type TableColumnsType} from 'antd';
 import type {
   TDepartment,
   TDepartmentTable,
   TQueryParams,
 } from '../../../../types';
-import {BiEdit} from 'react-icons/bi';
-import {
-  QuestionCircleOutlined,
-  DeleteOutlined,
-  HomeOutlined,
-  BookOutlined,
-} from '@ant-design/icons';
 import {useState} from 'react';
 import {PHSearch} from '../../../../components/form/PHSearch';
 import Loading from '../../../../components/shared/Loading';
@@ -29,6 +16,9 @@ import {
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
 import {toast} from 'sonner';
 import CreateDepartmentModal from './CreateDepartmentModal';
+import BreadcrumbSection from '../../../../components/ui/BreadcrumbSection';
+import DeleteActionBtn from '../../../../components/ui/DeleteActionBtn';
+import EditActionBtn from '../../../../components/ui/EditActionBtn';
 
 const Department = () => {
   const [params, setParams] = useState<TQueryParams[]>([]);
@@ -89,32 +79,14 @@ const Department = () => {
       title: 'Action',
       dataIndex: 'action',
       render: (item) => (
-        <div className="flex space-x-3">
-          <Popconfirm
-            title="Update Department"
-            description="Are you sure to update this department?"
-            okText="Update"
-            cancelText="Cancel"
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topRight">
-            <span className="cursor-pointer bg-primary-light hover:bg-blue-100 text-blue-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <BiEdit size={18} />
-            </span>
-          </Popconfirm>
-
-          <Popconfirm
-            title="Delete Department"
-            description="Are you sure to delete this department?"
-            onConfirm={() => handleDelete(item._id)}
-            okText="Delete"
-            cancelText="Cancel"
-            okButtonProps={{loading: deleteLoading}}
-            icon={<QuestionCircleOutlined style={{color: 'red'}} />}
-            placement="topLeft">
-            <span className="cursor-pointer bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-lg shadow-md transition-transform hover:scale-110">
-              <DeleteOutlined />
-            </span>
-          </Popconfirm>
+        <div className="flex items-center space-x-3">
+          <EditActionBtn title="Department" />
+          <DeleteActionBtn
+            id={item._id}
+            title="Department"
+            onConfirm={handleDelete}
+            loading={deleteLoading}
+          />
         </div>
       ),
     },
@@ -122,17 +94,7 @@ const Department = () => {
 
   return (
     <div className="p-4 md:p-6 bg-primary-light rounded-lg">
-      {/* Breadcrumb */}
-      <div className="mb-6">
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item href="">
-            <HomeOutlined /> <span>Academic Management</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <BookOutlined /> <span>Department</span>
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
+      <BreadcrumbSection home="Academic Management" sub="Department" />
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">

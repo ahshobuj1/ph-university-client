@@ -7,7 +7,6 @@ import PHSelect from '../../../../components/form/PHSelect';
 import type {TCourse, TResponse} from '../../../../types';
 import PHInput from '../../../../components/form/PHInput';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
-import {BsFillPenFill} from 'react-icons/bs';
 import {
   useAddCourseMutation,
   useGetAllCourseQuery,
@@ -16,6 +15,7 @@ import {createCourseSchema} from '../../../../schemas';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import ModalButton from '../../../../components/ui/ModalButton';
 
 const CreateCourseModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -65,13 +65,7 @@ const CreateCourseModal = () => {
 
   return (
     <div>
-      <Button
-        icon={<BsFillPenFill />}
-        type="primary"
-        size="large"
-        onClick={() => setModalOpen(true)}>
-        Add Course
-      </Button>
+      <ModalButton title="Add Course" modalOpen={setModalOpen} />
 
       <PHModal
         open={modalOpen}

@@ -12,7 +12,6 @@ import type {
   TSemesterRegistration,
 } from '../../../../types';
 import ErrorMessage from '../../../../components/shared/ErrorMessage';
-import {BsFillPenFill} from 'react-icons/bs';
 import {
   useAddCourseMutation,
   useGetAllCourseQuery,
@@ -25,6 +24,7 @@ import PHTimePicker from '../../../../components/form/PHTimePicker';
 import PHInput from '../../../../components/form/PHInput';
 import {toast} from 'sonner';
 import {getErrorMessage} from '../../../../utils/getErrorMessage';
+import ModalButton from '../../../../components/ui/ModalButton';
 
 const CreateOfferedCourseModal = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -100,13 +100,7 @@ const CreateOfferedCourseModal = () => {
 
   return (
     <div>
-      <Button
-        icon={<BsFillPenFill />}
-        type="primary"
-        size="large"
-        onClick={() => setModalOpen(true)}>
-        Add Offered Course
-      </Button>
+      <ModalButton title="Offered Course" modalOpen={setModalOpen} />
 
       <PHModal
         open={modalOpen}
